@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/technique_model.dart';
 import 'widgets/technical_analysis.dart';
-import 'widgets/video_buttons.dart';
+
 import 'widgets/quiz_section.dart';
 import 'widgets/media_gallery.dart';
 import '../../core/widgets/judo_icon.dart';
