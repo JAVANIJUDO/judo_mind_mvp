@@ -5,7 +5,6 @@ import '../../models/technique_model.dart';
 import '../technique_detail/technique_detail_screen.dart';
 
 
-
 class TechniquesScreen extends StatefulWidget {
 
   const TechniquesScreen({super.key});
@@ -31,39 +30,26 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
   final List<String> filters = [
 
     "All",
-
     "Nage Waza",
-
     "Te Waza",
-
     "Ashi Waza",
-
     "Koshi Waza",
-
     "Sutemi Waza",
-
     "Katame Waza",
-
     "Osaekomi Waza",
-
     "Shime Waza",
-
     "Kansetsu Waza",
-
     "Ne Waza",
-
     "Tachi Waza",
 
   ];
 
 
 
+  bool checkFilter(TechniqueModel technique) {
 
 
-  bool checkFilter(TechniqueModel technique){
-
-
-    if(selectedFilter == "All"){
+    if(selectedFilter == "All") {
 
       return true;
 
@@ -71,13 +57,9 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
 
 
     return technique.category == selectedFilter ||
-
         technique.type == selectedFilter;
 
-
   }
-
-
 
 
 
@@ -87,21 +69,27 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
 
 
     final filteredTechniques =
+        JudoTechniques.techniques.where((technique) {
 
-        JudoTechniques.techniques.where((technique){
+
+      final search = searchText.toLowerCase();
+
 
 
       final searchMatch =
 
-          technique.name
+          technique.nameEn
               .toLowerCase()
-              .contains(
-                searchText.toLowerCase(),
-              );
+              .contains(search) ||
+
+          technique.nameJp
+              .toLowerCase()
+              .contains(search);
 
 
 
-      return searchMatch && checkFilter(technique);
+      return searchMatch &&
+          checkFilter(technique);
 
 
 
@@ -110,111 +98,71 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
 
 
 
-
     return Scaffold(
 
 
-
       backgroundColor:
-
           const Color(0xFF050505),
 
 
 
       appBar: AppBar(
 
-
-
         backgroundColor:
-
             Colors.transparent,
 
+        elevation: 0,
 
 
-        elevation:0,
-
-
-
-        title:const Text(
-
-
+        title: const Text(
 
           "Techniques",
 
+          style: TextStyle(
 
+            color: Colors.white,
 
-          style:TextStyle(
-
-
-
-            color:Colors.white,
-
-            fontWeight:FontWeight.bold,
+            fontWeight: FontWeight.bold,
 
           ),
 
-
-
         ),
-
-
 
       ),
 
 
 
 
+      body: Padding(
+
+        padding: const EdgeInsets.all(20),
 
 
-      body:Padding(
-
-
-
-        padding:
-
-            const EdgeInsets.all(20),
-
-
-
-        child:Column(
-
-
+        child: Column(
 
           crossAxisAlignment:
-
               CrossAxisAlignment.start,
 
 
-
-          children:[
-
+          children: [
 
 
 
             const Text(
 
-
-
               "67 Official Judo Techniques",
 
+              style: TextStyle(
 
+                color: Colors.white,
 
-              style:TextStyle(
+                fontSize: 26,
 
-
-
-                color:Colors.white,
-
-                fontSize:26,
-
-                fontWeight:FontWeight.bold,
+                fontWeight: FontWeight.bold,
 
               ),
 
-
-
             ),
-
 
 
 
@@ -222,30 +170,19 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
 
 
 
-
             const Text(
-
-
 
               "IJF Technique Database",
 
+              style: TextStyle(
 
-
-              style:TextStyle(
-
-
-
-                color:Color(0xFF0066FF),
+                color: Color(0xFF0066FF),
 
                 fontSize:16,
 
               ),
 
-
-
             ),
-
-
 
 
 
@@ -254,45 +191,31 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
 
 
 
-
             TextField(
-
 
 
               onChanged:(value){
 
 
-
                 setState((){
 
-
-
-                  searchText=value;
-
-
+                  searchText = value;
 
                 });
-
 
 
               },
 
 
+              style: const TextStyle(
 
-              style:
+                color: Colors.white,
 
-                  const TextStyle(
-
-                    color:Colors.white,
-
-                  ),
+              ),
 
 
 
-              decoration:
-
-                  InputDecoration(
-
+              decoration: InputDecoration(
 
 
                 hintText:
@@ -300,15 +223,13 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
                     "Search technique...",
 
 
-
                 hintStyle:
 
                     const TextStyle(
 
-                      color:Colors.grey,
+                      color: Colors.grey,
 
                     ),
-
 
 
                 prefixIcon:
@@ -317,14 +238,13 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
 
                       Icons.search,
 
-                      color:Colors.white,
+                      color: Colors.white,
 
                     ),
 
 
 
                 filled:true,
-
 
 
                 fillColor:
@@ -337,32 +257,22 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
 
                     OutlineInputBorder(
 
-
-
                   borderRadius:
 
                       BorderRadius.circular(15),
-
 
 
                   borderSide:
 
                       BorderSide.none,
 
-
-
                 ),
-
 
 
               ),
 
 
-
             ),
-
-
-
 
 
 
@@ -371,18 +281,12 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
 
 
 
-
-
             SizedBox(
-
-
 
               height:45,
 
 
-
-              child:ListView.builder(
-
+              child: ListView.builder(
 
 
                 scrollDirection:
@@ -390,54 +294,40 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
                     Axis.horizontal,
 
 
-
                 itemCount:
 
                     filters.length,
 
 
-
                 itemBuilder:(context,index){
-
 
 
                   final filter = filters[index];
 
 
-
                   final active =
-
                       selectedFilter == filter;
-
 
 
 
                   return GestureDetector(
 
 
-
                     onTap:(){
-
 
 
                       setState((){
 
-
-
                         selectedFilter = filter;
 
-
-
                       });
-
 
 
                     },
 
 
 
-                    child:Container(
-
+                    child: Container(
 
 
                       margin:
@@ -447,7 +337,6 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
                             right:10,
 
                           ),
-
 
 
                       padding:
@@ -461,11 +350,7 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
                           ),
 
 
-
-                      decoration:
-
-                          BoxDecoration(
-
+                      decoration: BoxDecoration(
 
 
                         color:
@@ -477,28 +362,20 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
                             : const Color(0xFF111111),
 
 
-
                         borderRadius:
 
                             BorderRadius.circular(20),
 
 
-
                       ),
 
 
-
-                      child:Text(
-
-
+                      child: Text(
 
                         filter,
 
 
-
-                        style:TextStyle(
-
-
+                        style: TextStyle(
 
                           color:
 
@@ -509,173 +386,105 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
                               : Colors.white,
 
 
-
                           fontWeight:
 
                               FontWeight.bold,
 
-
-
                         ),
-
-
 
                       ),
 
-
-
                     ),
-
-
 
                   );
 
 
-
                 },
 
-
-
               ),
-
-
 
             ),
 
 
-
-
-
             const SizedBox(height:20),
 
+             Expanded(
 
-
-
-
-
-            Expanded(
-
-
-
-              child:
-
-                  ListView.builder(
-
-
+              child: ListView.builder(
 
                 itemCount:
-
                     filteredTechniques.length,
-
 
 
                 itemBuilder:(context,index){
 
 
-
                   final technique =
-
                       filteredTechniques[index];
-
 
 
 
                   return GestureDetector(
 
 
-
                     onTap:(){
-
 
 
                       Navigator.push(
 
-
-
                         context,
-
 
 
                         MaterialPageRoute(
 
-
-
                           builder:(context)=>
-
 
 
                               TechniqueDetailScreen(
 
-
-
-                                technique:technique,
-
-
+                                technique: technique,
 
                               ),
 
 
-
                         ),
 
-
-
                       );
-
 
 
                     },
 
 
 
-                    child:
+                    child: TechniqueCard(
 
-                        TechniqueCard(
+                      technique: technique,
 
-                          technique:technique,
-
-                        ),
-
+                    ),
 
 
                   );
 
 
-
                 },
-
 
 
               ),
 
-
-
             ),
-
 
 
           ],
 
-
-
         ),
-
-
 
       ),
 
-
-
     );
-
-
 
   }
 
-
-
 }
-
 
 
 
@@ -690,28 +499,19 @@ class TechniqueCard extends StatelessWidget {
 
   const TechniqueCard({
 
-
-
     super.key,
 
     required this.technique,
-
-
 
   });
 
 
 
-
-
   @override
-
   Widget build(BuildContext context){
 
 
-
     return Container(
-
 
 
       margin:
@@ -730,10 +530,7 @@ class TechniqueCard extends StatelessWidget {
 
 
 
-      decoration:
-
-          BoxDecoration(
-
+      decoration: BoxDecoration(
 
 
         color:
@@ -741,64 +538,97 @@ class TechniqueCard extends StatelessWidget {
             const Color(0xFF111111),
 
 
-
         borderRadius:
 
             BorderRadius.circular(18),
-
 
 
         border:
 
             Border.all(
 
-
-
           color:
 
               const Color(0xFF0066FF),
 
-
-
         ),
-
 
 
       ),
 
 
 
-
-
-      child:Row(
-
+      child: Row(
 
 
         children:[
 
 
 
-          const Icon(
+          Container(
+
+            width:55,
+
+            height:55,
 
 
+            decoration: BoxDecoration(
 
-            Icons.sports_martial_arts,
+              color:
+                  const Color(0xFF080808),
 
+              borderRadius:
+                  BorderRadius.circular(12),
 
-
-            color:
-
-                Color(0xFFD4AF37),
-
-
-
-            size:35,
+            ),
 
 
+            child: technique.images.isNotEmpty
+
+                ? ClipRRect(
+
+                    borderRadius:
+                        BorderRadius.circular(12),
+
+                    child: Image.asset(
+
+                      technique.images.first,
+
+                      fit: BoxFit.cover,
+
+
+                      errorBuilder:
+                          (context,error,stack){
+
+                        return const Icon(
+
+                          Icons.sports_martial_arts,
+
+                          color:
+                              Color(0xFFD4AF37),
+
+                          size:35,
+
+                        );
+
+                      },
+
+                    ),
+
+                  )
+
+                : const Icon(
+
+                    Icons.sports_martial_arts,
+
+                    color:
+                        Color(0xFFD4AF37),
+
+                    size:35,
+
+                  ),
 
           ),
-
-
 
 
 
@@ -806,89 +636,126 @@ class TechniqueCard extends StatelessWidget {
 
 
 
-
-          Column(
-
+          Expanded(
 
 
-            crossAxisAlignment:
-
-                CrossAxisAlignment.start,
+            child: Column(
 
 
+              crossAxisAlignment:
 
-            children:[
+                  CrossAxisAlignment.start,
 
 
-
-              Text(
+              children:[
 
 
 
-                technique.name,
+                Text(
 
 
-
-                style:
-
-                    const TextStyle(
+                  technique.nameEn,
 
 
+                  style:
 
-                  color:Colors.white,
-
-                  fontSize:18,
-
-                  fontWeight:FontWeight.bold,
+                      const TextStyle(
 
 
-
-                ),
-
+                    color:Colors.white,
 
 
-              ),
+                    fontSize:18,
 
 
+                    fontWeight:
+
+                        FontWeight.bold,
 
 
-
-              const SizedBox(height:6),
-
-
-
-
-
-              Text(
-
-
-
-                "${technique.category} • ${technique.type}",
-
-
-
-                style:
-
-                    const TextStyle(
-
-
-
-                  color:Colors.white70,
-
+                  ),
 
 
                 ),
 
 
 
-              ),
+                const SizedBox(height:6),
 
 
 
+                Text(
 
-            ],
+
+                  technique.nameJp,
 
 
+                  style:
+
+                      const TextStyle(
+
+
+                    color:
+
+                        Color(0xFFD4AF37),
+
+
+                    fontSize:15,
+
+
+                  ),
+
+
+                ),
+
+
+
+                const SizedBox(height:6),
+
+
+
+                Text(
+
+
+                  "${technique.category} • ${technique.type}",
+
+
+                  style:
+
+                      const TextStyle(
+
+
+                    color:
+
+                        Colors.white70,
+
+
+                  ),
+
+
+                ),
+
+
+
+              ],
+
+
+            ),
+
+
+          ),
+
+
+
+          const Icon(
+
+            Icons.arrow_forward_ios,
+
+            color:
+
+                Colors.white54,
+
+            size:18,
 
           ),
 
@@ -897,17 +764,13 @@ class TechniqueCard extends StatelessWidget {
         ],
 
 
-
       ),
-
 
 
     );
 
 
-
   }
 
 
-
-}
+}           
