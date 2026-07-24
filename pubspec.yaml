@@ -38,6 +38,8 @@ dependencies:
 
   intl: any
 
+  url_launcher: ^6.3.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -59,6 +61,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   generate: true
+
+  
   uses-material-design: true
 
 
