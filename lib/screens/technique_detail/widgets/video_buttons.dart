@@ -86,7 +86,6 @@ class TechniqueVideoButtons extends StatelessWidget {
     try {
       final bool opened = await launchUrl(
         videoUri,
-        mode: LaunchMode.externalApplication,
       );
 
       if (!opened && context.mounted) {

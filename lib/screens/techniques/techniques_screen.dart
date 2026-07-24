@@ -57,9 +57,6 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
   ];
 
 
-
-
-
   bool checkFilter(TechniqueModel technique){
 
 
