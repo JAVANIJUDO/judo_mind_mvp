@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 
 import 'core/theme/app_theme.dart';
 import 'core/routes/app_routes.dart';
+import 'core/l10n/language_controller.dart';
 import 'l10n/app_localizations.dart';
 
 
 void main() {
 
-  runApp(const JudoMindApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => LanguageController(),
+      child: const JudoMindApp(),
+    ),
+  );
 
 }
 
@@ -23,6 +30,10 @@ class JudoMindApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
 
+    final languageController =
+        Provider.of<LanguageController>(context);
+
+
     return MaterialApp(
 
       debugShowCheckedModeBanner: false,
@@ -34,7 +45,9 @@ class JudoMindApp extends StatelessWidget {
       theme: AppTheme.darkTheme,
 
 
-      // Localization
+      locale: languageController.locale,
+
+
       localizationsDelegates: const [
 
         AppLocalizations.delegate,
@@ -48,14 +61,14 @@ class JudoMindApp extends StatelessWidget {
       ],
 
 
-      supportedLocales: AppLocalizations.supportedLocales,
+      supportedLocales:
+          AppLocalizations.supportedLocales,
 
 
       initialRoute: AppRoutes.home,
 
 
       routes: AppRoutes.routes,
-
 
     );
 
