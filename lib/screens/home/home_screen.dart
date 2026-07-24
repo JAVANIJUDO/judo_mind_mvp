@@ -68,17 +68,24 @@ class HomeScreen extends StatelessWidget {
 
           IconButton(
 
-            onPressed: () {},
+  onPressed: () {
 
-            icon: const Icon(
+    Navigator.pushNamed(
+      context,
+      "/settings",
+    );
 
-              Icons.language,
+  },
 
-              color: AppTheme.gold,
+  icon: const Icon(
 
-            ),
+    Icons.language,
 
-          ),
+    color: AppTheme.gold,
+
+  ),
+
+),
 
 
           IconButton(
