@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../l10n/app_localizations.dart';
 
 class TechniqueVideoButtons extends StatelessWidget {
   final String trainingVideo;
@@ -13,11 +14,12 @@ class TechniqueVideoButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Video Training',
+        Text(
+  l10n.trainingVideo,
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,

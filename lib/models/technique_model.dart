@@ -1,125 +1,203 @@
 import 'quiz_model.dart';
+import 'technique_translation.dart';
 
 
 class TechniqueModel {
 
   final String id;
 
+  final String englishName;
+  final String japaneseName;
 
-  // Basic information
-  final String nameEn;
-  final String nameJp;
   final String category;
-  final String type;
   final String beltLevel;
-  final String description;
-
-
-  // Advanced IJF Information
-  final String ijfClassification;
   final String difficulty;
-  final String competitionUsage;
 
+  final String description;
+  final String technicalAnalysis;
+  final List<TechniqueTranslation> translations;
 
-  // Media
   final List<String> images;
   final List<String> videos;
-final String trainingVideo;
 
-final String competitionVideo;
+  final String trainingVideo;
+  final String competitionVideo;
 
-  // Technical analysis
-  final String kuzushi;
-  final String tsukuri;
-  final String kake;
+  final List<String> executionSteps;
 
+  final List<String> keyPoints;
+  final List<String> commonMistakes;
+  final List<String> safetyTips;
 
-  // Advanced Technical Data
-  final String gripStrategy;
-  final String bodyPosition;
-  final List<String> tacticalNotes;
-
-
-  // Training information
   final List<String> combinations;
-  final List<String> commonErrors;
+  final List<String> counters;
 
-
-  // Champions / Competition
-  final List<String> famousUsers;
-
-  final List<String> competitionInsights;
-
-
-  // Education
   final List<QuizModel> quiz;
 
-  final String aiTrainingAdvice;
+  
 
-  // Sources
-  final List<String> sources;
-
+  final List<TechniqueSource> sources;
 
 
   const TechniqueModel({
 
     required this.id,
 
+    required this.englishName,
+    required this.japaneseName,
 
-    required this.nameEn,
-    required this.nameJp,
     required this.category,
-    required this.type,
     required this.beltLevel,
+    required this.difficulty,
+
     required this.description,
+    required this.technicalAnalysis,
 
+this.translations = const [],
 
-    this.ijfClassification = "IJF Classification",
-    this.difficulty = "Intermediate",
-    this.competitionUsage =
-        "Used in Judo competition",
-
-
-
-    required this.images,
+required this.images,
     required this.videos,
-this.trainingVideo = '',
 
-this.competitionVideo = '',
+    required this.trainingVideo,
+    required this.competitionVideo,
 
-    required this.kuzushi,
-    required this.tsukuri,
-    required this.kake,
+    required this.executionSteps,
 
-
-    this.gripStrategy =
-        "Standard Judo Grip",
-
-    this.bodyPosition =
-        "Standard Position",
-
-
-    this.tacticalNotes = const [],
-
-
+    required this.keyPoints,
+    required this.commonMistakes,
+    required this.safetyTips,
 
     required this.combinations,
-    required this.commonErrors,
-
-
-    this.famousUsers = const [],
-
-    this.competitionInsights = const [],
-
-
+    required this.counters,
 
     required this.quiz,
 
-    this.aiTrainingAdvice = "",
 
-    required this.sources,
+
+required this.sources,
 
   });
 
+
+  // Compatibility with old screens
+
+  String get nameEn => englishName;
+
+
+  String get nameJp => japaneseName;
+
+
+  String get type => category;
+
+
+  String get kuzushi {
+
+    if (executionSteps.isNotEmpty) {
+      return executionSteps[0];
+    }
+
+    return "";
+
+  }
+
+
+  String get tsukuri {
+
+    if (executionSteps.length > 1) {
+      return executionSteps[1];
+    }
+
+    return "";
+
+  }
+
+
+  String get kake {
+
+    if (executionSteps.length > 2) {
+      return executionSteps[2];
+    }
+
+    return "";
+
+  }
+
+
+  List<String> get commonErrors => commonMistakes;
+
+
+  String get ijfClassification => category;
+
+
+  String get competitionUsage => competitionVideo;
+
+
+  String get gripStrategy {
+
+    if (keyPoints.isNotEmpty) {
+      return keyPoints.first;
+    }
+
+    return "";
+
+  }
+
+
+  String get bodyPosition {
+
+    if (keyPoints.length > 1) {
+      return keyPoints[1];
+    }
+
+    return "";
+
+  }
+
+
+  List<String> get tacticalNotes => keyPoints;
+
+
+  List<String> get famousUsers => [];
+
+
+  List<String> get competitionInsights => competitionVideo.isNotEmpty
+      ? [competitionVideo]
+      : [];
+
+
+  String get aiTrainingAdvice => technicalAnalysis;
+TechniqueTranslation? getTranslation(String languageCode) {
+
+  try {
+
+    return translations.firstWhere(
+      (item) => item.languageCode == languageCode,
+    );
+
+  } catch (e) {
+
+    return null;
+
+  }
+
+}
+}
+
+
+
+class TechniqueSource {
+
+  final String title;
+
+  final String url;
+
+
+  const TechniqueSource({
+
+    required this.title,
+
+    required this.url,
+
+  });
 
 }

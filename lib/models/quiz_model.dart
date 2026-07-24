@@ -19,4 +19,5 @@ class QuizModel {
     this.difficulty = "Medium",
     this.points = 10,
   });
+  int get correctAnswer => correctAnswerIndex;
 }

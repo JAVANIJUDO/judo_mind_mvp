@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../l10n/language_controller.dart';
-
-
+import '../../language/app_language.dart';
+import '../../language/language_provider.dart';
 class LanguageSelector extends StatelessWidget {
 
   const LanguageSelector({
@@ -16,7 +15,7 @@ class LanguageSelector extends StatelessWidget {
 
 
     final controller =
-        Provider.of<LanguageController>(context);
+        Provider.of<LanguageProvider>(context);
 
 
 
@@ -66,7 +65,7 @@ class LanguageSelector extends StatelessWidget {
           DropdownButton<Locale>(
 
 
-            value: controller.locale,
+            value: Locale(controller.languageCode),
 
 
             dropdownColor: const Color(0xFF111111),
@@ -151,19 +150,64 @@ class LanguageSelector extends StatelessWidget {
 
 
 
-            onChanged: (locale) {
+           onChanged: (locale) {
+
+  if (locale == null) return;
 
 
-              if (locale != null) {
+  switch (locale.languageCode) {
 
-                controller.changeLanguage(
-                  locale.languageCode,
-                );
+    case "en":
+      controller.changeLanguage(
+        AppLanguage.english,
+      );
+      break;
 
-              }
+
+    case "fa":
+      controller.changeLanguage(
+        AppLanguage.persian,
+      );
+      break;
 
 
-            },
+    case "ar":
+      controller.changeLanguage(
+        AppLanguage.arabic,
+      );
+      break;
+
+
+    case "ja":
+      controller.changeLanguage(
+        AppLanguage.japanese,
+      );
+      break;
+
+
+    case "fr":
+      controller.changeLanguage(
+        AppLanguage.french,
+      );
+      break;
+
+
+    case "de":
+      controller.changeLanguage(
+        AppLanguage.german,
+      );
+      break;
+
+
+    case "ru":
+      controller.changeLanguage(
+        AppLanguage.russian,
+      );
+      break;
+
+  }
+
+},
 
           ),
 

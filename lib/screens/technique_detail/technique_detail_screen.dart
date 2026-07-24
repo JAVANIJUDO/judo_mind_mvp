@@ -7,6 +7,9 @@ import '../../core/widgets/judo_section_title.dart';
 import 'widgets/technical_analysis.dart';
 import 'widgets/quiz_section.dart';
 import 'widgets/video_buttons.dart';
+import '../../l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import '../../core/language/language_provider.dart';
 
 class TechniqueDetailScreen extends StatelessWidget {
 
@@ -37,7 +40,18 @@ class TechniqueDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageProvider =
+    Provider.of<LanguageProvider>(context);
 
+final translation =
+    technique.getTranslation(
+      languageProvider.languageCode,
+    );
+
+    final l10n = AppLocalizations.of(context)!;
+
+
+  
     return Scaffold(
 
       backgroundColor: const Color(0xFF050505),
@@ -51,8 +65,11 @@ class TechniqueDetailScreen extends StatelessWidget {
         elevation: 0,
 
         title: Text(
-          technique.nameEn,
-          style: const TextStyle(
+  translation?.name ?? technique.nameEn,
+
+          style: const TextStyle(color: Color(0xFFD4AF37),
+
+    fontSize: 32,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -82,7 +99,8 @@ class TechniqueDetailScreen extends StatelessWidget {
 
                 Text(
 
-                  technique.nameJp,
+  translation?.name ?? technique.nameEn,
+
 
                   style: const TextStyle(
 
@@ -138,7 +156,7 @@ const SizedBox(height: 25),
 
 
                 _BodyText(
-                  text: technique.description,
+                  text: translation?.description ?? technique.description
                 ),
 
 
@@ -239,11 +257,11 @@ Text(
   ),
 ),
 
-                QuizSection(
+              QuizSection(
 
-                  quizzes: technique.quiz,
+  quizzes: technique.quiz,
 
-                ),
+),
 
 
 
@@ -255,7 +273,9 @@ Text(
 
                   title: "Official Sources",
 
-                  items: technique.sources,
+                  items: technique.sources
+    .map((source) => source.title)
+    .toList(),
 
                   iconType: "source",
 
@@ -634,6 +654,7 @@ class _TechniqueMedia extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
 
     return Column(
 
@@ -641,9 +662,9 @@ class _TechniqueMedia extends StatelessWidget {
 
       children: [
 
-        const _SectionTitle(
-          title: "Official Media",
-        ),
+       _SectionTitle(
+  title: l10n.officialMedia,
+),
 
 
         const SizedBox(height: 15),
@@ -708,21 +729,21 @@ class _TechniqueMedia extends StatelessWidget {
         const SizedBox(height: 20),
 
 
-        const Text(
+        Text(
 
-          "Video Library",
+            l10n.videoLibrary,
 
-          style: TextStyle(
+            style: const TextStyle(
 
-            color: Color(0xFFD4AF37),
+              color: Color(0xFFD4AF37),
 
-            fontSize: 18,
+              fontSize: 18,
 
-            fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.bold,
 
-          ),
+  ),
 
-        ),
+),
 
 
         const SizedBox(height: 12),
