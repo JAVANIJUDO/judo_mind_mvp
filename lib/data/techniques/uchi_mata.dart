@@ -1,13 +1,9 @@
 import '../../models/technique_model.dart';
 import '../../models/quiz_model.dart';
 import '../../models/technique_translation.dart';
-import '../../data/techniques/all_techniques.dart';
 
-class JudoTechniques {
 
-  static const List<TechniqueModel> techniques = [
-
-    TechniqueModel(
+const TechniqueModel uchiMata = TechniqueModel(
 
       id: "001",
 
@@ -288,8 +284,6 @@ class JudoTechniques {
 
       ],
 
-    ),
+    );
 
-  ];
-
-}
+  
