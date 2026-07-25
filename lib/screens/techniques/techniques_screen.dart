@@ -5,7 +5,7 @@ import '../../models/technique_model.dart';
 import '../technique_detail/technique_detail_screen.dart';
 import 'package:provider/provider.dart';
 import '../../core/language/language_provider.dart';
-
+import '../../core/widgets/techniques/technique_filter_sheet.dart';
 
 class TechniquesScreen extends StatefulWidget {
 
@@ -100,7 +100,57 @@ bool checkDifficulty(TechniqueModel technique){
 
 }
 
+void showFilterSheet(){
 
+  showModalBottomSheet(
+
+    context: context,
+    isScrollControlled: true,
+
+    backgroundColor: Colors.transparent,
+
+    builder: (context){
+
+      return TechniqueFilterSheet(
+
+        categories: filters,
+
+        difficulties: difficultyFilters,
+
+        selectedCategory: selectedFilter,
+
+        selectedDifficulty: selectedDifficulty,
+
+
+        onCategoryChanged: (value){
+
+          setState((){
+
+            selectedFilter = value;
+
+          });
+
+        },
+
+
+        onDifficultyChanged: (value){
+
+          setState((){
+
+            selectedDifficulty = value;
+
+          });
+
+        },
+
+
+      );
+
+    },
+
+  );
+
+}
 
 
 
@@ -409,17 +459,91 @@ bool checkDifficulty(TechniqueModel technique){
 
 
 
-            ),
-
-
-
-
+                        ),
 
 
             const SizedBox(height:15),
 
 
 
+            GestureDetector(
+
+              onTap: (){
+
+                showFilterSheet();
+
+              },
+
+
+              child: Container(
+
+                width: double.infinity,
+
+                padding: const EdgeInsets.symmetric(
+                  vertical: 14,
+                ),
+
+
+                decoration: BoxDecoration(
+
+                  color: const Color(0xFF111111),
+
+                  borderRadius: BorderRadius.circular(15),
+
+                  border: Border.all(
+
+                    color: const Color(0xFF0066FF),
+
+                  ),
+
+                ),
+
+
+                child: const Row(
+
+                  mainAxisAlignment: MainAxisAlignment.center,
+
+                  children: [
+
+                    Icon(
+
+                      Icons.filter_alt,
+
+                      color: Color(0xFFD4AF37),
+
+                    ),
+
+
+                    SizedBox(width: 10),
+
+
+                    Text(
+
+                      "Filters",
+
+                      style: TextStyle(
+
+                        color: Colors.white,
+
+                        fontSize: 16,
+
+                        fontWeight: FontWeight.bold,
+
+                      ),
+
+                    ),
+
+                  ],
+
+                ),
+
+              ),
+
+            ),
+
+
+
+            const SizedBox(height:15),
 
 
 
