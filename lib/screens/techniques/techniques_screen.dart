@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../core/constants/techniques.dart';
 import '../../models/technique_model.dart';
 import '../technique_detail/technique_detail_screen.dart';
-
+import 'package:provider/provider.dart';
+import '../../core/language/language_provider.dart';
 
 
 class TechniquesScreen extends StatefulWidget {
@@ -25,7 +26,7 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
   String searchText = "";
 
   String selectedFilter = "All";
-
+String selectedDifficulty = "All Levels";
 
 
   final List<String> filters = [
@@ -55,7 +56,19 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
     "Tachi Waza",
 
   ];
+final List<String> difficultyFilters = [
 
+  "All Levels",
+
+  "Beginner",
+
+  "Intermediate",
+
+  "Advanced",
+
+  "Elite",
+
+];
 
   bool checkFilter(TechniqueModel technique){
 
@@ -74,6 +87,18 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
 
   }
 
+bool checkDifficulty(TechniqueModel technique){
+
+  if(selectedDifficulty == "All Levels"){
+
+    return true;
+
+  }
+
+
+  return technique.difficulty == selectedDifficulty;
+
+}
 
 
 
@@ -85,24 +110,55 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
 
     final filteredTechniques =
 
-        JudoTechniques.techniques.where((technique){
+    JudoTechniques.techniques.where((technique){
 
 
-      final searchMatch =
-
-          technique.nameEn
-              .toLowerCase()
-              .contains(
-                searchText.toLowerCase(),
-              );
+  final query = searchText
+      .toLowerCase()
+      .trim();
 
 
 
-      return searchMatch && checkFilter(technique);
+  final searchMatch =
+
+      query.isEmpty ||
+
+      technique.nameEn
+          .toLowerCase()
+          .contains(query)
+
+      ||
+
+      technique.nameJp
+          .toLowerCase()
+          .contains(query)
+
+      ||
+
+      technique.category
+          .toLowerCase()
+          .contains(query)
+
+      ||
+
+      technique.translations.any(
+
+        (translation) =>
+
+            translation.name
+                .toLowerCase()
+                .contains(query),
+
+      );
 
 
 
-    }).toList();
+  return searchMatch &&
+    checkFilter(technique) &&
+    checkDifficulty(technique);
+
+
+}).toList();
 
 
 
@@ -188,11 +244,8 @@ class _TechniquesScreenState extends State<TechniquesScreen> {
 
 
 
-            const Text(
-
-
-
-              "67 Official Judo Techniques",
+            Text(
+  "${JudoTechniques.techniques.length} Official Judo Techniques",
 
 
 
@@ -820,32 +873,30 @@ class TechniqueCard extends StatelessWidget {
 
               Text(
 
+  technique.translations.isNotEmpty
+      ? technique.translations
+          .firstWhere(
+            (translation) =>
+                translation.languageCode ==
+                Provider.of<LanguageProvider>(context)
+    .languageCode,
 
+            orElse: () =>
+                technique.translations.first,
+          )
+          .name
+      : technique.nameEn,
 
-                technique.nameEn,
+  style:
+      const TextStyle(
 
+    color: Colors.white,
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
 
+  ),
 
-                style:
-
-                    const TextStyle(
-
-
-
-                  color:Colors.white,
-
-                  fontSize:18,
-
-                  fontWeight:FontWeight.bold,
-
-
-
-                ),
-
-
-
-              ),
-
+),
 
 
 
