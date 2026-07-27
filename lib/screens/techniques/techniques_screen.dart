@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+
 import '../../core/constants/techniques.dart';
 import '../../models/technique_model.dart';
 import '../technique_detail/technique_detail_screen.dart';
-import '../../core/widgets/techniques/technique_filter_sheet.dart';
-import 'package:judo_mind/screens/techniques/widgets/technique_card.dart';
-import 'widgets/technique_search_bar.dart';
+
+import 'widgets/technique_card.dart';
 import 'widgets/technique_filter_button.dart';
+import 'widgets/technique_filter_sheet.dart';
+import 'widgets/technique_search_bar.dart';
 class TechniquesScreen extends StatefulWidget {
 
   const TechniquesScreen({super.key});
