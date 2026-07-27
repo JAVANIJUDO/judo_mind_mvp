@@ -28,6 +28,8 @@ const TechniqueModel oSotoGari = TechniqueModel(
 
   category: "Ashi Waza",
 
+  type: "Koshi Waza",
+
   beltLevel: "Beginner",
 
   difficulty: "Intermediate",

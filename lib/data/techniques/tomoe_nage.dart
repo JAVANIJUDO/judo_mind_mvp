@@ -28,6 +28,8 @@ const TechniqueModel tomoeNage = TechniqueModel(
 
   category: "Sutemi Waza",
 
+  type: "Sutemi Waza",
+
   beltLevel: "Intermediate",
 
   difficulty: "Advanced",

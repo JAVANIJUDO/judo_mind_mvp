@@ -28,6 +28,8 @@ const TechniqueModel seoiNage = TechniqueModel(
 
   category: "Te Waza",
 
+  type: "Te Waza",
+
   beltLevel: "Intermediate",
 
   difficulty: "Intermediate",

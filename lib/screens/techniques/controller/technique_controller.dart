@@ -1,107 +1,48 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '../../../models/technique_model.dart';
-import '../../../core/constants/techniques.dart';
-
+import '../repository/technique_repository.dart';
 
 
 class TechniqueController extends ChangeNotifier {
 
 
-  String _searchText = "";
-
-  String _selectedCategory = "All";
-
-  String _selectedDifficulty = "All Levels";
+  final TechniqueRepository _repository =
+      const TechniqueRepository();
 
 
-
-  String get searchText => _searchText;
-
-
-  String get selectedCategory =>
-      _selectedCategory;
+  List<TechniqueModel> _allTechniques = [];
 
 
-  String get selectedDifficulty =>
-      _selectedDifficulty;
+  List<TechniqueModel> techniques = [];
 
 
-
-  List<TechniqueModel> get techniques {
-
-
-    return JudoTechniques.techniques.where((technique){
+  String selectedCategory = "All";
 
 
-      final query =
+  String selectedDifficulty = "All Levels";
 
-          _searchText
-              .toLowerCase()
-              .trim();
+
+  String searchText = "";
 
 
 
-      final searchMatch =
+  TechniqueController(){
 
+    loadTechniques();
 
-          query.isEmpty ||
-
-
-          technique.nameEn
-              .toLowerCase()
-              .contains(query)
-
-          ||
-
-          technique.nameJp
-              .toLowerCase()
-              .contains(query)
-
-          ||
-
-          technique.category
-              .toLowerCase()
-              .contains(query);
+  }
 
 
 
-      final categoryMatch =
+  void loadTechniques(){
+
+    _allTechniques =
+        _repository.getAllTechniques();
 
 
-          _selectedCategory == "All"
-
-          ||
-
-          technique.category ==
-              _selectedCategory
-
-          ||
-
-          technique.type ==
-              _selectedCategory;
-
-
-
-      final difficultyMatch =
-
-
-          _selectedDifficulty ==
-              "All Levels"
-
-          ||
-
-          technique.difficulty ==
-              _selectedDifficulty;
-
-
-
-      return searchMatch &&
-          categoryMatch &&
-          difficultyMatch;
-
-
-    }).toList();
+    techniques =
+        _allTechniques;
 
 
   }
@@ -110,11 +51,9 @@ class TechniqueController extends ChangeNotifier {
 
   void updateSearch(String value){
 
+    searchText = value;
 
-    _searchText = value;
-
-
-    notifyListeners();
+    _applyFilters();
 
   }
 
@@ -122,11 +61,9 @@ class TechniqueController extends ChangeNotifier {
 
   void updateCategory(String value){
 
+    selectedCategory = value;
 
-    _selectedCategory = value;
-
-
-    notifyListeners();
+    _applyFilters();
 
   }
 
@@ -134,8 +71,62 @@ class TechniqueController extends ChangeNotifier {
 
   void updateDifficulty(String value){
 
+    selectedDifficulty = value;
 
-    _selectedDifficulty = value;
+    _applyFilters();
+
+  }
+
+
+
+  void _applyFilters(){
+
+
+    techniques =
+        _allTechniques.where((technique){
+
+
+      final queryMatch =
+
+          searchText.isEmpty ||
+
+          technique.nameEn
+              .toLowerCase()
+              .contains(
+                searchText.toLowerCase(),
+              );
+
+
+
+      final categoryMatch =
+
+          selectedCategory == "All" ||
+
+          technique.category ==
+              selectedCategory ||
+
+          technique.type ==
+              selectedCategory;
+
+
+
+      final difficultyMatch =
+
+          selectedDifficulty ==
+              "All Levels" ||
+
+          technique.difficulty ==
+              selectedDifficulty;
+
+
+
+      return queryMatch &&
+          categoryMatch &&
+          difficultyMatch;
+
+
+    }).toList();
+
 
 
     notifyListeners();

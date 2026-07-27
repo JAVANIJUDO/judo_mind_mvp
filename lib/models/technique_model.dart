@@ -10,6 +10,7 @@ class TechniqueModel {
   final String japaneseName;
 
   final String category;
+  final String type;
   final String beltLevel;
   final String difficulty;
 
@@ -33,6 +34,8 @@ class TechniqueModel {
   final List<String> counters;
 
   final List<QuizModel> quiz;
+  final DateTime? createdAt;
+final DateTime? updatedAt;
 
   
 
@@ -47,6 +50,7 @@ class TechniqueModel {
     required this.japaneseName,
 
     required this.category,
+    required this.type,
     required this.beltLevel,
     required this.difficulty,
 
@@ -71,6 +75,8 @@ required this.images,
     required this.counters,
 
     required this.quiz,
+    this.createdAt,
+this.updatedAt,
 
 
 
@@ -85,9 +91,6 @@ required this.sources,
 
 
   String get nameJp => japaneseName;
-
-
-  String get type => category;
 
 
   String get kuzushi {

@@ -28,6 +28,8 @@ const TechniqueModel haraiGoshi = TechniqueModel(
 
   category: "Koshi Waza",
 
+  type: "Koshi Waza",
+
   beltLevel: "Intermediate",
 
   difficulty: "Intermediate",

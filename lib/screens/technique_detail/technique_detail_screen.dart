@@ -146,9 +146,9 @@ const SizedBox(height: 25),
 
 
 
-                const _SectionTitle(
-                  title: "Overview",
-                ),
+                _SectionTitle(
+  title: l10n.description,
+),
 
 
                 const SizedBox(height: 10),
@@ -167,13 +167,22 @@ const SizedBox(height: 25),
 
                 TechnicalAnalysis(
 
-                  kuzushi: technique.kuzushi,
+  kuzushi:
+    (translation?.executionSteps.length ?? 0) > 0
+        ? translation!.executionSteps[0]
+        : technique.kuzushi,
 
-                  tsukuri: technique.tsukuri,
+  tsukuri:
+    (translation?.executionSteps.length ?? 0) > 1
+        ? translation!.executionSteps[1]
+        : technique.tsukuri,
 
-                  kake: technique.kake,
+  kake:
+    (translation?.executionSteps.length ?? 0) > 2
+        ? translation!.executionSteps[2]
+        : technique.kake,
 
-                ),
+),
 
 
 
@@ -209,13 +218,16 @@ const SizedBox(height: 30),
 
                 _StringListSection(
 
-                  title: "Common Errors",
+  title: l10n.commonMistakes,
 
-                  items: technique.commonErrors,
+  items:
+      translation?.commonMistakes.isNotEmpty == true
+          ? translation!.commonMistakes
+          : technique.commonErrors,
 
-                  iconType: "warning",
+  iconType: "warning",
 
-                ),
+),
 
 
 
@@ -225,13 +237,16 @@ const SizedBox(height: 30),
 
                 _StringListSection(
 
-                  title: "Combinations",
+  title: l10n.combinations,
 
-                  items: technique.combinations,
+  items:
+      translation?.combinations.isNotEmpty == true
+          ? translation!.combinations
+          : technique.combinations,
 
-                  iconType: "technique",
+  iconType: "technique",
 
-                ),
+),
 
 
 
@@ -271,8 +286,7 @@ Text(
 
                 _StringListSection(
 
-                  title: "Official Sources",
-
+title: l10n.source,
                   items: technique.sources
     .map((source) => source.title)
     .toList(),
