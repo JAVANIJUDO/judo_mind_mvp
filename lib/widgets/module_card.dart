@@ -3,17 +3,14 @@ import 'package:flutter/material.dart';
 
 class ModuleCard extends StatelessWidget {
 
-  final String title;
-  final IconData icon;
+  final dynamic module;
 
 
   const ModuleCard({
 
     super.key,
 
-    required this.title,
-
-    required this.icon,
+    required this.module,
 
   });
 
@@ -21,15 +18,23 @@ class ModuleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+
     return Container(
 
       padding: const EdgeInsets.all(16),
+
 
       decoration: BoxDecoration(
 
         color: const Color(0xFF111111),
 
         borderRadius: BorderRadius.circular(18),
+
+        border: Border.all(
+
+          color: const Color(0xFF0066FF),
+
+        ),
 
       ),
 
@@ -39,11 +44,13 @@ class ModuleCard extends StatelessWidget {
         mainAxisAlignment:
             MainAxisAlignment.center,
 
+
         children: [
+
 
           Icon(
 
-            icon,
+            module.icon,
 
             color: const Color(0xFFD4AF37),
 
@@ -52,12 +59,16 @@ class ModuleCard extends StatelessWidget {
           ),
 
 
+
           const SizedBox(height:10),
+
 
 
           Text(
 
-            title,
+            module.title,
+
+            textAlign: TextAlign.center,
 
             style: const TextStyle(
 
@@ -69,11 +80,13 @@ class ModuleCard extends StatelessWidget {
 
           ),
 
+
         ],
 
       ),
 
     );
+
 
   }
 

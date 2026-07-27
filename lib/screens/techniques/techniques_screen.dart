@@ -4,6 +4,7 @@ import '../../models/technique_model.dart';
 import '../technique_detail/technique_detail_screen.dart';
 import '../../core/widgets/techniques/technique_filter_sheet.dart';
 import 'package:judo_mind/screens/techniques/widgets/technique_card.dart';
+import 'widgets/technique_search_bar.dart';
 class TechniquesScreen extends StatefulWidget {
 
   const TechniquesScreen({super.key});
@@ -357,111 +358,20 @@ bool hasActiveFilters(){
 
 
 
-            TextField(
+            TechniqueSearchBar(
 
+  onChanged:(value){
 
+    setState((){
 
-              onChanged:(value){
+      searchText = value;
 
+    });
 
+  },
 
-                setState((){
+),
 
-
-
-                  searchText=value;
-
-
-
-                });
-
-
-
-              },
-
-
-
-              style:
-
-                  const TextStyle(
-
-                    color:Colors.white,
-
-                  ),
-
-
-
-              decoration:
-
-                  InputDecoration(
-
-
-
-                hintText:
-
-                    "Search technique...",
-
-
-
-                hintStyle:
-
-                    const TextStyle(
-
-                      color:Colors.grey,
-
-                    ),
-
-
-
-                prefixIcon:
-
-                    const Icon(
-
-                      Icons.search,
-
-                      color:Colors.white,
-
-                    ),
-
-
-
-                filled:true,
-
-
-
-                fillColor:
-
-                    const Color(0xFF111111),
-
-
-
-                border:
-
-                    OutlineInputBorder(
-
-
-
-                  borderRadius:
-
-                      BorderRadius.circular(15),
-
-
-
-                  borderSide:
-
-                      BorderSide.none,
-
-
-
-                ),
-
-
-
-              ),
-
-
-
-                        ),
 
 
             const SizedBox(height:15),
