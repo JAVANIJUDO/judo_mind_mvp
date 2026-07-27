@@ -152,7 +152,12 @@ void showFilterSheet(){
 
 }
 
+bool hasActiveFilters(){
 
+  return selectedFilter != "All" ||
+      selectedDifficulty != "All Levels";
+
+}
 
   @override
   Widget build(BuildContext context) {
@@ -546,7 +551,6 @@ void showFilterSheet(){
             const SizedBox(height:15),
 
 
-
             SizedBox(
 
 
@@ -558,6 +562,8 @@ void showFilterSheet(){
               child:ListView.builder(
 
 
+
+  
 
                 scrollDirection:
 
