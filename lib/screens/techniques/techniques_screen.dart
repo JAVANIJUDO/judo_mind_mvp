@@ -1,710 +1,188 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/constants/techniques.dart';
-import '../../models/technique_model.dart';
 import '../technique_detail/technique_detail_screen.dart';
-
+import 'controller/technique_controller.dart';
+import 'widgets/active_filter_chips.dart';
 import 'widgets/technique_card.dart';
+import 'widgets/technique_category_chips.dart';
 import 'widgets/technique_filter_button.dart';
 import 'widgets/technique_filter_sheet.dart';
 import 'widgets/technique_search_bar.dart';
-class TechniquesScreen extends StatefulWidget {
 
+class TechniquesScreen extends StatelessWidget {
   const TechniquesScreen({super.key});
 
-
-  @override
-  State<TechniquesScreen> createState() =>
-      _TechniquesScreenState();
-
-}
-
-
-
-class _TechniquesScreenState extends State<TechniquesScreen> {
-
-
-  String searchText = "";
-
-  String selectedFilter = "All";
-String selectedDifficulty = "All Levels";
-
-
-  final List<String> filters = [
-
-    "All",
-
-    "Nage Waza",
-
-    "Te Waza",
-
-    "Ashi Waza",
-
-    "Koshi Waza",
-
-    "Sutemi Waza",
-
-    "Katame Waza",
-
-    "Osaekomi Waza",
-
-    "Shime Waza",
-
-    "Kansetsu Waza",
-
-    "Ne Waza",
-
-    "Tachi Waza",
-
+  static const List<String> filters = [
+    'All',
+    'Nage Waza',
+    'Te Waza',
+    'Ashi Waza',
+    'Koshi Waza',
+    'Sutemi Waza',
+    'Katame Waza',
+    'Osaekomi Waza',
+    'Shime Waza',
+    'Kansetsu Waza',
+    'Ne Waza',
+    'Tachi Waza',
   ];
-final List<String> difficultyFilters = [
 
-  "All Levels",
+  static const List<String> difficultyFilters = [
+    'All Levels',
+    'Beginner',
+    'Intermediate',
+    'Advanced',
+    'Elite',
+  ];
 
-  "Beginner",
+  void showFilterSheet(BuildContext context) {
+    final techniqueController = context.read<TechniqueController>();
 
-  "Intermediate",
-
-  "Advanced",
-
-  "Elite",
-
-];
-
-  bool checkFilter(TechniqueModel technique){
-
-
-    if(selectedFilter == "All"){
-
-      return true;
-
-    }
-
-
-    return technique.category == selectedFilter ||
-
-        technique.type == selectedFilter;
-
-
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) {
+        return TechniqueFilterSheet(
+          categories: filters,
+          difficulties: difficultyFilters,
+          selectedCategory: techniqueController.selectedCategory,
+          selectedDifficulty: techniqueController.selectedDifficulty,
+          onCategoryChanged: (value) {
+            context.read<TechniqueController>().updateCategory(value);
+          },
+          onDifficultyChanged: (value) {
+            context.read<TechniqueController>().updateDifficulty(value);
+          },
+        );
+      },
+    );
   }
-
-bool checkDifficulty(TechniqueModel technique){
-
-  if(selectedDifficulty == "All Levels"){
-
-    return true;
-
-  }
-
-
-  return technique.difficulty == selectedDifficulty;
-
-}
-
-void showFilterSheet(){
-
-  showModalBottomSheet(
-
-    context: context,
-    isScrollControlled: true,
-
-    backgroundColor: Colors.transparent,
-
-    builder: (context){
-
-      return TechniqueFilterSheet(
-
-        categories: filters,
-
-        difficulties: difficultyFilters,
-
-        selectedCategory: selectedFilter,
-
-        selectedDifficulty: selectedDifficulty,
-
-
-        onCategoryChanged: (value){
-
-          setState((){
-
-            selectedFilter = value;
-
-          });
-
-        },
-
-
-        onDifficultyChanged: (value){
-
-          setState((){
-
-            selectedDifficulty = value;
-
-          });
-
-        },
-
-
-      );
-
-    },
-
-  );
-
-}
-
-bool hasActiveFilters(){
-
-  return selectedFilter != "All" ||
-      selectedDifficulty != "All Levels";
-
-}
 
   @override
   Widget build(BuildContext context) {
-
-
-    final filteredTechniques =
-
-    JudoTechniques.techniques.where((technique){
-
-
-  final query = searchText
-      .toLowerCase()
-      .trim();
-
-
-
-  final searchMatch =
-
-      query.isEmpty ||
-
-      technique.nameEn
-          .toLowerCase()
-          .contains(query)
-
-      ||
-
-      technique.nameJp
-          .toLowerCase()
-          .contains(query)
-
-      ||
-
-      technique.category
-          .toLowerCase()
-          .contains(query)
-
-      ||
-
-      technique.translations.any(
-
-        (translation) =>
-
-            translation.name
-                .toLowerCase()
-                .contains(query),
-
-      );
-
-
-
-  return searchMatch &&
-    checkFilter(technique) &&
-    checkDifficulty(technique);
-
-
-}).toList();
-
-
-
-
+    final techniqueController = context.watch<TechniqueController>();
+    final filteredTechniques = techniqueController.techniques;
 
     return Scaffold(
-
-
-
-      backgroundColor:
-
-          const Color(0xFF050505),
-
-
-
+      backgroundColor: const Color(0xFF050505),
       appBar: AppBar(
-
-
-
-        backgroundColor:
-
-            Colors.transparent,
-
-
-
-        elevation:0,
-
-
-
-        title:const Text(
-
-
-
-          "Techniques",
-
-
-
-          style:TextStyle(
-
-
-
-            color:Colors.white,
-
-            fontWeight:FontWeight.bold,
-
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(
+          'Techniques',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
-
-
-
         ),
-
-
-
       ),
-
-
-
-
-
-
-      body:Padding(
-
-
-
-        padding:
-
-            const EdgeInsets.all(20),
-
-
-
-        child:Column(
-
-
-
-          crossAxisAlignment:
-
-              CrossAxisAlignment.start,
-
-
-
-          children:[
-
-
-
-
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Text(
-  "${JudoTechniques.techniques.length} Official Judo Techniques",
-
-
-
-              style:TextStyle(
-
-
-
-                color:Colors.white,
-
-                fontSize:26,
-
-                fontWeight:FontWeight.bold,
-
+              '${JudoTechniques.techniques.length} Official Judo Techniques',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
               ),
-
-
-
             ),
-
-
-
-
-            const SizedBox(height:8),
-
-
-
-
+            const SizedBox(height: 8),
             const Text(
-
-
-
-              "IJF Technique Database",
-
-
-
-              style:TextStyle(
-
-
-
-                color:Color(0xFF0066FF),
-
-                fontSize:16,
-
+              'IJF Technique Database',
+              style: TextStyle(
+                color: Color(0xFF0066FF),
+                fontSize: 16,
               ),
-
-
-
             ),
-
-
-
-
-
-            const SizedBox(height:20),
-
-
-
-
+            const SizedBox(height: 20),
 
             TechniqueSearchBar(
+              onChanged: (value) {
+                context.read<TechniqueController>().updateSearch(value);
+              },
+            ),
 
-  onChanged:(value){
-
-    setState((){
-
-      searchText = value;
-
-    });
-
-  },
-
-),
-
-
-
-            const SizedBox(height:15),
-
-
+            const SizedBox(height: 15),
 
             TechniqueFilterButton(
-
-  onTap: (){
-
-    showFilterSheet();
-
-  },
-
-),
-
- 
-
-
-
-            const SizedBox(height:15),
-
-
-            SizedBox(
-
-
-
-              height:45,
-
-
-
-              child:ListView.builder(
-
-
-
-  
-
-                scrollDirection:
-
-                    Axis.horizontal,
-
-
-
-                itemCount:
-
-                    filters.length,
-
-
-
-                itemBuilder:(context,index){
-
-
-
-                  final filter = filters[index];
-
-
-
-                  final active =
-
-                      selectedFilter == filter;
-
-
-
-
-                  return GestureDetector(
-
-
-
-                    onTap:(){
-
-
-
-                      setState((){
-
-
-
-                        selectedFilter = filter;
-
-
-
-                      });
-
-
-
-                    },
-
-
-
-                    child:Container(
-
-
-
-                      margin:
-
-                          const EdgeInsets.only(
-
-                            right:10,
-
-                          ),
-
-
-
-                      padding:
-
-                          const EdgeInsets.symmetric(
-
-                            horizontal:18,
-
-                            vertical:10,
-
-                          ),
-
-
-
-                      decoration:
-
-                          BoxDecoration(
-
-
-
-                        color:
-
-                            active
-
-                            ? const Color(0xFFD4AF37)
-
-                            : const Color(0xFF111111),
-
-
-
-                        borderRadius:
-
-                            BorderRadius.circular(20),
-
-
-
-                      ),
-
-
-
-                      child:Text(
-
-
-
-                        filter,
-
-
-
-                        style:TextStyle(
-
-
-
-                          color:
-
-                              active
-
-                              ? Colors.black
-
-                              : Colors.white,
-
-
-
-                          fontWeight:
-
-                              FontWeight.bold,
-
-
-
-                        ),
-
-
-
-                      ),
-
-
-
-                    ),
-
-
-
-                  );
-
-
-
-                },
-
-
-
-              ),
-
-
-
+              onTap: () {
+                showFilterSheet(context);
+              },
             ),
 
+            const SizedBox(height: 15),
 
+            ActiveFilterChips(
+              selectedCategory: techniqueController.selectedCategory,
+              selectedDifficulty: techniqueController.selectedDifficulty,
+              onCategoryClear: () {
+                context
+                    .read<TechniqueController>()
+                    .updateCategory('All');
+              },
+              onDifficultyClear: () {
+                context
+                    .read<TechniqueController>()
+                    .updateDifficulty('All Levels');
+              },
+            ),
 
+            const SizedBox(height: 10),
 
+            TechniqueCategoryChips(
+              categories: filters,
+              selectedCategory: techniqueController.selectedCategory,
+              onChanged: (value) {
+                context.read<TechniqueController>().updateCategory(value);
+              },
+            ),
 
-            const SizedBox(height:20),
-
-
-
-
-
+            const SizedBox(height: 20),
 
             Expanded(
+              child: filteredTechniques.isEmpty
+                  ? const Center(
+                      child: Text(
+                        'No techniques found',
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 16,
+                        ),
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: filteredTechniques.length,
+                      itemBuilder: (context, index) {
+                        final technique = filteredTechniques[index];
 
-
-
-              child:
-
-                  ListView.builder(
-
-
-
-                itemCount:
-
-                    filteredTechniques.length,
-
-
-
-                itemBuilder:(context,index){
-
-
-
-                  final technique =
-
-                      filteredTechniques[index];
-
-
-
-
-                  return GestureDetector(
-
-
-
-                    onTap:(){
-
-
-
-                      Navigator.push(
-
-
-
-                        context,
-
-
-
-                        MaterialPageRoute(
-
-
-
-                          builder:(context)=>
-
-
-
-                              TechniqueDetailScreen(
-
-
-
-                                technique:technique,
-
-
-
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (context) =>
+                                    TechniqueDetailScreen(
+                                  technique: technique,
+                                ),
                               ),
-
-
-
-                        ),
-
-
-
-                      );
-
-
-
-                    },
-
-
-
-                    child:
-
-                        TechniqueCard(
-
-                          technique:technique,
-
-                        ),
-
-
-
-                  );
-
-
-
-                },
-
-
-
-              ),
-
-
-
+                            );
+                          },
+                          child: TechniqueCard(
+                            technique: technique,
+                          ),
+                        );
+                      },
+                    ),
             ),
-
-
-
           ],
-
-
-
         ),
-
-
-
       ),
-
-
-
     );
-
-
-
   }
-
-
-
 }
-
-
-
-
-
-

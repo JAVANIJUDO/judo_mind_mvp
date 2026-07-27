@@ -7,15 +7,31 @@ import 'core/routes/app_routes.dart';
 import 'core/l10n/language_controller.dart';
 import 'l10n/app_localizations.dart';
 import 'core/language/language_provider.dart';
-
+import 'screens/techniques/controller/technique_controller.dart';
 
 void main() {
 
   runApp(
 
-    ChangeNotifierProvider(
+    MultiProvider(
 
-      create: (_) => LanguageProvider(),
+      providers: [
+
+        ChangeNotifierProvider(
+
+          create: (_) => LanguageProvider(),
+
+        ),
+
+
+        ChangeNotifierProvider(
+
+          create: (_) => TechniqueController(),
+
+        ),
+
+      ],
+
 
       child: const JudoMindApp(),
 
