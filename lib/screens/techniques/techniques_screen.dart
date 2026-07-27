@@ -5,6 +5,7 @@ import '../technique_detail/technique_detail_screen.dart';
 import '../../core/widgets/techniques/technique_filter_sheet.dart';
 import 'package:judo_mind/screens/techniques/widgets/technique_card.dart';
 import 'widgets/technique_search_bar.dart';
+import 'widgets/technique_filter_button.dart';
 class TechniquesScreen extends StatefulWidget {
 
   const TechniquesScreen({super.key});
@@ -378,80 +379,17 @@ bool hasActiveFilters(){
 
 
 
-            GestureDetector(
+            TechniqueFilterButton(
 
-              onTap: (){
+  onTap: (){
 
-                showFilterSheet();
+    showFilterSheet();
 
-              },
+  },
 
+),
 
-              child: Container(
-
-                width: double.infinity,
-
-                padding: const EdgeInsets.symmetric(
-                  vertical: 14,
-                ),
-
-
-                decoration: BoxDecoration(
-
-                  color: const Color(0xFF111111),
-
-                  borderRadius: BorderRadius.circular(15),
-
-                  border: Border.all(
-
-                    color: const Color(0xFF0066FF),
-
-                  ),
-
-                ),
-
-
-                child: const Row(
-
-                  mainAxisAlignment: MainAxisAlignment.center,
-
-                  children: [
-
-                    Icon(
-
-                      Icons.filter_alt,
-
-                      color: Color(0xFFD4AF37),
-
-                    ),
-
-
-                    SizedBox(width: 10),
-
-
-                    Text(
-
-                      "Filters",
-
-                      style: TextStyle(
-
-                        color: Colors.white,
-
-                        fontSize: 16,
-
-                        fontWeight: FontWeight.bold,
-
-                      ),
-
-                    ),
-
-                  ],
-
-                ),
-
-              ),
-
-            ),
+ 
 
 
 
