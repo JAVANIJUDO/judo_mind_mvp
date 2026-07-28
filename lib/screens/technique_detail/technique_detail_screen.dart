@@ -397,6 +397,8 @@ class _IJFProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
 
@@ -425,9 +427,8 @@ class _IJFProfileCard extends StatelessWidget {
 
         children: [
 
-          const Text(
-
-            "IJF Profile",
+          Text(
+  AppLocalizations.of(context)!.ijfProfile,
 
             style: TextStyle(
 
@@ -447,8 +448,7 @@ class _IJFProfileCard extends StatelessWidget {
 
           _ProfileRow(
 
-            title: "Classification",
-
+title: AppLocalizations.of(context)!.classification,
             value: technique.ijfClassification,
 
           ),
@@ -456,8 +456,7 @@ class _IJFProfileCard extends StatelessWidget {
 
           _ProfileRow(
 
-            title: "Difficulty",
-
+title: AppLocalizations.of(context)!.difficulty,
             value: technique.difficulty,
 
           ),
@@ -465,8 +464,7 @@ class _IJFProfileCard extends StatelessWidget {
 
           _ProfileRow(
 
-            title: "Competition Usage",
-
+title: AppLocalizations.of(context)!.competitionUsage,
             value: technique.competitionUsage,
 
           ),

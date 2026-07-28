@@ -934,4 +934,49 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get version => 'Version';
+
+  @override
+  String get ijfProfile => 'IJF Profile';
+
+  @override
+  String get competitionUsage => 'Competition Usage';
+
+  @override
+  String get tacticalIntelligence => 'Tactical Intelligence';
+
+  @override
+  String get gripStrategy => 'Grip Strategy';
+
+  @override
+  String get bodyPosition => 'Body Position';
+
+  @override
+  String get tacticalNotes => 'Tactical Notes';
+
+  @override
+  String get championsUsingTechnique => 'Champions Using This Technique';
+
+  @override
+  String get favorite => 'Favorite';
+
+  @override
+  String get training => 'Training';
+
+  @override
+  String get techniqueMastery => 'Technique Mastery';
+
+  @override
+  String get learningProgress => 'Learning Progress';
+
+  @override
+  String get theory => 'Theory';
+
+  @override
+  String get technique => 'Technique';
+
+  @override
+  String get competition => 'Competition';
+
+  @override
+  String get sensiBotRecommendation => 'Sensi Bot Recommendation';
 }

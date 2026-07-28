@@ -333,5 +333,20 @@
   "lightMode": "Light Mode",
   "darkMode": "Dark Mode",
   "systemTheme": "System Theme",
-  "version": "Version"
+  "version": "Version",
+"ijfProfile": "IJF Profile",
+"competitionUsage": "Competition Usage",
+"tacticalIntelligence": "Tactical Intelligence",
+"gripStrategy": "Grip Strategy",
+"bodyPosition": "Body Position",
+"tacticalNotes": "Tactical Notes",
+"championsUsingTechnique": "Champions Using This Technique",
+"favorite": "Favorite",
+"training": "Training",
+"techniqueMastery": "Technique Mastery",
+"learningProgress": "Learning Progress",
+"theory": "Theory",
+"technique": "Technique",
+"competition": "Competition",
+"sensiBotRecommendation": "Sensi Bot Recommendation"
 }

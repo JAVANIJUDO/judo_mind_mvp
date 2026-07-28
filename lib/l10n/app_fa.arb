@@ -12,5 +12,22 @@
   "quiz": "آزمون",
   "belt": "کمربند",
   "category": "دسته‌بندی",
-  "source": "منبع"
+  "source": "منبع",
+  "ijfProfile": "پروفایل IJF",
+  "classification": "طبقه‌بندی",
+  "difficulty": "سطح دشواری",
+  "competitionUsage": "کاربرد در مسابقات",
+  "tacticalIntelligence": "هوش تاکتیکی",
+  "gripStrategy": "استراتژی گرفتن",
+  "bodyPosition": "موقعیت بدن",
+  "tacticalNotes": "نکات تاکتیکی",
+  "championsUsingTechnique": "قهرمانان استفاده‌کننده از این تکنیک",
+  "favorite": "علاقه‌مندی",
+  "training": "تمرین",
+  "techniqueMastery": "تسلط بر تکنیک",
+  "learningProgress": "پیشرفت یادگیری",
+  "theory": "تئوری",
+  "technique": "تکنیک",
+  "competition": "مسابقه",
+  "sensiBotRecommendation": "پیشنهاد Sensi Bot"
 }

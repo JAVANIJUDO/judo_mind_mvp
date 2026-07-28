@@ -1961,6 +1961,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Version'**
   String get version;
+
+  /// No description provided for @ijfProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'IJF Profile'**
+  String get ijfProfile;
+
+  /// No description provided for @competitionUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'Competition Usage'**
+  String get competitionUsage;
+
+  /// No description provided for @tacticalIntelligence.
+  ///
+  /// In en, this message translates to:
+  /// **'Tactical Intelligence'**
+  String get tacticalIntelligence;
+
+  /// No description provided for @gripStrategy.
+  ///
+  /// In en, this message translates to:
+  /// **'Grip Strategy'**
+  String get gripStrategy;
+
+  /// No description provided for @bodyPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Body Position'**
+  String get bodyPosition;
+
+  /// No description provided for @tacticalNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Tactical Notes'**
+  String get tacticalNotes;
+
+  /// No description provided for @championsUsingTechnique.
+  ///
+  /// In en, this message translates to:
+  /// **'Champions Using This Technique'**
+  String get championsUsingTechnique;
+
+  /// No description provided for @favorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite'**
+  String get favorite;
+
+  /// No description provided for @training.
+  ///
+  /// In en, this message translates to:
+  /// **'Training'**
+  String get training;
+
+  /// No description provided for @techniqueMastery.
+  ///
+  /// In en, this message translates to:
+  /// **'Technique Mastery'**
+  String get techniqueMastery;
+
+  /// No description provided for @learningProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Learning Progress'**
+  String get learningProgress;
+
+  /// No description provided for @theory.
+  ///
+  /// In en, this message translates to:
+  /// **'Theory'**
+  String get theory;
+
+  /// No description provided for @technique.
+  ///
+  /// In en, this message translates to:
+  /// **'Technique'**
+  String get technique;
+
+  /// No description provided for @competition.
+  ///
+  /// In en, this message translates to:
+  /// **'Competition'**
+  String get competition;
+
+  /// No description provided for @sensiBotRecommendation.
+  ///
+  /// In en, this message translates to:
+  /// **'Sensi Bot Recommendation'**
+  String get sensiBotRecommendation;
 }
 
 class _AppLocalizationsDelegate

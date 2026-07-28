@@ -255,7 +255,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get japaneseName => 'Japanese Name';
 
   @override
-  String get classification => 'Classification';
+  String get classification => 'طبقه‌بندی';
 
   @override
   String get description => 'Description';
@@ -303,7 +303,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get prerequisites => 'Prerequisites';
 
   @override
-  String get difficulty => 'Difficulty';
+  String get difficulty => 'سطح دشواری';
 
   @override
   String get beginner => 'Beginner';
@@ -934,4 +934,49 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get version => 'Version';
+
+  @override
+  String get ijfProfile => 'پروفایل IJF';
+
+  @override
+  String get competitionUsage => 'کاربرد در مسابقات';
+
+  @override
+  String get tacticalIntelligence => 'هوش تاکتیکی';
+
+  @override
+  String get gripStrategy => 'استراتژی گرفتن';
+
+  @override
+  String get bodyPosition => 'موقعیت بدن';
+
+  @override
+  String get tacticalNotes => 'نکات تاکتیکی';
+
+  @override
+  String get championsUsingTechnique => 'قهرمانان استفاده‌کننده از این تکنیک';
+
+  @override
+  String get favorite => 'علاقه‌مندی';
+
+  @override
+  String get training => 'تمرین';
+
+  @override
+  String get techniqueMastery => 'تسلط بر تکنیک';
+
+  @override
+  String get learningProgress => 'پیشرفت یادگیری';
+
+  @override
+  String get theory => 'تئوری';
+
+  @override
+  String get technique => 'تکنیک';
+
+  @override
+  String get competition => 'مسابقه';
+
+  @override
+  String get sensiBotRecommendation => 'پیشنهاد Sensi Bot';
 }
