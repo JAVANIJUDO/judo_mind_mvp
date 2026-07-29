@@ -39,7 +39,7 @@ class LocalTechniqueDataSource implements TechniqueLocalDataSource {
   // Migration adapter
   // Keeps old Controller compatible
   // while moving data access to new architecture.
-
+  @override
   List<TechniqueModel> getTechniquesSync() {
 
     return JudoTechniques.techniques;

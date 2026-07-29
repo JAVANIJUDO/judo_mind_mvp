@@ -41,6 +41,7 @@ dependencies:
   url_launcher: 6.2.6
 
   provider: ^6.1.5+1
+  get_it: ^9.2.1
 
 dev_dependencies:
   flutter_test:

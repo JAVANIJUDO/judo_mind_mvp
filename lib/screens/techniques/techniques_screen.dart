@@ -3,13 +3,13 @@ import 'package:provider/provider.dart';
 
 import '../../core/constants/techniques.dart';
 import '../technique_detail/technique_detail_screen.dart';
-import 'controller/technique_controller.dart';
 import 'widgets/active_filter_chips.dart';
 import 'widgets/technique_card.dart';
 import 'widgets/technique_category_chips.dart';
 import 'widgets/technique_filter_button.dart';
 import 'widgets/technique_filter_sheet.dart';
 import 'widgets/technique_search_bar.dart';
+import '../../core/providers/technique_provider.dart';
 
 class TechniquesScreen extends StatelessWidget {
   const TechniquesScreen({super.key});
@@ -38,7 +38,8 @@ class TechniquesScreen extends StatelessWidget {
   ];
 
   void showFilterSheet(BuildContext context) {
-    final techniqueController = context.read<TechniqueController>();
+final techniqueProvider =
+    context.read<TechniqueProvider>();
 
     showModalBottomSheet<void>(
       context: context,
@@ -48,13 +49,16 @@ class TechniquesScreen extends StatelessWidget {
         return TechniqueFilterSheet(
           categories: filters,
           difficulties: difficultyFilters,
-          selectedCategory: techniqueController.selectedCategory,
-          selectedDifficulty: techniqueController.selectedDifficulty,
+          selectedCategory:
+    techniqueProvider.selectedCategory,
+
+selectedDifficulty:
+    techniqueProvider.selectedDifficulty,
           onCategoryChanged: (value) {
-            context.read<TechniqueController>().updateCategory(value);
+            context.read<TechniqueProvider>().updateCategory(value);
           },
           onDifficultyChanged: (value) {
-            context.read<TechniqueController>().updateDifficulty(value);
+            context.read<TechniqueProvider>().updateDifficulty(value);
           },
         );
       },
@@ -63,9 +67,10 @@ class TechniquesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final techniqueController = context.watch<TechniqueController>();
-    final filteredTechniques = techniqueController.techniques;
-
+final techniqueProvider =
+    context.watch<TechniqueProvider>();
+final filteredTechniques =
+    techniqueProvider.techniques;
     return Scaffold(
       backgroundColor: const Color(0xFF050505),
       appBar: AppBar(
@@ -104,7 +109,7 @@ class TechniquesScreen extends StatelessWidget {
 
             TechniqueSearchBar(
               onChanged: (value) {
-                context.read<TechniqueController>().updateSearch(value);
+                context.read<TechniqueProvider>().updateSearch(value);
               },
             ),
 
@@ -119,16 +124,14 @@ class TechniquesScreen extends StatelessWidget {
             const SizedBox(height: 15),
 
             ActiveFilterChips(
-              selectedCategory: techniqueController.selectedCategory,
-              selectedDifficulty: techniqueController.selectedDifficulty,
+              selectedCategory: techniqueProvider.selectedCategory,
+              selectedDifficulty: techniqueProvider.selectedDifficulty,
               onCategoryClear: () {
-                context
-                    .read<TechniqueController>()
+                context.read<TechniqueProvider>()
                     .updateCategory('All');
               },
               onDifficultyClear: () {
-                context
-                    .read<TechniqueController>()
+                context.read<TechniqueProvider>()
                     .updateDifficulty('All Levels');
               },
             ),
@@ -137,9 +140,9 @@ class TechniquesScreen extends StatelessWidget {
 
             TechniqueCategoryChips(
               categories: filters,
-              selectedCategory: techniqueController.selectedCategory,
+              selectedCategory: techniqueProvider.selectedCategory,
               onChanged: (value) {
-                context.read<TechniqueController>().updateCategory(value);
+                context.read<TechniqueProvider>().updateCategory(value);
               },
             ),
 
