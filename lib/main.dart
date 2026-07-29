@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-
+import 'core/providers/favorite_provider.dart';
 import 'core/dependency_injection/injection_container.dart';
 import 'core/language/language_provider.dart';
 import 'core/providers/technique_provider.dart';
@@ -17,13 +17,18 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider<LanguageProvider>(
-          create: (_) => LanguageProvider(),
-        ),
-        ChangeNotifierProvider<TechniqueProvider>(
-          create: (_) => TechniqueProvider(),
-        ),
-      ],
+  ChangeNotifierProvider<LanguageProvider>(
+    create: (_) => LanguageProvider(),
+  ),
+
+  ChangeNotifierProvider<TechniqueProvider>(
+    create: (_) => TechniqueProvider(),
+  ),
+
+  ChangeNotifierProvider<FavoriteProvider>(
+    create: (_) => FavoriteProvider()..initialize(),
+  ),
+],
       child: const JudoMindApp(),
     ),
   );

@@ -10,6 +10,8 @@ import 'widgets/video_buttons.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/language/language_provider.dart';
+import '../../core/providers/favorite_provider.dart';
+import '../../core/widgets/judo_premium_button.dart';
 
 class TechniqueDetailScreen extends StatelessWidget {
 
@@ -1440,72 +1442,93 @@ class _ChampionsCard extends StatelessWidget {
 
 }
 class _TechniqueActions extends StatelessWidget {
-
   final TechniqueModel technique;
-
 
   const _TechniqueActions({
     required this.technique,
   });
 
-
   @override
   Widget build(BuildContext context) {
+    final favoriteProvider = context.watch<FavoriteProvider>();
 
+    final bool isFavorite =
+        favoriteProvider.isFavorite(technique.id);
 
-    return Row(
-
+    return Column(
       children: [
 
+        JudoPremiumButton(
+          label: isFavorite
+              ? "Remove from Favorites"
+              : "Add to Favorites",
 
-        Expanded(
+          icon: isFavorite
+              ? Icons.bookmark_rounded
+              : Icons.bookmark_add_rounded,
 
-          child: ElevatedButton.icon(
+          accentColor: const Color(0xFFD4AF37),
 
-            onPressed: () {},
+          onPressed: () async {
 
-            icon: const Icon(
-              Icons.favorite_border,
-            ),
+            await favoriteProvider.toggleFavorite(
+              technique.id,
+            );
 
-            label: const Text(
-              "Favorite",
-            ),
+            if (!context.mounted) return;
 
-          ),
+            ScaffoldMessenger.of(context).showSnackBar(
+
+              SnackBar(
+
+                content: Text(
+
+                  isFavorite
+                      ? "Removed from Favorites"
+                      : "Added to Favorites",
+
+                ),
+
+              ),
+
+            );
+
+          },
+        ),
+
+        const SizedBox(height: 14),
+
+        JudoPremiumButton(
+          label: "Start Training",
+
+          icon: Icons.sports_martial_arts_rounded,
+
+          accentColor: const Color(0xFF0066FF),
+
+          onPressed: () {
+
+          },
 
         ),
 
+        const SizedBox(height: 14),
 
-        const SizedBox(width: 12),
+        JudoPremiumButton(
+          label: "Track Progress",
 
+          icon: Icons.insights_rounded,
 
-        Expanded(
+          accentColor: Colors.green,
 
-          child: ElevatedButton.icon(
+          onPressed: () {
 
-            onPressed: () {},
-
-            icon: const Icon(
-              Icons.add_task,
-            ),
-
-            label: const Text(
-              "Training",
-            ),
-
-          ),
+          },
 
         ),
-
 
       ],
-
     );
-
-
   }
-
 }
 class _CompetitionAnalysisCard extends StatelessWidget {
 
