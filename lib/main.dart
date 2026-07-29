@@ -8,6 +8,7 @@ import 'core/l10n/language_controller.dart';
 import 'l10n/app_localizations.dart';
 import 'core/language/language_provider.dart';
 import 'screens/techniques/controller/technique_controller.dart';
+import 'core/providers/technique_provider.dart';
 
 void main() {
 
@@ -17,20 +18,21 @@ void main() {
 
       providers: [
 
-        ChangeNotifierProvider(
+  ChangeNotifierProvider(
+    create: (_) => LanguageProvider(),
+  ),
 
-          create: (_) => LanguageProvider(),
+  // فعلاً حفظ می‌شود
+  ChangeNotifierProvider(
+    create: (_) => TechniqueController(),
+  ),
 
-        ),
+  // معماری جدید
+  ChangeNotifierProvider(
+    create: (_) => TechniqueProvider(),
+  ),
 
-
-        ChangeNotifierProvider(
-
-          create: (_) => TechniqueController(),
-
-        ),
-
-      ],
+],
 
 
       child: const JudoMindApp(),

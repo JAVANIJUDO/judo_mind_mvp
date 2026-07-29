@@ -1,15 +1,30 @@
 import '../../../models/technique_model.dart';
-import '../../../data/techniques/technique_factory.dart';
+
+import '../../../data/repositories/local_technique_repository.dart';
+import '../../../data/sources/local/local_technique_data_source.dart';
+
 
 class TechniqueRepository {
 
 
-  const TechniqueRepository();
+  final LocalTechniqueRepository _repository;
 
 
-  List<TechniqueModel> getAllTechniques(){
+   TechniqueRepository()
+      : _repository =  LocalTechniqueRepository(
+          LocalTechniqueDataSource(),
+        );
 
-return TechniqueFactory.allTechniques;
+
+
+  List<TechniqueModel> getAllTechniques() {
+
+    // Temporary synchronous adapter
+    // Keeps current Controller compatible.
+
+    return _repository
+        .getTechniquesSync();
+
   }
 
 

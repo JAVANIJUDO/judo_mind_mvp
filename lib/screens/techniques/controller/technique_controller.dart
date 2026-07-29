@@ -8,7 +8,7 @@ class TechniqueController extends ChangeNotifier {
 
 
   final TechniqueRepository _repository =
-      const TechniqueRepository();
+    TechniqueRepository();
 
 
   List<TechniqueModel> _allTechniques = [];
