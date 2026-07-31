@@ -1,14 +1,67 @@
 # Judo Mind Software Architecture
 
-## 1. Project Overview
+## Document Information
 
-Project Name:
+Project:
 Judo Mind Super App
 
-Platform:
+Document:
+Software Architecture
+
+Version:
+1.0
+
+Status:
+Approved Architecture Baseline
+
+Last Updated:
+2026-07-31
+
+---
+
+# 1. Project Overview
+
+## Project Name
+
+Judo Mind Super App
+
+## Product Type
+
+Judo Mind is a global digital Judo ecosystem.
+
+It is not limited to a Flutter mobile application.
+
+The complete product ecosystem will include:
+
+- Mobile applications
+- Web platforms
+- Administration Panel
+- Content Management System
+- Backend services
+- Artificial Intelligence services
+- Athlete systems
+- Coach systems
+- Club systems
+- Federation systems
+- Educational platforms
+- Judo knowledge infrastructure
+
+## Current Implementation Platform
+
 Flutter Mobile Application
 
-Goal:
+## Long-Term Platforms
+
+- Android
+- iOS
+- Web
+- Desktop administration platform
+- Federation dashboards
+- Club dashboards
+- Coach dashboards
+- Athlete dashboards
+
+## Goal
 
 Create a professional global Judo ecosystem connecting:
 
@@ -16,332 +69,221 @@ Create a professional global Judo ecosystem connecting:
 - Coaches
 - Clubs
 - Federations
+- Referees
+- Educators
 - Fans
+- Parents
+- Administrators
+- Judo organizations
 
+The system must be:
 
-The application must be scalable, secure and commercially ready.
-
-
----
-
-# 2. Architecture Principles
-
-Judo Mind follows:
-
-- Clean Architecture principles
-- Feature-based development
-- Modular design
-- Reusable components
-- Security-first approach
-- Scalability-oriented development
-
-
-Main objectives:
-
-- Easy maintenance
-- Fast feature development
-- Team collaboration
-- Future backend integration
-
+- Scalable
+- Secure
+- Maintainable
+- Multilingual
+- Commercially ready
+- Enterprise ready
+- Investor ready
+- Federation ready
+- AI ready
+- Cloud ready
 
 ---
 
-# 3. Current Flutter Architecture
-
-
-lib/
-
-## core
-
-Contains shared application resources.
-
-Examples:
-
-- Theme
-- Constants
-- Routes
-- Localization
-- Security
-
-
-## models
-
-Contains application data models.
-
-Examples:
-
-- Technique Model
-- User Model
-- Quiz Model
-- Translation Model
-
-
-## screens
-
-Contains user interface pages.
-
-Current modules:
-
-- Home
-- Techniques
-- Technique Detail
-
-
----
-
-# 4. Future Feature-Based Architecture
-
-
-Future structure:
-
-
-lib/
-
-core/
-
-features/
-
-
-## techniques/
-
-Responsible for Judo technique database.
-
-Contains:
-
-data/
-
-models/
-
-presentation/
-
-widgets/
-
-
-## training/
-
-Training Center module.
-
-
-## sensi_bot/
-
-AI coaching system.
-
-
-## monitoring/
-
-Athlete performance monitoring.
-
-
-## profile/
-
-Athlete identity and timeline.
-
-
----
-
-# 5. State Management Strategy
-
-
-Current:
-
-Provider
-
-
-Reason:
-
-- Stable
-- Simple
-- Already implemented
-
-
-Future:
-
-Riverpod migration ready.
-
-
-Migration should happen after:
-
-- Core architecture stabilization
-- Technique module completion
-
-
----
-
-# 6. Localization Architecture
-
-
-Supported languages:
-
-
-Current:
-
-- English
-- Persian
-
-
-Future:
-
-- Japanese
-- French
-- German
-- Russian
-
-
-Localization includes:
-
-- UI translations
-- Technique translations
-- Content localization
-
-
----
-
-# 7. Data Architecture
-
-
-Technique database is a core competitive advantage.
-
-
-Each technique contains:
-
-
-- English name
-- Japanese name
-- Persian translation
-- Category
-- Difficulty
-- Belt level
-- Images
-- Official videos
-- Technical explanation
-- Competition examples
-- Combinations
-- Counters
-- Quiz
-- Sources
-
-
----
-
-# 8. Security Architecture
-
-
-Security requirements:
-
-
-- No private keys in application code
-- Secure authentication preparation
-- Protected user data
-- Future encrypted communication
-- Backend security compatibility
-
-
----
-
-# 9. Backend Preparation
-
-
-Future backend:
-
-
-Possible technologies:
-
-- Node.js
-- Python
-- Cloud services
-
-
-Required:
-
-- API layer
-- Database
-- Authentication
-- User management
-- Subscription system
-
-
----
-
-# 10. AI Architecture
-
-
-Sensi Bot:
-
-
-Future capabilities:
-
-
-- Technique analysis
-- Training suggestions
-- Athlete feedback
-- Personalized plans
-- Mental coaching
-
-
-AI must work with:
-
-- Athlete data
-- Training history
-- Performance metrics
-
-
----
-
-# 11. Scalability Plan
-
-
-Judo Mind must support:
-
-
-Version 1:
-
-Athlete application
-
-
-Version 2:
-
-Coach and Club systems
-
-
-Version 3:
-
-Federation ecosystem
-
-
-Version 4:
-
-Global Judo Platform
-
-
----
-
-# 12. Development Workflow
-
-
-Every feature:
-
-
-1. Analyze
-2. Design
-3. Implement
-4. Test
-5. Analyze code
-6. Git commit
-
-
-Required commands:
-
-
-flutter analyze
-
-flutter run
-
-
----
-
-# Final Architecture Vision
-
+# 2. Final Architecture Vision
 
 Judo Mind is designed as:
 
-A global digital Judo ecosystem powered by technology, data and artificial intelligence.
+A global digital Judo ecosystem powered by Judo knowledge,
+sports science, technology, data and artificial intelligence.
+
+The system architecture follows this hierarchy:
+
+Business Vision
+
+↓
+
+Product Architecture
+
+↓
+
+Domain Architecture
+
+↓
+
+Knowledge Architecture
+
+↓
+
+Technical Architecture
+
+↓
+
+Backend and Cloud Infrastructure
+
+↓
+
+Flutter and Web Implementations
+
+---
+
+# 3. Architecture Principles
+
+Judo Mind follows these architectural principles:
+
+- Clean Architecture
+- Feature-based development
+- Domain-driven organization
+- Modular design
+- Reusable components
+- Separation of concerns
+- One Source of Truth
+- Documentation-first development
+- Security-first development
+- Localization-first development
+- CMS-first content architecture
+- API-first backend preparation
+- Scalability-oriented development
+- Testable architecture
+- Accessibility-aware design
+- Enterprise-ready infrastructure
+- No unnecessary technical debt
+
+## Main Objectives
+
+- Easy maintenance
+- Fast feature development
+- Safe refactoring
+- Team collaboration
+- Independent module development
+- Future backend integration
+- Future web integration
+- Future federation integration
+- Clear ownership of data
+- Consistent user experience
+- Reduced code duplication
+- Long-term product scalability
+
+---
+
+# 4. Architectural Layers
+
+Judo Mind consists of several connected architecture layers.
+
+## 4.1 Business Layer
+
+Defines:
+
+- Business model
+- Subscription plans
+- Federation licensing
+- Club licensing
+- Advertisements
+- Sponsorships
+- Premium services
+- Marketplace services
+- Educational products
+- AI services
+- Commercial partnerships
+
+## 4.2 Product Layer
+
+Defines:
+
+- Product goals
+- User groups
+- Product requirements
+- Module requirements
+- User journeys
+- Feature priorities
+- Success metrics
+- Release roadmap
+
+## 4.3 Domain Layer
+
+Defines major product domains:
+
+- Athlete
+- Coach
+- Club
+- Federation
+- Techniques
+- Training
+- Competition
+- Monitoring
+- Education
+- Artificial Intelligence
+- Content
+- Administration
+- Commerce
+- Community
+
+## 4.4 Knowledge Layer
+
+Defines the structured knowledge used throughout the ecosystem.
+
+## 4.5 Application Layer
+
+Contains:
+
+- Use cases
+- Business operations
+- State coordination
+- Validation
+- Application services
+
+## 4.6 Data Layer
+
+Contains:
+
+- Repositories
+- Data sources
+- API clients
+- Database access
+- Cache access
+- Content synchronization
+- Media services
+
+## 4.7 Presentation Layer
+
+Contains:
+
+- Screens
+- Widgets
+- Controllers
+- Providers
+- View models
+- User interactions
+- Navigation
+- Accessibility behavior
+
+## 4.8 Infrastructure Layer
+
+Contains:
+
+- Backend services
+- Cloud infrastructure
+- Authentication
+- Storage
+- Analytics
+- Monitoring
+- Notifications
+- Security
+- AI services
+
+---
+
+# 5. Current Flutter Architecture
+
+The current Flutter project uses the following structure:
+
+```text
+lib/
+├── core/
+├── models/
+├── screens/
+├── widgets/
+├── services/
+├── routes/
+└── main.dart

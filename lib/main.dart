@@ -1,3 +1,4 @@
+import 'core/theme/judo_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,7 @@ import 'core/providers/technique_provider.dart';
 import 'core/routes/app_routes.dart';
 import 'core/theme/app_theme.dart';
 import 'l10n/app_localizations.dart';
+import 'core/providers/recent_techniques_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +30,9 @@ Future<void> main() async {
   ChangeNotifierProvider<FavoriteProvider>(
     create: (_) => FavoriteProvider()..initialize(),
   ),
+  ChangeNotifierProvider(
+  create: (_) => RecentTechniquesProvider()..initialize(),
+),
 ],
       child: const JudoMindApp(),
     ),
@@ -45,7 +50,9 @@ class JudoMindApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Judo Mind',
-      theme: AppTheme.darkTheme,
+      theme: JudoTheme.dark,
+darkTheme: JudoTheme.dark,
+themeMode: ThemeMode.dark,
       locale: Locale(languageProvider.languageCode),
       localizationsDelegates: const [
         AppLocalizations.delegate,

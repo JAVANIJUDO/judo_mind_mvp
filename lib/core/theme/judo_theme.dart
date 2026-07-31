@@ -1,219 +1,235 @@
 import 'package:flutter/material.dart';
 
-import 'judo_colors.dart';
+import 'judo_design_tokens.dart';
+import 'judo_typography.dart';
 
+/// ===========================================================
+/// Judo Mind Design System 1.0
+/// Global Application Theme
+/// ===========================================================
 
-class JudoTheme {
+abstract final class JudoTheme {
+  const JudoTheme._();
 
+  static ThemeData get dark {
+    final colorScheme = const ColorScheme.dark(
+      primary: JudoColors.primary,
+      secondary: JudoColors.secondary,
+      surface: JudoColors.surface,
+      error: JudoColors.danger,
+      onPrimary: JudoColors.white,
+      onSecondary: JudoColors.white,
+      onSurface: JudoColors.textPrimary,
+      onError: JudoColors.white,
+    );
 
-  static ThemeData darkTheme = ThemeData(
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      colorScheme: colorScheme,
+      scaffoldBackgroundColor: JudoColors.background,
 
-    brightness: Brightness.dark,
+      textTheme: const TextTheme(
+        displayLarge: JudoTypography.displayLarge,
+        displayMedium: JudoTypography.displayMedium,
+        headlineLarge: JudoTypography.headingLarge,
+        headlineMedium: JudoTypography.headingMedium,
+        headlineSmall: JudoTypography.headingSmall,
+        titleLarge: JudoTypography.titleLarge,
+        titleMedium: JudoTypography.titleMedium,
+        titleSmall: JudoTypography.titleSmall,
+        bodyLarge: JudoTypography.bodyLarge,
+        bodyMedium: JudoTypography.bodyMedium,
+        bodySmall: JudoTypography.bodySmall,
+        labelLarge: JudoTypography.labelLarge,
+        labelMedium: JudoTypography.labelMedium,
+        labelSmall: JudoTypography.labelSmall,
+      ),
 
+      appBarTheme: const AppBarTheme(
+        backgroundColor: JudoColors.background,
+        foregroundColor: JudoColors.textPrimary,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        centerTitle: false,
+        titleTextStyle: JudoTypography.headingMedium,
+        iconTheme: IconThemeData(
+          color: JudoColors.textPrimary,
+          size: JudoIconSize.md,
+        ),
+      ),
 
-    scaffoldBackgroundColor:
-        JudoColors.background,
-
-
-    primaryColor:
-        JudoColors.electricBlue,
-
-
-    colorScheme: const ColorScheme.dark(
-
-      primary:
-          JudoColors.electricBlue,
-
-      secondary:
-          JudoColors.judoGold,
-
-      surface:
-          JudoColors.card,
-
-    ),
-
-
-
-    appBarTheme: const AppBarTheme(
-
-      backgroundColor:
-          JudoColors.background,
-
-      elevation: 0,
-
-      centerTitle: true,
-
-
-      titleTextStyle:
-
-          TextStyle(
-
-            color:
-                JudoColors.textPrimary,
-
-            fontSize: 22,
-
-            fontWeight:
-                FontWeight.bold,
-
+      cardTheme: CardThemeData(
+        color: JudoColors.surface,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            JudoRadius.md,
           ),
+          side: const BorderSide(
+            color: JudoColors.border,
+          ),
+        ),
+      ),
 
-    ),
+      dividerTheme: const DividerThemeData(
+        color: JudoColors.border,
+        thickness: 1,
+        space: 1,
+      ),
 
+      iconTheme: const IconThemeData(
+        color: JudoColors.textSecondary,
+        size: JudoIconSize.md,
+      ),
 
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: JudoColors.surface,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: JudoSpacing.lg,
+          vertical: JudoSpacing.md,
+        ),
+        hintStyle: JudoTypography.bodyMedium.copyWith(
+          color: JudoColors.textHint,
+        ),
+        labelStyle: JudoTypography.labelLarge,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            JudoRadius.md,
+          ),
+          borderSide: const BorderSide(
+            color: JudoColors.border,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            JudoRadius.md,
+          ),
+          borderSide: const BorderSide(
+            color: JudoColors.border,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            JudoRadius.md,
+          ),
+          borderSide: const BorderSide(
+            color: JudoColors.primary,
+            width: 1.5,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(
+            JudoRadius.md,
+          ),
+          borderSide: const BorderSide(
+            color: JudoColors.danger,
+          ),
+        ),
+      ),
 
-
-    cardTheme: CardThemeData(
-
-      color:
-          JudoColors.card,
-
-      elevation: 0,
-
-
-      shape:
-          RoundedRectangleBorder(
-
-            borderRadius:
-                BorderRadius.all(
-
-              Radius.circular(20),
-
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          minimumSize: const Size(
+            0,
+            JudoButtonHeight.normal,
+          ),
+          backgroundColor: JudoColors.primary,
+          foregroundColor: JudoColors.white,
+          elevation: 0,
+          textStyle: JudoTypography.labelLarge,
+          padding: const EdgeInsets.symmetric(
+            horizontal: JudoSpacing.lg,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              JudoRadius.md,
             ),
-
           ),
+        ),
+      ),
 
-    ),
-
-
-
-
-    textTheme: const TextTheme(
-
-
-      headlineLarge:
-
-          TextStyle(
-
-            color:
-                JudoColors.textPrimary,
-
-            fontSize: 32,
-
-            fontWeight:
-                FontWeight.bold,
-
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          minimumSize: const Size(
+            0,
+            JudoButtonHeight.normal,
           ),
-
-
-
-      headlineMedium:
-
-          TextStyle(
-
-            color:
-                JudoColors.textPrimary,
-
-            fontSize: 24,
-
-            fontWeight:
-                FontWeight.bold,
-
+          foregroundColor: JudoColors.textPrimary,
+          textStyle: JudoTypography.labelLarge,
+          padding: const EdgeInsets.symmetric(
+            horizontal: JudoSpacing.lg,
           ),
-
-
-
-      titleLarge:
-
-          TextStyle(
-
-            color:
-                JudoColors.textPrimary,
-
-            fontSize: 18,
-
-            fontWeight:
-                FontWeight.w600,
-
+          side: const BorderSide(
+            color: JudoColors.border,
           ),
-
-
-
-      bodyLarge:
-
-          TextStyle(
-
-            color:
-                JudoColors.textSecondary,
-
-            fontSize: 16,
-
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              JudoRadius.md,
+            ),
           ),
+        ),
+      ),
 
-
-    ),
-
-
-
-
-    elevatedButtonTheme:
-
-        ElevatedButtonThemeData(
-
-
-      style:
-
-          ElevatedButton.styleFrom(
-
-            backgroundColor:
-                JudoColors.electricBlue,
-
-
-            foregroundColor:
-                Colors.white,
-
-
-            minimumSize:
-
-                const Size(
-
-                  double.infinity,
-
-                  52,
-
-                ),
-
-
-
-            shape:
-
-                RoundedRectangleBorder(
-
-                  borderRadius:
-                      BorderRadius.circular(16),
-
-                ),
-
-
-
-            textStyle:
-
-                const TextStyle(
-
-                  fontSize: 16,
-
-                  fontWeight:
-                      FontWeight.bold,
-
-                ),
-
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          minimumSize: const Size(
+            0,
+            JudoButtonHeight.compact,
           ),
+          foregroundColor: JudoColors.primary,
+          textStyle: JudoTypography.labelLarge,
+          padding: const EdgeInsets.symmetric(
+            horizontal: JudoSpacing.md,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              JudoRadius.sm,
+            ),
+          ),
+        ),
+      ),
 
-    ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: JudoColors.surfaceVariant,
+        contentTextStyle: JudoTypography.bodyMedium,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            JudoRadius.md,
+          ),
+        ),
+      ),
 
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: JudoColors.surface,
+        modalBackgroundColor: JudoColors.surface,
+        surfaceTintColor: Colors.transparent,
+        showDragHandle: false,
+      ),
 
+      dialogTheme: DialogThemeData(
+        backgroundColor: JudoColors.surface,
+        surfaceTintColor: Colors.transparent,
+        titleTextStyle: JudoTypography.headingMedium,
+        contentTextStyle: JudoTypography.bodyMedium,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            JudoRadius.lg,
+          ),
+        ),
+      ),
 
-  );
-
-
+      progressIndicatorTheme:
+          const ProgressIndicatorThemeData(
+        color: JudoColors.primary,
+        linearTrackColor: JudoColors.surfaceVariant,
+        circularTrackColor: JudoColors.surfaceVariant,
+      ),
+    );
+  }
 }

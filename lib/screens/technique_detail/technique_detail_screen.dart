@@ -1,18 +1,27 @@
+import 'widgets/competition/competition_section.dart';
+import 'widgets/tactical/tactical_intelligence_section.dart';
+import 'widgets/description/description_section.dart';
+import 'widgets/ijf_profile/ijf_profile_section.dart';
+import 'widgets/media/media_section.dart';
+import 'widgets/basic_info/basic_info_section.dart';
+import 'widgets/hero/hero_section.dart';
+import 'widgets/sections/technical_analysis_section.dart';
+import 'widgets/sections/overview_section.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../models/technique_model.dart';
 import '../../core/widgets/judo_card.dart';
 import '../../core/widgets/judo_icon.dart';
 import '../../core/widgets/judo_section_title.dart';
 import 'widgets/technical_analysis.dart';
 import 'widgets/quiz_section.dart';
-import 'widgets/video_buttons.dart';
+import 'widgets/technique_dashboard_grid.dart';
+import 'widgets/technique_bottom_sheet.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/language/language_provider.dart';
 import '../../core/providers/favorite_provider.dart';
 import '../../core/widgets/judo_premium_button.dart';
-
+import '../../core/providers/recent_techniques_provider.dart';
 class TechniqueDetailScreen extends StatelessWidget {
 
   final TechniqueModel technique;
@@ -24,21 +33,50 @@ class TechniqueDetailScreen extends StatelessWidget {
   });
 
 
-  Future<void> openVideo(String url) async {
+void _openTechniqueSection(
+  BuildContext context,
+  TechniqueDashboardSection section,
+) {
+  switch (section) {
+   
 
-    final Uri uri = Uri.parse(url);
+    case TechniqueDashboardSection.overview:
+  TechniqueBottomSheet.show(
+    context: context,
+    title: 'Overview',
+    icon: Icons.dashboard_customize_outlined,
+    child: OverviewSection(
+      technique: technique,
+    ),
+  );
+  break;
 
-    if (await canLaunchUrl(uri)) {
+case TechniqueDashboardSection.technicalAnalysis:
+  TechniqueBottomSheet.show(
+    context: context,
+    title: 'Technical Analysis',
+    icon: Icons.analytics_outlined,
+    child: TechnicalAnalysisSection(
+      technique: technique,
+    ),
+  );
+  break;
 
-      await launchUrl(
-        uri,
-        mode: LaunchMode.externalApplication,
+    default:
+      TechniqueBottomSheet.show(
+        context: context,
+        title: 'Coming Soon',
+        icon: Icons.construction_outlined,
+        child: const Text(
+          'This section will be available soon.',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+          ),
+        ),
       );
-
-    }
-
   }
-
+}
 
   @override
   Widget build(BuildContext context) {
@@ -59,23 +97,71 @@ final translation =
       backgroundColor: const Color(0xFF050505),
 
       appBar: AppBar(
+  backgroundColor: const Color(0xFF050505),
+  foregroundColor: Colors.white,
+  elevation: 0,
+  title: Text(
+    translation?.name ?? technique.nameEn,
+    style: const TextStyle(
+      color: Color(0xFFD4AF37),
+      fontSize: 32,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+  actions: [
 
-        backgroundColor: const Color(0xFF050505),
+    Consumer<FavoriteProvider>(
+      builder: (context, favoriteProvider, child) {
 
-        foregroundColor: Colors.white,
+        final isFavorite =
+            favoriteProvider.isFavorite(technique.id);
 
-        elevation: 0,
+        return IconButton(
 
-        title: Text(
-  translation?.name ?? technique.nameEn,
+          splashRadius: 26,
 
-          style: const TextStyle(color: Color(0xFFD4AF37),
+          onPressed: () async {
 
-    fontSize: 32,
-            fontWeight: FontWeight.bold,
+            await favoriteProvider.toggleFavorite(
+              technique.id,
+            );
+
+          },
+
+          icon: AnimatedSwitcher(
+
+            duration: const Duration(milliseconds: 250),
+
+            child: Icon(
+
+              isFavorite
+                  ? Icons.bookmark_rounded
+                  : Icons.bookmark_add_outlined,
+
+              key: ValueKey(isFavorite),
+
+              color: isFavorite
+                  ? const Color(0xFFD4AF37)
+                  : Colors.white,
+
+              size: 30,
+
+            ),
+
           ),
-        ),
-      ),
+
+        );
+
+      },
+
+    ),
+
+    const SizedBox(width: 10),
+
+  ],
+
+),
+        
 
 
       body: SingleChildScrollView(
@@ -99,38 +185,25 @@ final translation =
               children: [
 
 
-                Text(
+                HeroSection(
+  technique: technique,
+  title: translation?.name ?? technique.nameEn,
+),
 
-  translation?.name ?? technique.nameEn,
-
-
-                  style: const TextStyle(
-
-                    color: Color(0xFFD4AF37),
-
-                    fontSize: 32,
-
-                    fontWeight: FontWeight.bold,
-
-                  ),
-
-                ),
-
-
-                const SizedBox(height: 20),
+const SizedBox(height: 20),
 
 
 
-                _BasicInfoCard(
-                  technique: technique,
-                ),
+                BasicInfoSection(
+  technique: technique,
+),
 
 
 
                 const SizedBox(height: 25),
 
 
-                _IJFProfileCard(
+                IjfProfileSection(
   technique: technique,
 ),
 
@@ -138,9 +211,9 @@ const SizedBox(height: 25),
 
 
 
-                _TechniqueMedia(
-                  technique: technique,
-                ),
+                MediaSection(
+  technique: technique,
+),
 
 
 
@@ -148,18 +221,11 @@ const SizedBox(height: 25),
 
 
 
-                _SectionTitle(
+                DescriptionSection(
   title: l10n.description,
+  description:
+      translation?.description ?? technique.description,
 ),
-
-
-                const SizedBox(height: 10),
-
-
-
-                _BodyText(
-                  text: translation?.description ?? technique.description
-                ),
 
 
 
@@ -186,11 +252,20 @@ const SizedBox(height: 25),
 
 ),
 
+TechniqueDashboardGrid(
+  onSectionTap: (section) {
+    _openTechniqueSection(
+      context,
+      section,
+    );
+  },
+),
+
 
 
                 const SizedBox(height: 30),
 
-_TacticalIntelligenceCard(
+TacticalIntelligenceSection(
   technique: technique,
 ),
 
@@ -200,17 +275,12 @@ _ChampionsCard(
 ),
 
 const SizedBox(height: 30),
-_CompetitionAnalysisCard(
+
+CompetitionAnalysisSection(
   technique: technique,
 ),
 
-const SizedBox(height: 30),
-
-_CompetitionAnalysisCard(
-  technique: technique,
-),
-
-const SizedBox(height: 30),
+const SizedBox(height: 24),
 
 _TechniqueActions(
   technique: technique,
@@ -317,645 +387,6 @@ title: l10n.source,
   }
 
 }
-
-class _BasicInfoCard extends StatelessWidget {
-
-  final TechniqueModel technique;
-
-
-  const _BasicInfoCard({
-    required this.technique,
-  });
-
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Container(
-
-      width: double.infinity,
-
-      padding: const EdgeInsets.all(18),
-
-      decoration: BoxDecoration(
-
-        color: const Color(0xFF111111),
-
-        borderRadius: BorderRadius.circular(18),
-
-        border: Border.all(
-          color: const Color(0xFF0066FF),
-        ),
-
-      ),
-
-
-      child: Wrap(
-
-        spacing: 12,
-
-        runSpacing: 12,
-
-
-        children: [
-
-
-          _InfoChip(
-            label: "Category",
-            value: technique.category,
-          ),
-
-
-          _InfoChip(
-            label: "Type",
-            value: technique.type,
-          ),
-
-
-          _InfoChip(
-            label: "Level",
-            value: technique.beltLevel,
-          ),
-
-
-        ],
-
-      ),
-
-    );
-
-  }
-
-}
-
-class _IJFProfileCard extends StatelessWidget {
-
-  final TechniqueModel technique;
-
-  const _IJFProfileCard({
-    required this.technique,
-  });
-
-
-  @override
-  Widget build(BuildContext context) {
-    
-    final l10n = AppLocalizations.of(context)!;
-
-    return Container(
-
-      width: double.infinity,
-
-      padding: const EdgeInsets.all(20),
-
-      decoration: BoxDecoration(
-
-        color: const Color(0xFF111111),
-
-        borderRadius: BorderRadius.circular(20),
-
-        border: Border.all(
-
-          color: const Color(0xFFD4AF37),
-
-        ),
-
-      ),
-
-
-      child: Column(
-
-        crossAxisAlignment: CrossAxisAlignment.start,
-
-        children: [
-
-          Text(
-  AppLocalizations.of(context)!.ijfProfile,
-
-            style: TextStyle(
-
-              color: Color(0xFFD4AF37),
-
-              fontSize: 22,
-
-              fontWeight: FontWeight.bold,
-
-            ),
-
-          ),
-
-
-          const SizedBox(height: 15),
-
-
-          _ProfileRow(
-
-title: AppLocalizations.of(context)!.classification,
-            value: technique.ijfClassification,
-
-          ),
-
-
-          _ProfileRow(
-
-title: AppLocalizations.of(context)!.difficulty,
-            value: technique.difficulty,
-
-          ),
-
-
-          _ProfileRow(
-
-title: AppLocalizations.of(context)!.competitionUsage,
-            value: technique.competitionUsage,
-
-          ),
-
-        ],
-
-      ),
-
-    );
-
-  }
-
-}
-
-
-
-
-class _ProfileRow extends StatelessWidget {
-
-
-  final String title;
-
-  final String value;
-
-
-  const _ProfileRow({
-
-    required this.title,
-
-    required this.value,
-
-  });
-
-
-
-  @override
-  Widget build(BuildContext context) {
-
-
-    return Padding(
-
-      padding: const EdgeInsets.only(bottom: 10),
-
-
-      child: Row(
-
-        crossAxisAlignment: CrossAxisAlignment.start,
-
-
-        children: [
-
-
-          SizedBox(
-
-            width: 150,
-
-            child: Text(
-
-              title,
-
-              style: const TextStyle(
-
-                color: Colors.white54,
-
-              ),
-
-            ),
-
-          ),
-
-
-          Expanded(
-
-            child: Text(
-
-              value,
-
-              style: const TextStyle(
-
-                color: Colors.white,
-
-                fontWeight: FontWeight.bold,
-
-              ),
-
-            ),
-
-          ),
-
-
-        ],
-
-      ),
-
-    );
-
-
-  }
-
-}
-
-
-
-class _InfoChip extends StatelessWidget {
-
-  final String label;
-
-  final String value;
-
-
-  const _InfoChip({
-
-    required this.label,
-
-    required this.value,
-
-  });
-
-
-  @override
-  Widget build(BuildContext context) {
-
-
-    return Container(
-
-      padding: const EdgeInsets.symmetric(
-        horizontal: 14,
-        vertical: 10,
-      ),
-
-
-      decoration: BoxDecoration(
-
-        color: const Color(0xFF080808),
-
-        borderRadius: BorderRadius.circular(14),
-
-      ),
-
-
-
-      child: RichText(
-
-        text: TextSpan(
-
-          children: [
-
-
-            TextSpan(
-
-              text: "$label: ",
-
-              style: const TextStyle(
-                color: Colors.white54,
-              ),
-
-            ),
-
-
-            TextSpan(
-
-              text: value,
-
-              style: const TextStyle(
-
-                color: Color(0xFF0066FF),
-
-                fontWeight: FontWeight.bold,
-
-              ),
-
-            ),
-
-          ],
-
-        ),
-
-      ),
-
-    );
-
-  }
-
-}
-
-
-
-
-
-
-class _TechniqueMedia extends StatelessWidget {
-
-  final TechniqueModel technique;
-
-  const _TechniqueMedia({
-    required this.technique,
-  });
-
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
-    return Column(
-
-      crossAxisAlignment: CrossAxisAlignment.start,
-
-      children: [
-
-       _SectionTitle(
-  title: l10n.officialMedia,
-),
-
-
-        const SizedBox(height: 15),
-
-
-        if (technique.images.isNotEmpty)
-
-          Container(
-
-            height: 350,
-
-            width: double.infinity,
-
-            decoration: BoxDecoration(
-
-              color: const Color(0xFF111111),
-
-              borderRadius: BorderRadius.circular(20),
-
-            ),
-
-
-            child: ClipRRect(
-
-              borderRadius: BorderRadius.circular(20),
-
-              child: Image.asset(
-
-                technique.images.first,
-
-                fit: BoxFit.contain,
-
-
-                errorBuilder:
-                    (context, error, stackTrace) {
-
-                  return const Center(
-
-                    child: Text(
-
-                      "Image not available",
-
-                      style: TextStyle(
-
-                        color: Colors.white54,
-
-                      ),
-
-                    ),
-
-                  );
-
-                },
-
-              ),
-
-            ),
-
-          ),
-
-
-        const SizedBox(height: 20),
-
-
-        Text(
-
-            l10n.videoLibrary,
-
-            style: const TextStyle(
-
-              color: Color(0xFFD4AF37),
-
-              fontSize: 18,
-
-              fontWeight: FontWeight.bold,
-
-  ),
-
-),
-
-
-        const SizedBox(height: 12),
-
-
-        ...technique.videos.map(
-
-          (video) {
-
-            return Padding(
-
-              padding: const EdgeInsets.only(
-                bottom: 10,
-              ),
-
-
-              child: InkWell(
-
-                borderRadius: BorderRadius.circular(14),
-
-
-                onTap: () async {
-
-                  final uri = Uri.tryParse(video);
-
-
-                  if (uri != null) {
-
-                    await launchUrl(
-
-                      uri,
-
-                      mode:
-                          LaunchMode.externalApplication,
-
-                    );
-
-                  }
-
-                },
-
-
-                child: JudoCard(
-
-                  child: Row(
-
-                    children: [
-
-                      const Icon(
-
-                        Icons.play_circle_outline,
-
-                        color: Color(0xFFD4AF37),
-
-                      ),
-
-
-                      const SizedBox(width: 12),
-
-
-                      Expanded(
-
-                        child: Text(
-
-                          video,
-
-                          style:
-                              const TextStyle(
-
-                            color:
-                                Colors.white70,
-
-                          ),
-
-                        ),
-
-                      ),
-
-                    ],
-
-                  ),
-
-                ),
-
-              ),
-
-            );
-
-          },
-
-        ),
-
-
-        const SizedBox(height: 25),
-
-
-       TechniqueVideoButtons(
-
-  trainingVideo: technique.trainingVideo,
-
-  competitionVideo: technique.competitionVideo,
-
-),
-
-      ],
-
-    );
-
-  }
-
-}
-
-
-class _SectionTitle extends StatelessWidget {
-
-  final String title;
-
-
-  const _SectionTitle({
-
-    required this.title,
-
-  });
-
-
-
-  @override
-  Widget build(BuildContext context) {
-
-
-    return Text(
-
-      title,
-
-
-      style: const TextStyle(
-
-        color: Colors.white,
-
-        fontSize: 24,
-
-        fontWeight: FontWeight.bold,
-
-      ),
-
-    );
-
-  }
-
-}
-
-
-
-
-
-
-class _BodyText extends StatelessWidget {
-
-
-  final String text;
-
-
-  const _BodyText({
-
-    required this.text,
-
-  });
-
-
-
-  @override
-  Widget build(BuildContext context) {
-
-
-    return Text(
-
-      text,
-
-
-      style: const TextStyle(
-
-        color: Colors.white70,
-
-        fontSize: 16,
-
-        height: 1.6,
-
-      ),
-
-    );
-
-  }
-
-}
-
-
-
-
 
 
 class _StringListSection extends StatelessWidget {
@@ -1072,246 +503,8 @@ class _StringListSection extends StatelessWidget {
   }
 
 }
-class _TacticalIntelligenceCard extends StatelessWidget {
 
-  final TechniqueModel technique;
 
-
-  const _TacticalIntelligenceCard({
-    required this.technique,
-  });
-
-
-
-  @override
-  Widget build(BuildContext context) {
-
-
-    return Container(
-
-      width: double.infinity,
-
-      padding: const EdgeInsets.all(20),
-
-
-      decoration: BoxDecoration(
-
-        color: const Color(0xFF111111),
-
-        borderRadius: BorderRadius.circular(20),
-
-        border: Border.all(
-
-          color: const Color(0xFF0066FF),
-
-        ),
-
-      ),
-
-
-
-      child: Column(
-
-        crossAxisAlignment: CrossAxisAlignment.start,
-
-
-        children: [
-
-
-          const Text(
-
-            "Tactical Intelligence",
-
-            style: TextStyle(
-
-              color: Color(0xFF0066FF),
-
-              fontSize: 22,
-
-              fontWeight: FontWeight.bold,
-
-            ),
-
-          ),
-
-
-          const SizedBox(height: 15),
-
-
-
-          _TacticalRow(
-
-            title: "Grip Strategy",
-
-            value: technique.gripStrategy,
-
-          ),
-
-
-
-          _TacticalRow(
-
-            title: "Body Position",
-
-            value: technique.bodyPosition,
-
-          ),
-
-
-
-          if (technique.tacticalNotes.isNotEmpty)
-
-            Column(
-
-              crossAxisAlignment: CrossAxisAlignment.start,
-
-              children: [
-
-
-                const SizedBox(height: 15),
-
-
-                const Text(
-
-                  "Tactical Notes",
-
-                  style: TextStyle(
-
-                    color: Colors.white,
-
-                    fontWeight: FontWeight.bold,
-
-                  ),
-
-                ),
-
-
-                const SizedBox(height: 8),
-
-
-                ...technique.tacticalNotes.map(
-
-                  (note) => Padding(
-
-                    padding:
-
-                        const EdgeInsets.only(bottom: 6),
-
-                    child: Text(
-
-                      "• $note",
-
-                      style: const TextStyle(
-
-                        color: Colors.white70,
-
-                      ),
-
-                    ),
-
-                  ),
-
-                ),
-
-              ],
-
-            ),
-
-
-        ],
-
-      ),
-
-    );
-
-
-  }
-
-}
-
-
-
-
-
-class _TacticalRow extends StatelessWidget {
-
-
-  final String title;
-
-  final String value;
-
-
-
-  const _TacticalRow({
-
-    required this.title,
-
-    required this.value,
-
-  });
-
-
-
-  @override
-  Widget build(BuildContext context) {
-
-
-    return Padding(
-
-      padding: const EdgeInsets.only(bottom: 10),
-
-
-      child: Column(
-
-        crossAxisAlignment: CrossAxisAlignment.start,
-
-
-        children: [
-
-
-          Text(
-
-            title,
-
-            style: const TextStyle(
-
-              color: Colors.white54,
-
-            ),
-
-          ),
-
-
-
-          const SizedBox(height: 3),
-
-
-
-          Text(
-
-            value,
-
-            style: const TextStyle(
-
-              color: Colors.white,
-
-              fontWeight: FontWeight.bold,
-
-            ),
-
-          ),
-
-
-        ],
-
-      ),
-
-    );
-
-
-  }
-
-}
 class _ChampionsCard extends StatelessWidget {
 
   final TechniqueModel technique;
@@ -1530,133 +723,7 @@ class _TechniqueActions extends StatelessWidget {
     );
   }
 }
-class _CompetitionAnalysisCard extends StatelessWidget {
 
-  final TechniqueModel technique;
-
-  const _CompetitionAnalysisCard({
-    required this.technique,
-  });
-
-
-  @override
-  Widget build(BuildContext context) {
-
-    if (technique.competitionInsights.isEmpty) {
-      return const SizedBox();
-    }
-
-
-    return Container(
-
-      width: double.infinity,
-
-      padding: const EdgeInsets.all(20),
-
-      decoration: BoxDecoration(
-
-        color: const Color(0xFF111111),
-
-        borderRadius: BorderRadius.circular(20),
-
-        border: Border.all(
-          color: const Color(0xFF0066FF),
-        ),
-
-      ),
-
-
-      child: Column(
-
-        crossAxisAlignment: CrossAxisAlignment.start,
-
-        children: [
-
-          const Text(
-
-            "Competition Analysis",
-
-            style: TextStyle(
-
-              color: Color(0xFF0066FF),
-
-              fontSize: 22,
-
-              fontWeight: FontWeight.bold,
-
-            ),
-
-          ),
-
-
-          const SizedBox(height: 15),
-
-
-          ...technique.competitionInsights.map(
-
-            (item) => Padding(
-
-              padding: const EdgeInsets.only(bottom: 8),
-
-              child: Row(
-
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-
-                children: [
-
-                  const Text(
-
-                    "•",
-
-                    style: TextStyle(
-
-                      color: Color(0xFFD4AF37),
-
-                      fontSize: 20,
-
-                    ),
-
-                  ),
-
-                  const SizedBox(width: 8),
-
-
-                  Expanded(
-
-                    child: Text(
-
-                      item,
-
-                      style: const TextStyle(
-
-                        color: Colors.white70,
-
-                        height: 1.5,
-
-                      ),
-
-                    ),
-
-                  ),
-
-                ],
-
-              ),
-
-            ),
-
-          ),
-
-        ],
-
-      ),
-
-    );
-
-  }
-
-}
 class _TechniqueMasteryCard extends StatelessWidget {
 
   final TechniqueModel technique;

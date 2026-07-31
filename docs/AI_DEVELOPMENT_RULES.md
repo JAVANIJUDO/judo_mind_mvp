@@ -1,17 +1,44 @@
 # Judo Mind AI Development Rules
 
-## 1. Project Identity
+Version:
+2.0
+
+Status:
+Active Development Standard
+
+---
+
+# 1. Project Identity
 
 Project Name:
+
 Judo Mind Super App
 
+
 Platform:
+
 Flutter Mobile Application
 
+
+Product Type:
+
+Global Digital Judo Ecosystem
+
+
 Purpose:
-A professional digital ecosystem for judoka athletes, coaches, clubs, and federations.
+
+A professional digital ecosystem connecting:
+
+- Athletes
+- Coaches
+- Clubs
+- Federations
+- Fans
+- Administrators
+
 
 Main Vision:
+
 Train Your Body, Master Your Mind.
 
 
@@ -19,78 +46,174 @@ Train Your Body, Master Your Mind.
 
 # 2. Development Philosophy
 
-All development decisions must follow these principles:
+All development decisions must follow:
 
 - Professional software architecture
-- Clean and maintainable code
-- Scalability for future modules
+- Clean Architecture principles
+- Modular development
+- Scalability
 - Security-first approach
+- Localization-first approach
+- CMS-first content strategy
 - Performance optimization
-- User experience excellence
+- Excellent user experience
+- Documentation synchronization
 
 
-The application must be designed as a commercial international product.
+Judo Mind must always be developed as a commercial international product.
 
 
 ---
 
-# 3. Coding Rules
+# 3. AI Assistant Role
 
-Before changing any important file:
+AI assistant is considered a development partner.
+
+Before generating or modifying code:
+
+Required process:
+
+Analysis
+
+↓
+
+Architecture Check
+
+↓
+
+Dependency Review
+
+↓
+
+Design Decision
+
+↓
+
+Implementation
+
+↓
+
+Testing
+
+↓
+
+Documentation Update
+
+↓
+
+Git Commit
+
+
+AI must not:
+
+- Guess missing project structure
+- Break existing features
+- Create duplicate architecture
+- Ignore documentation
+- Replace approved decisions without review
+
+
+---
+
+# 4. Coding Rules
+
+Before changing important files:
 
 1. Analyze existing architecture.
 2. Check dependencies.
-3. Avoid unnecessary modifications.
+3. Check related documentation.
 4. Preserve existing functionality.
+5. Avoid unnecessary modifications.
 
 
 Coding requirements:
 
-- Use clean Dart and Flutter standards.
-- Avoid duplicated code.
-- Create reusable components.
-- Keep files modular.
-- Use meaningful names.
-- Maintain readable structure.
+- Clean Dart and Flutter standards
+- Reusable components
+- Modular files
+- Meaningful naming
+- Readable structure
+- Low technical debt
+- Testable code
 
 
 ---
 
-# 4. Flutter Architecture Rules
+# 5. Flutter Architecture Rules
 
-The project should move toward Feature-Based Architecture.
+The project must gradually move toward Feature-Based Architecture.
 
-Example:
+
+Target:
 
 lib/
 
 core/
-- constants
-- theme
-- language
-- security
-
-models/
 
 features/
 
-techniques/
-- data
-- models
-- presentation
-- widgets
+shared/
 
 
-Each module should be independent and expandable.
+Each module should be:
+
+- Independent
+- Expandable
+- Testable
+- Maintainable
 
 
 ---
 
-# 5. Data Management Rules
+# 6. Localization Rules
 
-All Judo technique data must follow the approved Technique Model.
+Internationalization is mandatory.
 
-Each technique should include:
+No user-facing text should be permanently hardcoded.
+
+
+Wrong:
+
+Text("Training")
+
+
+Correct:
+
+Text(context.l10n.training)
+
+
+Supported languages:
+
+- English
+- Persian
+- Japanese
+- French
+- German
+- Spanish
+- Russian
+- Arabic
+
+
+Requirements:
+
+- RTL support
+- LTR support
+- Runtime language switching
+- Localized content
+- Localized CMS data
+
+
+---
+
+# 7. Technique Data Rules
+
+Technique Module is a core competitive advantage.
+
+
+Each technique should support:
+
+
+Identity:
 
 - English name
 - Japanese name
@@ -98,58 +221,165 @@ Each technique should include:
 - Category
 - Difficulty
 - Belt level
-- Images
-- Official videos
-- Technical analysis
+
+
+Technical Layer:
+
+- Kuzushi
+- Tsukuri
+- Kake
 - Execution steps
+- Key points
 - Common mistakes
+
+
+Biomechanics Layer:
+
+- Movement analysis
+- Force direction
+- Center of gravity
+- Muscle activation
+
+
+Training Layer:
+
+- Shadow training
+- Uchikomi
+- Nagekomi
+- Conditioning
+- Mobility
+
+
+Competition Layer:
+
+- Tactical application
 - Combinations
 - Counters
-- Quiz
-- Sources
+- Match analysis
 
+
+AI Layer:
+
+- Recommendations
+- Progress analysis
+- Personalized training
+
+
+Sources:
 
 Official sources must be prioritized.
 
+---
+
+# 8. CMS and Content Management Rules
+
+Application content must not depend on Flutter code changes.
+
+
+Administrators must be able to manage:
+
+- Text
+- Images
+- Videos
+- Audio
+- Techniques
+- Quiz
+- Courses
+- News
+- Champions
+- Translations
+
+
+All content should be prepared for:
+
+Flutter App
+
+↓
+
+API
+
+↓
+
+Backend
+
+↓
+
+CMS
+
 
 ---
 
-# 6. Security Rules
+# 9. Design System Rules
 
-Security must be considered from the beginning.
+All UI development must follow the Judo Mind Design System.
+
+
+Avoid:
+
+- Random colors
+- Random spacing
+- Duplicate widgets
+
+
+Use:
+
+- Theme
+- Colors
+- Typography
+- Spacing
+- Radius
+- Components
+
+
+---
+
+# 10. Security Rules
+
+Security must exist from the beginning.
+
 
 Rules:
 
-- Never store private keys inside the application.
-- Never expose sensitive information.
-- Prepare architecture for secure backend connection.
-- Use authentication best practices.
-- Protect user data.
+- Never store private keys in app code.
+- Never expose sensitive data.
+- Use secure authentication.
+- Protect user information.
+- Prepare backend security.
+- Validate input.
+- Control permissions.
 
 
 ---
 
-# 7. Git Workflow
+# 11. Git Workflow
 
 Before major changes:
+
 
 1. Test application.
 2. Run:
 
 flutter analyze
 
-3. Run application.
-4. Create Git commit.
+
+3. Run:
+
+flutter run
 
 
-Commit messages must clearly describe changes.
+4. Update documentation.
+5. Create Git commit.
+
+
+Commit messages must describe changes.
 
 
 Example:
 
 Good:
 
-Add technique filter optimization
+feat(techniques): add dashboard architecture
+
 
 Bad:
 
@@ -158,38 +388,208 @@ Update
 
 ---
 
-# 8. AI Assistant Collaboration Rules
+# 12. Documentation Rules
 
-AI-generated code must:
-
-- Respect current project structure.
-- Avoid breaking existing features.
-- Provide complete files for major changes.
-- Explain architectural decisions.
-- Avoid assumptions without checking files.
+No important decision should exist only in conversation.
 
 
-For important modifications:
+Required updates:
 
-Required process:
+- ARCHITECTURE.md
+- PROJECT_STATUS.md
+- CHANGELOG.md
+- DECISION_LOG.md
+- PRODUCT_REQUIREMENTS.md
 
-Analysis → Design → Implementation → Test → Commit
+
+Documentation and code must always remain synchronized.
 
 
 ---
 
-# 9. Product Development Rules
+# 13. Product Development Rules
 
-Judo Mind is not only a technical project.
+Judo Mind is not only software.
 
-All decisions must consider:
+Every decision must consider:
 
 - Judo expertise
 - Athlete experience
 - Coach requirements
-- Federation needs
+- Federation requirements
 - Business model
 - Competitive advantage
+- International scalability
 
 
-The goal is to build a world-class Judo platform.
+---
+
+# 14. Final Development Rule
+
+Before creating any feature, ask:
+
+
+1. Is it defined in Product Requirements?
+
+2. Is the architecture location clear?
+
+3. Does it support multilingual users?
+
+4. Can CMS manage it in the future?
+
+5. Is security considered?
+
+6. Is it documented?
+
+
+Only after these answers:
+
+Development begins.
+
+
+---
+
+# Final Goal
+
+Build the world's most complete digital Judo ecosystem powered by:
+
+- Judo knowledge
+- Sports science
+- Artificial intelligence
+- Data
+- Professional software architecture
+---
+
+# 11. Continuous Documentation Synchronization
+
+## Purpose
+
+To ensure that the Judo Mind project remains maintainable, scalable, and understandable throughout its lifecycle, all development activities must be synchronized with the project documentation.
+
+---
+
+## Mandatory Rules
+
+Every significant change to the project must update the related documentation before the task is considered complete.
+
+No architecture, feature, module, or technical decision is allowed to exist only in the source code.
+
+Documentation is considered part of the implementation.
+
+---
+
+## Required Documentation Updates
+
+### Feature Development
+
+Update:
+
+- CHANGELOG.md
+- PROJECT_STATUS.md
+
+---
+
+### Architecture Changes
+
+Update:
+
+- ARCHITECTURE.md
+- DECISION_LOG.md
+
+---
+
+### Product Changes
+
+Update:
+
+- PRODUCT_REQUIREMENTS.md
+
+---
+
+### Development Process Changes
+
+Update:
+
+- AI_DEVELOPMENT_RULES.md
+
+---
+
+## Completion Checklist
+
+A development task is complete only when all of the following are finished:
+
+- Source code implemented
+- Flutter Analyze passed
+- Documentation updated
+- Decision Log updated (if needed)
+- Changelog updated
+- Project Status updated
+
+---
+
+## Version Control Philosophy
+
+Documentation is treated as a first-class project asset.
+
+The documentation must always represent the latest approved architecture and implementation.
+
+Project knowledge must never depend solely on conversation history.
+
+---
+
+Status:
+Approved
+
+Effective From:
+2026-07-31
+
+Project:
+Judo Mind Super App
+
+# Design System Rules
+
+All UI components must use the centralized Design Tokens.
+
+Forbidden:
+
+- Hard-coded colors
+- Hard-coded spacing
+- Hard-coded radius
+- Hard-coded animation duration
+- Hard-coded icon sizes
+
+Required:
+
+JudoColors
+
+JudoSpacing
+
+JudoRadius
+
+JudoButtonHeight
+
+JudoAnimation
+
+This guarantees visual consistency across all 17 modules.
+
+## Typography Rules
+
+All application text styles must use:
+
+- JudoTypography
+- Theme typography derived from JudoTypography
+
+Forbidden:
+
+- Hard-coded font sizes inside feature widgets
+- Hard-coded font weights without design-system approval
+- Feature-specific typography systems
+- Fixed language-specific fonts inside reusable widgets
+
+Typography must support:
+
+- LTR languages
+- RTL languages
+- Japanese characters
+- Cyrillic characters
+- Responsive mobile and tablet layouts
