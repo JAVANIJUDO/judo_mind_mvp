@@ -536,3 +536,97 @@ Impact:
 - Better internationalization
 - Easier CMS integration
 - Professional presentation for investors and federations
+
+## JM-DEC-010
+
+Date:
+2026-08-01
+
+Status:
+Approved
+
+Title:
+Uchi Mata as the Official Reference Technique
+
+Decision:
+
+Uchi Mata is approved as the official reference implementation for all Judo Mind techniques.
+
+Its architecture will define:
+
+- Learning flow
+- Dashboard structure
+- Media architecture
+- AI analysis access
+- CMS data requirements
+- Localization behavior
+- Subscription behavior
+- Design System usage
+
+Impact:
+
+All 67 official techniques must use the same scalable architecture.
+
+---
+
+## JM-DEC-011
+
+Date:
+2026-08-01
+
+Status:
+Approved
+
+Title:
+Universal AI Video Analysis Access
+
+Decision:
+
+Video upload and AI analysis will be available at every subscription level.
+
+Plans will differ by:
+
+- Monthly credits
+- Analysis depth
+- Report capabilities
+- Storage
+- Coach services
+- Team-management access
+
+Impact:
+
+Lower-tier users can experience the core AI value while paid tiers receive greater capacity and professional functionality.
+
+---
+
+## JM-DEC-012
+
+Date:
+2026-08-01
+
+Status:
+Approved
+
+Title:
+Sensi Bot AI Fight Intelligence 360
+
+Decision:
+
+Judo Mind AI analysis must evaluate the complete interaction between athlete and opponent.
+
+Required analysis includes:
+
+- Opponent guard
+- Grip configuration
+- Attack and defense position
+- Push and pull reactions
+- Balance weakness
+- Weight transfer
+- Attack timing
+- Counter risks
+- Tactical patterns
+- Match timeline
+
+Impact:
+
+Sensi Bot evolves from an AI chat assistant into the central intelligence engine of Judo Mind.

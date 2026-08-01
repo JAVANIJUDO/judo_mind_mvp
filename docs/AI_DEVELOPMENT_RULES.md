@@ -593,3 +593,445 @@ Typography must support:
 - Japanese characters
 - Cyrillic characters
 - Responsive mobile and tablet layouts
+
+# Reference Technique Development Rules
+
+## 1. Reference Technique
+
+Uchi Mata is the official Reference Technique of Judo Mind.
+
+All future official techniques must follow the approved Uchi Mata:
+
+- Architecture
+- Data structure
+- Learning flow
+- Visual hierarchy
+- Media structure
+- AI analysis structure
+- Dashboard organization
+- Localization rules
+- CMS compatibility
+- Subscription access rules
+
+A new technique may not introduce an independent architecture outside this reference without an approved architectural decision.
+
+---
+
+## 2. Technique Learning Flow
+
+Every official technique must support five learning layers:
+
+1. Watch
+2. Understand
+3. Practice
+4. Analyze
+5. Master
+
+### Watch
+
+Must support:
+
+- Official image
+- Training video
+- Competition video
+- Slow-motion media
+- Step animation
+- Optional 3D demonstration
+
+### Understand
+
+Must support:
+
+- Overview
+- Kuzushi
+- Tsukuri
+- Kake
+- Technical key points
+- Biomechanics
+- Grip requirements
+- Body position
+- Common mistakes
+- Safety guidance
+
+Text-only instruction is not sufficient for major execution phases.
+
+Kuzushi, Tsukuri and Kake must support:
+
+- Text
+- Image
+- Animation
+- Video
+- Optional frame-by-frame demonstration
+
+### Practice
+
+Must support:
+
+- Shadow training
+- Uchikomi
+- Nagekomi
+- Partner drills
+- Resistance drills
+- Tactical drills
+- Strength and mobility exercises
+- Safety instructions
+
+### Analyze
+
+Must support:
+
+- Video upload
+- Technique comparison
+- Competition analysis
+- Opponent analysis
+- AI Fight Intelligence 360
+- Coach review
+- Analysis history
+
+### Master
+
+Must support:
+
+- Quiz
+- Progress tracking
+- Mastery score
+- Training recommendations
+- Prerequisites
+- Recommended combinations
+- Recommended next technique
+
+---
+
+## 3. Technique Detail Screen Rule
+
+TechniqueDetailScreen must remain an orchestrator.
+
+It may directly display only:
+
+- Judo App Bar
+- Technique Hero
+- Essential identity information
+- Primary official media
+- Learning Dashboard
+- Primary actions
+
+Long-form content must open through:
+
+- Bottom Sheet
+- Full-screen page
+- Dedicated feature module
+
+The following content must not be duplicated below the Dashboard:
+
+- Technical Analysis
+- Tactical Intelligence
+- Competition Analysis
+- Champions
+- Mistakes and Safety
+- Combinations
+- Mastery
+- Sensi Bot
+- Quiz
+- Sources
+
+---
+
+## 4. Dashboard Rules
+
+The Technique Dashboard must organize content into approved groups:
+
+### Learn
+
+- Overview
+- Videos
+- Technical Analysis
+- Training
+
+### Performance
+
+- Tactical Intelligence
+- Competition
+- Combinations
+- Mistakes and Safety
+- Mastery
+
+### Professional
+
+- Champions
+- Sensi Bot
+- Quiz
+- Official Sources
+- AI Fight Analysis
+
+Dashboard cards must use:
+
+- Centralized Design Tokens
+- Compact icons
+- Compact card height
+- Shared color families
+- Short titles
+- No unnecessary decorative shapes
+- RTL and LTR support
+
+---
+
+## 5. AI Video Analysis Availability
+
+Video upload and AI analysis must be available to every subscription level.
+
+Access must not be completely blocked for lower tiers.
+
+Differences between plans must be controlled by:
+
+- Monthly AI credits
+- Analysis depth
+- Report detail
+- Storage duration
+- Coach access
+- Export capability
+- Team-management capability
+
+---
+
+## 6. AI Credit Rules
+
+Every AI analysis request consumes an approved number of credits.
+
+Example analysis costs:
+
+- Basic Technique Check: 1 credit
+- Detailed Technique Analysis: 2 credits
+- Competition Analysis: 3 credits
+- Opponent Analysis: 3 credits
+- Fight Intelligence 360: 5 credits
+- Licensed Coach Review: additional paid service
+
+Unused credits, renewal behavior and credit purchases must be controlled by backend policy and administration settings.
+
+No credit value may be hard-coded permanently inside feature widgets.
+
+---
+
+## 7. Subscription Access Matrix
+
+### Basic
+
+Must support:
+
+- Video upload
+- Limited monthly analyses
+- Overall technique score
+- Main detected errors
+- Basic corrective recommendation
+
+### Pro Athlete
+
+Must support:
+
+- More monthly credits
+- Kuzushi analysis
+- Tsukuri analysis
+- Kake analysis
+- Grip analysis
+- Balance analysis
+- Analysis history
+- Official-technique comparison
+
+### Elite Athlete
+
+Must support:
+
+- Higher or unlimited fair-use credits
+- Fight Intelligence 360
+- Frame-by-frame analysis
+- Tactical analysis
+- Opponent analysis
+- Progress comparison
+- PDF reports
+- Advanced training prescription
+
+### Coach
+
+Must support:
+
+- Athlete roster
+- Team analysis credits
+- Coach comments
+- Training assignments
+- Review workflow
+- Athlete reports
+- Paid licensed-coach services
+
+### Federation
+
+Must support:
+
+- Large athlete groups
+- Team and national dashboards
+- Aggregated performance statistics
+- Common technical weaknesses
+- Competition intelligence
+- Role-based access
+- Audit records
+- Central subscription management
+
+Exact limits and prices must be editable through the Administration Panel without Flutter code changes.
+
+---
+
+## 8. AI Fight Intelligence 360 Rules
+
+Fight Intelligence 360 must analyze both athletes and the interaction between them.
+
+It must not analyze the attacking athlete in isolation.
+
+Required dimensions:
+
+### Athlete Execution
+
+- Kuzushi
+- Tsukuri
+- Kake
+- Foot placement
+- Hip position
+- Body rotation
+- Entry distance
+- Attack direction
+- Timing
+- Completion and control
+
+### Opponent Guard and Grip
+
+- Right or left stance
+- Ai-yotsu or Kenka-yotsu relationship
+- Dominant grip
+- Sleeve control
+- Lapel control
+- High grip
+- Defensive grip
+- Grip-breaking opportunities
+- Grip dominance changes over time
+
+### Opponent Position
+
+- Position before attack
+- Position during attack
+- Defensive posture
+- Hip distance
+- Knee flexion
+- Spinal angle
+- Foot spacing
+- Weight distribution
+- Direction of movement
+
+### Balance and Kuzushi
+
+- Push reaction
+- Pull reaction
+- Weight-transfer direction
+- Stable support points
+- Weak balance direction
+- Head, shoulder, hip and leg alignment
+- Center-of-gravity displacement
+- Attack window created by movement
+
+### Tactical Intelligence
+
+- Attack timing
+- Reaction attacks
+- Combination opportunities
+- Counterattack risk
+- Preferred movement direction
+- Weak moment after failed attacks
+- Defensive habits
+- Attack frequency
+- Grip-fighting patterns
+
+### Match Timeline
+
+Must support event-based analysis such as:
+
+- Grip changes
+- Attacks
+- Counters
+- Penalties
+- Ground transitions
+- Fatigue indicators
+- Tactical phases
+- Successful and unsuccessful attack windows
+
+---
+
+## 9. AI Output Rules
+
+AI output must distinguish:
+
+- Detected observation
+- Calculated score
+- AI inference
+- Recommendation
+- Coach-validated conclusion
+
+The system must never present uncertain AI inference as guaranteed fact.
+
+Every result must include an analysis confidence value when technically available.
+
+---
+
+## 10. AI Safety and Professional Review
+
+AI analysis is a support tool and must not be presented as a replacement for:
+
+- Licensed coaches
+- Medical professionals
+- Referees
+- Federation authorities
+
+High-level paid reviews may be assigned to:
+
+- Approved national coaches
+- Licensed coaches
+- Approved analysts
+- Federation-authorized experts
+
+Reviewer identity, approval status and report changes must be auditable.
+
+---
+
+## 11. CMS and Administration Rules
+
+Administration must be able to manage without Flutter coding:
+
+- Subscription plans
+- AI credit limits
+- Credit prices
+- Analysis types
+- Analysis costs
+- Coach-review prices
+- Approved coaches
+- User access
+- Technique media
+- Animations
+- AI prompts and analysis templates
+- Reports
+- Localized texts
+- Feature availability
+- Fair-use limits
+
+---
+
+## 12. Privacy Rules for Uploaded Video
+
+Uploaded videos must use:
+
+- Explicit user consent
+- Secure upload
+- Controlled access
+- Retention policy
+- Deletion capability
+- Role-based permissions
+- Audit logging
+
+Athlete videos must not be used for AI training, public examples or marketing without separate explicit consent.
+
+Minors require appropriate guardian and organizational consent.

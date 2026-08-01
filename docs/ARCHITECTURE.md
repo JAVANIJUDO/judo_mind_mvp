@@ -287,3 +287,23 @@ lib/
 ├── services/
 ├── routes/
 └── main.dart
+
+## Core UI Layer
+
+Judo Mind uses a reusable component-based UI architecture.
+
+Location:
+
+lib/core/widgets/
+
+Components:
+
+- JudoCard
+- JudoSection
+- JudoSectionTitle
+- JudoBadge
+- JudoButton
+
+Purpose:
+
+Provide consistent visual language across all 17 modules.

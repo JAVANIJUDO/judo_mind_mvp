@@ -54,6 +54,7 @@ class JudoSpacing {
 
 class JudoIconSize {
   JudoIconSize._();
+  static const double xs = 14;
 
   static const sm = 18.0;
   static const md = 22.0;

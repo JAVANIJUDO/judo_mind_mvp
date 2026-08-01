@@ -491,6 +491,30 @@ Design System Development
 - Dark-theme-first architecture
 - Reusable component strategy
 ---
+## Version 0.16.0
+
+Status:
+Reference Technique Completion Phase
+
+### Approved
+
+- Uchi Mata selected as the official Reference Technique.
+- Five-layer learning flow approved:
+  Watch, Understand, Practice, Analyze and Master.
+- Universal video-upload access approved.
+- AI credit-based usage model approved.
+- Sensi Bot AI Fight Intelligence 360 approved.
+- Opponent guard, position and balance analysis approved.
+- Push and pull reaction analysis approved.
+- Technique Dashboard established as the primary navigation system.
+
+### In Progress
+
+- Removal of duplicated Technique Detail content.
+- Connection of all Dashboard sections.
+- Compact Dashboard polish.
+- Uchi Mata visual-learning architecture.
+- AI Analysis entry-point design. 
 
 # Version 0.16
 
@@ -570,3 +594,15 @@ Added:
 - Brand-specific technique title styles
 - Responsive technique-title helper
 - Preparation for language-specific font management
+
+## Version - JM-DS-005
+
+### Added
+- Added JudoCard core UI component
+- Added JudoSection reusable layout component
+- Integrated Design System components
+- Prepared shared UI architecture for all modules
+
+### Impact
+- Technique Detail module can migrate to reusable components
+- Future modules will use centralized UI components

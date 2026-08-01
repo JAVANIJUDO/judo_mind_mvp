@@ -589,3 +589,86 @@ No major feature should start development unless:
 - Architecture location is clear.
 - User value is understood.
 - Documentation is updated.
+
+# Reference Technique Product Requirement
+
+## Product Reference
+
+Technique:
+Uchi Mata
+
+Role:
+Official reference implementation for all 67 techniques.
+
+## Completion Criteria
+
+Uchi Mata is considered complete only when the following are implemented:
+
+### Identity
+
+- Localized name
+- Japanese name
+- Official classification
+- Type
+- Belt level
+- Difficulty
+- Official verification status
+
+### Watch
+
+- Official image
+- Training video
+- Competition video
+- Animation placeholder architecture
+- Slow-motion placeholder architecture
+
+### Understand
+
+- Overview
+- Kuzushi
+- Tsukuri
+- Kake
+- Key points
+- Biomechanics
+- Grip strategy
+- Body positioning
+- Visual learning support
+
+### Practice
+
+- Shadow drills
+- Uchikomi
+- Nagekomi
+- Partner drills
+- Resistance drills
+- Strength and mobility
+- Safety instructions
+
+### Analyze
+
+- Video-upload entry point
+- Subscription and credit display
+- Basic analysis flow
+- Fight Intelligence 360 architecture
+- Opponent and grip analysis
+- Analysis-history architecture
+
+### Master
+
+- Ten-question quiz
+- Progress display
+- Mastery display
+- Prerequisites
+- Combinations
+- Recommended next technique
+- Sensi Bot recommendation
+
+### UX
+
+- No duplicate title
+- Single Favorite action
+- Compact Dashboard
+- No duplicated long sections
+- All Dashboard buttons functional
+- Responsive mobile and tablet support
+- RTL and LTR support
