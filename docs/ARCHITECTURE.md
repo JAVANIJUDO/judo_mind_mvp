@@ -307,3 +307,63 @@ Components:
 Purpose:
 
 Provide consistent visual language across all 17 modules.
+
+## Judo Mind Design System Icon Architecture
+
+Judo Mind uses a centralized icon architecture.
+
+### Registry
+
+Location:
+
+`lib/core/design_system/icons/judo_icons.dart`
+
+Responsibilities:
+
+- Register all temporary and final Judo Mind icons.
+- Prevent direct icon selection inside feature screens.
+- Provide stable semantic names such as:
+  - `JudoIcons.kuzushi`
+  - `JudoIcons.balance`
+  - `JudoIcons.combination`
+  - `JudoIcons.aiCoach`
+- Allow future replacement of temporary Material icons without changing feature architecture.
+
+### Standard Widget
+
+Location:
+
+`lib/core/design_system/widgets/judo_icon.dart`
+
+Responsibilities:
+
+- Control icon size.
+- Control icon background treatment.
+- Apply semantic accessibility labels.
+- Provide selected, highlighted and disabled presentation.
+- Act as the future rendering layer for SVG icons.
+
+### Feature Rule
+
+Feature screens must not create independent icon styles.
+
+Icons must be accessed through:
+
+1. `JudoIcons`
+2. `JudoIcon`
+3. Approved JMDS illustration components
+
+Material icons may remain only as temporary registry implementations or generic platform actions.
+
+## Judo Mind Illustration Architecture
+
+Illustrations are rendered through the centralized JMDS layer.
+
+Locations:
+
+- `lib/core/design_system/illustrations/judo_illustration_type.dart`
+- `lib/core/design_system/illustrations/judo_illustration.dart`
+
+Feature screens must reference semantic illustration types rather than implement their own drawings.
+
+High-value illustrations are used selectively. Standard dashboard items remain icon-based to prevent excessive visual density.

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-
+import '../../../../core/theme/judo_design_tokens.dart';
+import '../../../../core/theme/judo_typography.dart';
 import '../../../../models/technique_model.dart';
+
 class OverviewSection extends StatelessWidget {
   final TechniqueModel technique;
 
@@ -10,66 +12,145 @@ class OverviewSection extends StatelessWidget {
     required this.technique,
   });
 
-  Widget _buildTile(String title, String value) {
-    if (value.trim().isEmpty) return const SizedBox.shrink();
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              color: Colors.blueAccent,
-              fontWeight: FontWeight.bold,
-              fontSize: 13,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        _OverviewBlock(
+          title: 'Description',
+          icon: Icons.info_outline_rounded,
+          text: technique.description,
+        ),
 
-        if (technique.images.isNotEmpty)
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Image.asset(
-              technique.images.first,
-              fit: BoxFit.cover,
+        const SizedBox(
+          height: JudoSpacing.lg,
+        ),
+
+        const _OverviewBlock(
+          title: 'Purpose of Technique',
+          icon: Icons.flag_outlined,
+          text:
+              'Understanding the main objective, tactical purpose and execution philosophy of this technique.',
+        ),
+
+        const SizedBox(
+          height: JudoSpacing.lg,
+        ),
+
+        const _OverviewBlock(
+          title: 'When To Use',
+          icon: Icons.sports_martial_arts_outlined,
+          text:
+              'Analyze suitable combat situations, opponent reactions and opportunities to apply the technique effectively.',
+        ),
+
+        const SizedBox(
+          height: JudoSpacing.lg,
+        ),
+
+        const _OverviewBlock(
+          title: 'Key Learning Points',
+          icon: Icons.school_outlined,
+          text:
+              'Focus on kuzushi, tsukuri, kake, body position, timing and balance control.',
+        ),
+
+        const SizedBox(
+          height: JudoSpacing.lg,
+        ),
+
+        const _OverviewBlock(
+          title: 'Common Application',
+          icon: Icons.psychology_outlined,
+          text:
+              'Technical combinations, competition situations and practical application scenarios will be added in the advanced analysis module.',
+        ),
+      ],
+    );
+  }
+}
+
+class _OverviewBlock extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final String text;
+
+  const _OverviewBlock({
+    required this.title,
+    required this.icon,
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(
+        JudoSpacing.lg,
+      ),
+      decoration: BoxDecoration(
+        color: JudoColors.surface,
+        borderRadius: BorderRadius.circular(
+          JudoRadius.lg,
+        ),
+        border: Border.all(
+          color: JudoColors.primary.withValues(
+            alpha: 0.18,
+          ),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 38,
+            height: 38,
+            decoration: BoxDecoration(
+              color: JudoColors.primary.withValues(
+                alpha: 0.12,
+              ),
+              borderRadius:
+                  BorderRadius.circular(
+                JudoRadius.sm,
+              ),
+            ),
+            child: Icon(
+              icon,
+              color: JudoColors.primary,
+              size: 21,
             ),
           ),
 
-        const SizedBox(height: 20),
+          const SizedBox(
+            width: JudoSpacing.md,
+          ),
 
-        _buildTile("English Name", technique.englishName),
+          Expanded(
+            child: Column(
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style:
+                      JudoTypography.titleMedium,
+                ),
 
-        _buildTile("Japanese Name", technique.japaneseName),
+                const SizedBox(
+                  height: JudoSpacing.sm,
+                ),
 
-        _buildTile("Category", technique.category),
-
-        _buildTile("Type", technique.type),
-
-        _buildTile("Belt Level", technique.beltLevel),
-
-        _buildTile("Difficulty", technique.difficulty),
-
-        _buildTile("Description", technique.description),
-      ],
+                Text(
+                  text,
+                  style:
+                      JudoTypography.bodyMedium,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

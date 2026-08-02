@@ -5,17 +5,36 @@ import '../../core/language/language_provider.dart';
 import '../../core/providers/favorite_provider.dart';
 import '../../core/theme/judo_design_tokens.dart';
 import '../../core/widgets/judo_app_bar.dart';
-
-import '../../l10n/app_localizations.dart';
 import '../../models/technique_model.dart';
 
 import 'widgets/actions/technique_primary_actions.dart';
-import 'widgets/basic_info/basic_info_section.dart';
 import 'widgets/hero/hero_section.dart';
-import 'widgets/media/media_section.dart';
 import 'widgets/sections/technique_section_router.dart';
 import 'widgets/technique_dashboard_grid.dart';
 
+/// ----------------------------------------------------------------
+/// Judo Mind Super App
+/// Screen: Technique Detail
+/// Reference Technique: Uchi Mata
+/// Version: 4.0.0
+/// ----------------------------------------------------------------
+///
+/// Final main-screen structure:
+///
+/// - Compact App Bar
+/// - Technique identity through HeroSection
+/// - Learning Dashboard
+/// - Primary actions
+///
+/// Removed from the main page:
+///
+/// - Repeated BasicInfoSection
+/// - TechniqueMediaPreview
+/// - Complete MediaSection
+/// - Duplicate image entry
+/// - Duplicate media navigation
+///
+/// The Media Library is accessible only through the Dashboard.
 class TechniqueDetailScreen extends StatelessWidget {
   final TechniqueModel technique;
 
@@ -47,8 +66,6 @@ class TechniqueDetailScreen extends StatelessWidget {
       languageProvider.languageCode,
     );
 
-    final l10n = AppLocalizations.of(context)!;
-
     final techniqueTitle =
         translation?.name ?? technique.nameEn;
 
@@ -57,7 +74,6 @@ class TechniqueDetailScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: JudoColors.background,
-
       appBar: JudoAppBar(
         title: null,
         subtitle: null,
@@ -68,7 +84,6 @@ class TechniqueDetailScreen extends StatelessWidget {
           );
         },
       ),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(
           JudoSpacing.lg,
@@ -76,38 +91,18 @@ class TechniqueDetailScreen extends StatelessWidget {
           JudoSpacing.lg,
           JudoSpacing.xxxl,
         ),
-
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(
               maxWidth: 900,
             ),
-
             child: Column(
               crossAxisAlignment:
                   CrossAxisAlignment.start,
-
               children: [
-
                 HeroSection(
                   technique: technique,
                   title: techniqueTitle,
-                ),
-
-                const SizedBox(
-                  height: JudoSpacing.lg,
-                ),
-
-                BasicInfoSection(
-                  technique: technique,
-                ),
-
-                const SizedBox(
-                  height: JudoSpacing.xl,
-                ),
-
-                MediaSection(
-                  technique: technique,
                 ),
 
                 const SizedBox(
@@ -129,33 +124,27 @@ class TechniqueDetailScreen extends StatelessWidget {
 
                 TechniquePrimaryActions(
                   technique: technique,
-
                   onAiAnalysis: () {
                     ScaffoldMessenger.of(context)
-                        .showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          'Sensi Bot AI Lab will open here.',
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Sensi Bot AI Lab will open here.',
+                          ),
                         ),
-                      ),
-                    );
+                      );
                   },
-
                   onStartTraining: () {
-                    TechniqueSectionRouter.open(
-                      context: context,
-                      section:
-                          TechniqueDashboardSection.training,
-                      technique: technique,
+                    _openTechniqueSection(
+                      context,
+                      TechniqueDashboardSection.training,
                     );
                   },
-
                   onTrackProgress: () {
-                    TechniqueSectionRouter.open(
-                      context: context,
-                      section:
-                          TechniqueDashboardSection.mastery,
-                      technique: technique,
+                    _openTechniqueSection(
+                      context,
+                      TechniqueDashboardSection.mastery,
                     );
                   },
                 ),

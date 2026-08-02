@@ -562,6 +562,35 @@ Status:
 Target Release
 
 
+## Version 0.17.0 — JMDS Dashboard Icon Foundation
+
+Date: 2026-08-02  
+Status: Completed
+
+### Added
+
+- Added the centralized `JudoIcons` registry.
+- Added the standard `JudoIcon` Design System widget.
+- Migrated Technique Dashboard icons to the Judo Mind icon registry.
+- Rebuilt `TechniqueDashboardItem` using JMDS components.
+- Added standardized icon highlighting and semantic labels.
+- Added compact AI and quiz badges.
+- Added consistent disabled and locked states.
+
+### Changed
+
+- Reduced Technique Dashboard icon size to 19 px.
+- Removed unnecessary decorative circles from dashboard cards.
+- Reduced visual density and unused card space.
+- Standardized card border, radius, spacing and typography.
+- Prepared dashboard icons for future SVG and illustration replacement.
+
+### Validation
+
+- Dart formatting completed.
+- Flutter Analyze passed without errors.
+- Existing Dashboard navigation and Router behavior preserved.
+
 ## Professional Judo Mind MVP
 
 
@@ -606,3 +635,79 @@ Added:
 ### Impact
 - Technique Detail module can migrate to reusable components
 - Future modules will use centralized UI components
+
+### JM-UX-012 — Media Architecture
+
+- Replaced duplicated MediaSection on Technique Detail with TechniqueMediaPreview.
+- Full media library is now accessible through the Videos dashboard section.
+- Added branded official-media preview.
+- Added support for asset and network preview images.
+- Added media-count calculation.
+- Prepared the reference technique for professional media metadata.
+
+### JM-MEDIA-002 — Professional Technique Media Model
+
+Added:
+
+- TechniqueMediaItem model
+- Professional media titles and descriptions
+- Media type classification
+- Verified-source classification
+- Duration and thumbnail metadata
+- Competition and athlete metadata
+- Grip and attack-direction metadata
+- Top-execution ordering
+- AI-compatible media tags
+
+The previous raw URL media structure will be migrated gradually without breaking the current application.
+
+### JMDS-006 — Custom Illustration Renderer
+
+- Added reusable JudoIllustration component.
+- Added CustomPainter-based illustrations.
+- Added initial support for Sensi Bot, Quiz, Training, Competition and Mastery.
+- Added technical, tactical, grip, balance, champion and safety visual variants.
+- Added semantic accessibility labels.
+- Added dark-theme-compatible vector rendering.
+- No external illustration dependency was introduced.
+
+### JMDS-006 — Custom Illustration Renderer
+
+- Added reusable `JudoIllustration` component.
+- Added CustomPainter-based vector illustrations.
+- Added initial support for Sensi Bot, Quiz, Training, Competition and Mastery.
+- Added technical, tactical, grip, balance, champion, combination and safety variants.
+- Added semantic accessibility labels.
+- Added dark-theme-compatible vector rendering.
+- Introduced no external illustration dependency.
+- Flutter Analyze completed without errors.
+
+### JMDS-007 — Selective Dashboard Illustration Integration
+
+Date: 2026-08-02
+Status: Completed
+
+- Added optional illustration support to `TechniqueDashboardItem`.
+- Connected custom JMDS illustrations to Training, Competition, Mastery, Sensi Bot and Quiz.
+- Kept standard dashboard sections icon-based to control visual density.
+- Preserved all Dashboard navigation and Router behavior.
+- Added semantic labels for custom visuals.
+- Updated card proportions for illustration-based content.
+- Dart formatting completed.
+- Flutter Analyze passed without errors.
+
+### JM-MEDIA-005 — Professional Media Library
+
+Date: 2026-08-02
+Status: Completed
+
+- Rebuilt MediaSection using TechniqueMediaResolver.
+- Removed raw URL display from media cards.
+- Added professional media titles and source labels.
+- Added Featured Media presentation.
+- Added categorized media collections.
+- Added verified, premium and media-type indicators.
+- Added direct-media URL validation.
+- Blocked YouTube search-result URLs.
+- Added image preview dialog.
+- Added support for official, training, competition, Top Execution and analysis media.

@@ -1035,3 +1035,47 @@ Uploaded videos must use:
 Athlete videos must not be used for AI training, public examples or marketing without separate explicit consent.
 
 Minors require appropriate guardian and organizational consent.
+
+## Visual and Icon Development Rules
+
+### Centralized Visual Language
+
+AI-generated or manually designed visual components must follow the Judo Mind Design System.
+
+AI must not introduce:
+
+- Random Material icons directly inside feature screens
+- Independent card decoration
+- Unapproved visual styles
+- Decorative shapes without functional meaning
+- Inconsistent line weight or icon size
+
+### Icon Selection
+
+Every new feature must first request or define a semantic JMDS icon identifier.
+
+Examples:
+
+- Balance analysis → `JudoIcons.balance`
+- Grip analysis → `JudoIcons.grip`
+- Fight prediction → `JudoIcons.prediction`
+- AI coach → `JudoIcons.aiCoach`
+
+### Illustration Rules
+
+Illustrations must:
+
+- Relate directly to judo or the feature meaning.
+- Remain readable at small mobile sizes.
+- Use simplified human forms without facial detail.
+- Use approved Design Tokens.
+- Support dark backgrounds.
+- Avoid stock-image appearance.
+- Avoid cartoon styling unless explicitly approved.
+- Avoid unnecessary visual complexity.
+
+### SVG Migration Rule
+
+Temporary Material icon implementations may be used during development.
+
+Final SVG replacement must occur through the centralized Design System layer and must not require modifications in individual feature screens.

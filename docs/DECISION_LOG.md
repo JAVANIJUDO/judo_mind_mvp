@@ -630,3 +630,128 @@ Required analysis includes:
 Impact:
 
 Sensi Bot evolves from an AI chat assistant into the central intelligence engine of Judo Mind.
+
+## JM-DEC-013
+
+Date: 2026-08-02  
+Status: Approved
+
+Title: Centralized Judo Mind Icon Architecture
+
+### Decision
+
+All feature icons will use the centralized `JudoIcons` registry and the standard `JudoIcon` component.
+
+Direct feature-level icon styling is no longer permitted except for generic platform actions approved by the Design System.
+
+### Reason
+
+This architecture allows the temporary Material-based icon layer to be replaced by custom SVG assets without rewriting individual screens.
+
+### Impact
+
+- Unified icon language across all 17 modules
+- Improved accessibility
+- Reduced visual inconsistency
+- Easier future SVG migration
+- Faster global icon updates
+
+---
+
+## JM-DEC-014
+
+Date: 2026-08-02  
+Status: Approved
+
+Title: Custom Illustration Layer for High-Value Dashboard Features
+
+### Decision
+
+Selected high-value cards will use custom Judo Mind illustrations in addition to or instead of generic icons.
+
+Initial illustration targets:
+
+- Sensi Bot
+- Quiz
+- Training
+- Competition
+- Mastery
+
+### Constraints
+
+Illustrations will not be placed on every card.
+
+They will be used only where they improve meaning, recognition or product identity without increasing visual clutter.
+
+## JM-DEC-015
+
+Date: 2026-08-02
+Status: Approved
+
+Title: Selective Illustration Use in Technique Dashboard
+
+### Decision
+
+Custom illustrations will be used selectively for high-value and identity-defining features.
+
+Initial approved cards:
+
+- Training
+- Competition
+- Mastery
+- Sensi Bot
+- Quiz
+
+Other Dashboard cards will remain icon-based unless a custom illustration provides a clear usability or recognition benefit.
+
+### Reason
+
+Using illustrations on every card would increase visual noise, page height and cognitive load.
+
+Selective use creates stronger hierarchy while preserving the compact Dashboard architecture.
+
+### Validation Rule
+
+Every illustration integration must be reviewed on a physical mobile device for:
+
+- Legibility
+- Card balance
+- Text clearance
+- Badge overlap
+- Visual hierarchy
+- RTL compatibility
+- Small-screen behavior
+
+## JM-DEC-016
+
+Date: 2026-08-02
+Status: Approved
+
+Title: Controlled Media Catalog
+
+### Decision
+
+Judo Mind will use a controlled media catalog.
+
+Public search-result pages must not be used as media destinations.
+
+Each media item must reference one specific selected resource and include:
+
+- Professional title
+- Media type
+- Source
+- Verification status
+- Thumbnail
+- Direct content URL
+- Optional duration and competition metadata
+
+### Source Priority
+
+1. IJF official technique resources
+2. IJF or JudoTV competition media
+3. Kodokan educational media
+4. Licensed partner media
+5. Judo Mind original content
+6. Curated external media when necessary
+
+Official API integration requires permission or partnership when the source does not provide a public integration API.

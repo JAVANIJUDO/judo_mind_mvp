@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/design_system/icons/judo_icons.dart';
 import '../../../core/theme/judo_design_tokens.dart';
 import '../../../core/theme/judo_typography.dart';
+
 import 'technique_dashboard_item.dart';
 
 /// ----------------------------------------------------------------
 /// Judo Mind Super App
 /// Widget: Technique Dashboard Grid
 /// Module: Techniques
-/// Version: 3.0.0
-/// Status: Production
+/// Reference Technique: Uchi Mata
+/// Version: 4.0.0
 /// ----------------------------------------------------------------
 ///
-/// UX goals:
-/// - Compact mobile-first dashboard
-/// - Reduced visual competition
-/// - Clear information hierarchy
-/// - Three meaningful content groups
-/// - Ready for RTL/LTR and localization
+/// Responsibilities:
+/// - Organize technique content into three clear groups.
+/// - Use the centralized Judo Mind icon registry.
+/// - Keep dashboard cards compact and mobile-friendly.
+/// - Support all 67 official techniques.
+/// - Prepare icons for future SVG replacement.
 /// ----------------------------------------------------------------
 
 enum TechniqueDashboardSection {
@@ -39,10 +41,7 @@ enum TechniqueDashboardSection {
 class TechniqueDashboardGrid extends StatelessWidget {
   final ValueChanged<TechniqueDashboardSection> onSectionTap;
 
-  const TechniqueDashboardGrid({
-    super.key,
-    required this.onSectionTap,
-  });
+  const TechniqueDashboardGrid({super.key, required this.onSectionTap});
 
   @override
   Widget build(BuildContext context) {
@@ -51,26 +50,21 @@ class TechniqueDashboardGrid extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Learning Dashboard',
-          style: JudoTypography.headingMedium,
-        ),
+        Text('Learning Dashboard', style: JudoTypography.headingMedium),
+
         const SizedBox(height: JudoSpacing.xs),
+
         Text(
-          'Choose a section to continue learning.',
+          'Watch, understand, practise, analyze and master the technique.',
           style: JudoTypography.bodySmall,
         ),
+
         const SizedBox(height: JudoSpacing.xl),
 
         ...groups.map(
           (group) => Padding(
-            padding: const EdgeInsets.only(
-              bottom: JudoSpacing.xl,
-            ),
-            child: _DashboardGroup(
-              group: group,
-              onSectionTap: onSectionTap,
-            ),
+            padding: const EdgeInsets.only(bottom: JudoSpacing.xl),
+            child: _DashboardGroup(group: group, onSectionTap: onSectionTap),
           ),
         ),
       ],
@@ -81,29 +75,28 @@ class TechniqueDashboardGrid extends StatelessWidget {
     return const [
       _TechniqueDashboardGroupData(
         title: 'Learn',
-        subtitle: 'Understand and practise the technique',
+        subtitle: 'Watch and understand the technique',
         color: JudoColors.primary,
         items: [
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.overview,
             title: 'Overview',
-            icon: Icons.dashboard_customize_outlined,
+            icon: JudoIcons.throwTechnique,
           ),
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.videos,
-            title: 'Videos',
-            icon: Icons.play_circle_outline_rounded,
+            title: 'Media Library',
+icon: Icons.video_library_outlined,
           ),
           _TechniqueDashboardItemData(
-            section:
-                TechniqueDashboardSection.technicalAnalysis,
+            section: TechniqueDashboardSection.technicalAnalysis,
             title: 'Technical Analysis',
-            icon: Icons.analytics_outlined,
+            icon: JudoIcons.aiAnalysis,
           ),
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.training,
             title: 'Training',
-            icon: Icons.fitness_center_rounded,
+            icon: JudoIcons.entry,
           ),
         ],
       ),
@@ -116,21 +109,20 @@ class TechniqueDashboardGrid extends StatelessWidget {
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.tactical,
             title: 'Tactical',
-            icon: Icons.psychology_alt_outlined,
+            icon: JudoIcons.direction,
           ),
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.competition,
             title: 'Competition',
-            icon: Icons.emoji_events_outlined,
+            icon: JudoIcons.ippon,
           ),
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.combinations,
             title: 'Combinations',
-            icon: Icons.account_tree_outlined,
+            icon: JudoIcons.combination,
           ),
           _TechniqueDashboardItemData(
-            section:
-                TechniqueDashboardSection.mistakesAndSafety,
+            section: TechniqueDashboardSection.mistakesAndSafety,
             title: 'Mistakes & Safety',
             icon: Icons.health_and_safety_outlined,
             colorOverride: JudoColors.danger,
@@ -138,7 +130,7 @@ class TechniqueDashboardGrid extends StatelessWidget {
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.mastery,
             title: 'Mastery',
-            icon: Icons.military_tech_outlined,
+            icon: JudoIcons.precision,
           ),
         ],
       ),
@@ -151,12 +143,12 @@ class TechniqueDashboardGrid extends StatelessWidget {
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.champions,
             title: 'Champions',
-            icon: Icons.workspace_premium_outlined,
+            icon: JudoIcons.goldenScore,
           ),
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.sensiBot,
             title: 'Sensi Bot',
-            icon: Icons.smart_toy_outlined,
+            icon: JudoIcons.aiCoach,
             badgeText: 'AI',
           ),
           _TechniqueDashboardItemData(
@@ -180,10 +172,7 @@ class _DashboardGroup extends StatelessWidget {
   final _TechniqueDashboardGroupData group;
   final ValueChanged<TechniqueDashboardSection> onSectionTap;
 
-  const _DashboardGroup({
-    required this.group,
-    required this.onSectionTap,
-  });
+  const _DashboardGroup({required this.group, required this.onSectionTap});
 
   @override
   Widget build(BuildContext context) {
@@ -195,20 +184,18 @@ class _DashboardGroup extends StatelessWidget {
           subtitle: group.subtitle,
           color: group.color,
         ),
+
         const SizedBox(height: JudoSpacing.md),
 
         LayoutBuilder(
           builder: (context, constraints) {
-            final crossAxisCount = _crossAxisCount(
-              constraints.maxWidth,
-            );
+            final crossAxisCount = _crossAxisCount(constraints.maxWidth);
 
             return GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: group.items.length,
-              gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
                 crossAxisSpacing: JudoSpacing.sm,
                 mainAxisSpacing: JudoSpacing.sm,
@@ -222,16 +209,14 @@ class _DashboardGroup extends StatelessWidget {
 
                 return TechniqueDashboardItem(
                   title: item.title,
-
-                  // توضیحات عمداً حذف شده‌اند تا کارت فشرده شود.
                   subtitle: '',
-
                   icon: item.icon,
-                  accentColor:
-                      item.colorOverride ?? group.color,
+                  accentColor: item.colorOverride ?? group.color,
                   badgeText: item.badgeText,
                   isEnabled: item.isEnabled,
-                  onTap: () => onSectionTap(item.section),
+                  onTap: () {
+                    onSectionTap(item.section);
+                  },
                 );
               },
             );
@@ -253,19 +238,16 @@ class _DashboardGroup extends StatelessWidget {
     return 2;
   }
 
-  double _childAspectRatio(
-    double width,
-    int crossAxisCount,
-  ) {
+  double _childAspectRatio(double width, int crossAxisCount) {
     if (crossAxisCount >= 4) {
-      return 1.40;
+      return 1.45;
     }
 
     if (width < 360) {
       return 1.08;
     }
 
-    return 1.18;
+    return 1.20;
   }
 }
 
@@ -287,28 +269,30 @@ class _GroupHeader extends StatelessWidget {
       children: [
         Container(
           width: 4,
-          height: 38,
+          height: 36,
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(
-              JudoRadius.xs,
-            ),
+            borderRadius: BorderRadius.circular(JudoRadius.xs),
           ),
         ),
+
         const SizedBox(width: JudoSpacing.sm),
+
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
-                style: JudoTypography.titleLarge.copyWith(
-                  color: color,
-                ),
+                style: JudoTypography.titleLarge.copyWith(color: color),
               ),
+
               const SizedBox(height: JudoSpacing.xs),
+
               Text(
                 subtitle,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: JudoTypography.bodySmall,
               ),
             ],

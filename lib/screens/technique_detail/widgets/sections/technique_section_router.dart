@@ -49,16 +49,16 @@ abstract final class TechniqueSectionRouter {
         );
 
       case TechniqueDashboardSection.videos:
-        return TechniqueBottomSheet.show<void>(
-          context: context,
-          title: 'Watch',
-          icon: Icons.play_circle_outline_rounded,
-          accentColor: JudoColors.primary,
-          initialChildSize: 0.88,
-          child: MediaSection(
-            technique: technique,
-          ),
-        );
+  return TechniqueBottomSheet.show<void>(
+    context: context,
+    title: 'Media Library',
+    icon: Icons.video_library_outlined,
+    accentColor: JudoColors.primary,
+    initialChildSize: 0.92,
+    child: MediaSection(
+      technique: technique,
+    ),
+  );
 
       case TechniqueDashboardSection.technicalAnalysis:
         return TechniqueBottomSheet.show<void>(
