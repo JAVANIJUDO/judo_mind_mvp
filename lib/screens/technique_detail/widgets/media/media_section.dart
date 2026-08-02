@@ -1,10 +1,9 @@
+import '../media_card_factory.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/theme/judo_design_tokens.dart';
 import '../../../../core/theme/judo_typography.dart';
-import '../../../../core/widgets/judo_badge.dart';
-import '../../../../core/widgets/judo_card.dart';
 import '../../../../models/technique_media_item.dart';
 import '../../../../models/technique_model.dart';
 
@@ -12,19 +11,21 @@ import 'technique_media_resolver.dart';
 
 /// ----------------------------------------------------------------
 /// Judo Mind Super App
-/// Component: Professional Technique Media Library
-/// Reference Technique: Uchi Mata
-/// Version: 2.0.0
+/// Component: Technique Media Library
+/// Design System: JMDS
+/// Version: 3.0.0
 /// ----------------------------------------------------------------
 ///
-/// Rules:
-/// - Raw URLs must never be displayed as titles.
-/// - YouTube search-result links must not be presented to users.
-/// - Every media item must have a meaningful title and source.
-/// - Professional media data is preferred.
-/// - Legacy media is resolved through TechniqueMediaResolver.
-/// ----------------------------------------------------------------
-
+/// Final media-library rules:
+///
+/// - Every media item appears only once.
+/// - There is no duplicated Featured card.
+/// - Raw URLs are never displayed.
+/// - Hosting platforms are not presented as product identity.
+/// - Search-result URLs are rejected.
+/// - Images, training, competition and analysis are grouped.
+/// - Professional `mediaItems` are the main media source.
+/// - Legacy video fields are ignored by the resolver.
 class MediaSection extends StatelessWidget {
   final TechniqueModel technique;
 
@@ -35,184 +36,176 @@ class MediaSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = TechniqueMediaResolver.resolve(
+    final allItems = TechniqueMediaResolver.resolve(
       technique,
     );
 
-    if (items.isEmpty) {
-      return _EmptyMediaState(
+    if (allItems.isEmpty) {
+      return _EmptyMediaLibrary(
         techniqueName: technique.englishName,
       );
     }
 
-    final featured = _featuredItem(items);
-
-    final officialItems = _filterByTypes(
-      items,
+    final officialItems = _itemsByTypes(
+      allItems,
       const {
         TechniqueMediaType.officialImage,
         TechniqueMediaType.officialDemonstration,
       },
-      excludeId: featured?.id,
     );
 
-    final trainingItems = _filterByTypes(
-      items,
+    final trainingItems = _itemsByTypes(
+      allItems,
       const {
         TechniqueMediaType.trainingVideo,
       },
-      excludeId: featured?.id,
     );
 
-    final competitionItems = _filterByTypes(
-      items,
+    final competitionItems = _itemsByTypes(
+      allItems,
       const {
         TechniqueMediaType.competitionVideo,
         TechniqueMediaType.championExample,
       },
-      excludeId: featured?.id,
     );
 
-    final analysisItems = _filterByTypes(
-      items,
+    final topExecutionItems = _itemsByTypes(
+      allItems,
+      const {
+        TechniqueMediaType.topExecution,
+      },
+    );
+
+    final analysisItems = _itemsByTypes(
+      allItems,
       const {
         TechniqueMediaType.slowMotion,
         TechniqueMediaType.animation,
         TechniqueMediaType.biomechanics,
         TechniqueMediaType.aiComparison,
       },
-      excludeId: featured?.id,
-    );
-
-    final topExecutions = _filterByTypes(
-      items,
-      const {
-        TechniqueMediaType.topExecution,
-      },
-      excludeId: featured?.id,
     );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _LibraryHeader(
+        _MediaLibraryIntro(
           techniqueName: technique.englishName,
-          mediaCount: items.length,
         ),
 
-        if (featured != null) ...[
+        if (officialItems.isNotEmpty) ...[
           const SizedBox(
-            height: JudoSpacing.lg,
+            height: JudoSpacing.xl,
           ),
-
-          _FeaturedMediaCard(
-            item: featured,
-            onTap: () {
+          _MediaGroup(
+            title: 'Official Media',
+            subtitle:
+                'Approved visual and technical references.',
+            icon: Icons.verified_outlined,
+            accentColor: JudoColors.primary,
+            items: officialItems,
+            onItemTap: (item) {
               _openMedia(
                 context,
-                featured,
+                item,
               );
             },
           ),
         ],
 
-        if (officialItems.isNotEmpty)
-          _MediaCollection(
-            title: 'Official Demonstrations',
-            subtitle:
-                'Verified official images and technical demonstrations.',
-            icon: Icons.verified_outlined,
-            accentColor: JudoColors.primary,
-            items: officialItems,
-            onItemTap: (item) {
-              _openMedia(context, item);
-            },
+        if (trainingItems.isNotEmpty) ...[
+          const SizedBox(
+            height: JudoSpacing.xxl,
           ),
-
-        if (trainingItems.isNotEmpty)
-          _MediaCollection(
-            title: 'Training Videos',
+          _MediaGroup(
+            title: 'Training',
             subtitle:
-                'Selected learning and practice demonstrations.',
+                'Selected demonstrations and practice material.',
             icon: Icons.sports_martial_arts_outlined,
             accentColor: JudoColors.success,
             items: trainingItems,
             onItemTap: (item) {
-              _openMedia(context, item);
+              _openMedia(
+                context,
+                item,
+              );
             },
           ),
+        ],
 
-        if (competitionItems.isNotEmpty)
-          _MediaCollection(
-            title: 'Competition Examples',
+        if (competitionItems.isNotEmpty) ...[
+          const SizedBox(
+            height: JudoSpacing.xxl,
+          ),
+          _MediaGroup(
+            title: 'Competition',
             subtitle:
                 'Verified executions from competitive situations.',
             icon: Icons.emoji_events_outlined,
             accentColor: JudoColors.danger,
             items: competitionItems,
             onItemTap: (item) {
-              _openMedia(context, item);
+              _openMedia(
+                context,
+                item,
+              );
             },
           ),
+        ],
 
-        if (topExecutions.isNotEmpty)
-          _MediaCollection(
-            title:
-                'Top ${topExecutions.length} Executions',
+        if (topExecutionItems.isNotEmpty) ...[
+          const SizedBox(
+            height: JudoSpacing.xxl,
+          ),
+          _MediaGroup(
+            title: 'Top Executions',
             subtitle:
-                'Ranked elite executions selected for technical study.',
+                'Elite examples selected for technical study.',
             icon: Icons.workspace_premium_outlined,
             accentColor: JudoColors.gold,
-            items: topExecutions,
+            items: topExecutionItems,
+            showRanking: true,
             onItemTap: (item) {
-              _openMedia(context, item);
+              _openMedia(
+                context,
+                item,
+              );
             },
           ),
+        ],
 
-        if (analysisItems.isNotEmpty)
-          _MediaCollection(
-            title: 'Technical Visual Analysis',
+        if (analysisItems.isNotEmpty) ...[
+          const SizedBox(
+            height: JudoSpacing.xxl,
+          ),
+          _MediaGroup(
+            title: 'Visual Analysis',
             subtitle:
-                'Slow motion, animation, biomechanics and AI comparison.',
+                'Slow motion, biomechanics, animation and AI comparison.',
             icon: Icons.analytics_outlined,
             accentColor: JudoColors.primary,
             items: analysisItems,
             onItemTap: (item) {
-              _openMedia(context, item);
+              _openMedia(
+                context,
+                item,
+              );
             },
           ),
+        ],
       ],
     );
   }
 
-  TechniqueMediaItem? _featuredItem(
+  List<TechniqueMediaItem> _itemsByTypes(
     List<TechniqueMediaItem> items,
+    Set<TechniqueMediaType> acceptedTypes,
   ) {
-    for (final item in items) {
-      if (item.isFeatured) {
-        return item;
-      }
-    }
-
-    for (final item in items) {
-      if (item.isVerified) {
-        return item;
-      }
-    }
-
-    return items.isEmpty ? null : items.first;
-  }
-
-  List<TechniqueMediaItem> _filterByTypes(
-    List<TechniqueMediaItem> items,
-    Set<TechniqueMediaType> types, {
-    String? excludeId,
-  }) {
     final result = items
         .where(
-          (item) =>
-              item.id != excludeId &&
-              types.contains(item.type),
+          (item) => acceptedTypes.contains(
+            item.type,
+          ),
         )
         .toList();
 
@@ -223,7 +216,7 @@ class MediaSection extends StatelessWidget {
       ),
     );
 
-    return result;
+    return List.unmodifiable(result);
   }
 
   Future<void> _openMedia(
@@ -246,31 +239,24 @@ class MediaSection extends StatelessWidget {
     final rawUrl = item.mediaUrl.trim();
     final uri = Uri.tryParse(rawUrl);
 
-    if (uri == null ||
-        !uri.hasScheme ||
-        (uri.scheme != 'https' &&
-            uri.scheme != 'http')) {
-      if (!context.mounted) {
-        return;
+    if (!_isValidHttpUri(uri)) {
+      if (context.mounted) {
+        _showMessage(
+          context,
+          'This media item does not have a valid link.',
+        );
       }
-
-      _showMessage(
-        context,
-        'This media link is not valid.',
-      );
 
       return;
     }
 
-    if (_isYouTubeSearchUrl(uri)) {
-      if (!context.mounted) {
-        return;
+    if (_isRejectedSearchUrl(uri!)) {
+      if (context.mounted) {
+        _showMessage(
+          context,
+          'This media source has not yet been replaced with an approved direct video.',
+        );
       }
-
-      _showMessage(
-        context,
-        'This item still uses a YouTube search link and must be replaced with one approved video.',
-      );
 
       return;
     }
@@ -288,7 +274,20 @@ class MediaSection extends StatelessWidget {
     }
   }
 
-  bool _isYouTubeSearchUrl(Uri uri) {
+  bool _isValidHttpUri(
+    Uri? uri,
+  ) {
+    if (uri == null || !uri.hasScheme) {
+      return false;
+    }
+
+    return uri.scheme == 'https' ||
+        uri.scheme == 'http';
+  }
+
+  bool _isRejectedSearchUrl(
+    Uri uri,
+  ) {
     final host = uri.host.toLowerCase();
     final path = uri.path.toLowerCase();
 
@@ -317,269 +316,60 @@ class MediaSection extends StatelessWidget {
   }
 }
 
-class _LibraryHeader extends StatelessWidget {
+class _MediaLibraryIntro extends StatelessWidget {
   final String techniqueName;
-  final int mediaCount;
 
-  const _LibraryHeader({
+  const _MediaLibraryIntro({
     required this.techniqueName,
-    required this.mediaCount,
   });
 
   @override
   Widget build(BuildContext context) {
-    return JudoCard(
-      borderColor: JudoColors.primary.withValues(
-        alpha: 0.35,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 42,
-            height: 42,
-            decoration: BoxDecoration(
-              color: JudoColors.primary.withValues(
-                alpha: 0.14,
-              ),
-              borderRadius: BorderRadius.circular(
-                JudoRadius.sm,
-              ),
-            ),
-            child: const Icon(
-              Icons.video_library_outlined,
-              color: JudoColors.primary,
-              size: JudoIconSize.md,
-            ),
-          ),
-
-          const SizedBox(
-            width: JudoSpacing.md,
-          ),
-
-          Expanded(
-            child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '$techniqueName Media Library',
-                  style:
-                      JudoTypography.headingSmall,
-                ),
-
-                const SizedBox(
-                  height: JudoSpacing.xs,
-                ),
-
-                Text(
-                  '$mediaCount selected media items',
-                  style: JudoTypography.bodySmall,
-                ),
-
-                const SizedBox(
-                  height: JudoSpacing.sm,
-                ),
-
-                Text(
-                  'Only selected and categorized media should appear here. General search pages are rejected.',
-                  style: JudoTypography.bodySmall
-                      .copyWith(
-                    color:
-                        JudoColors.textSecondary,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _FeaturedMediaCard extends StatelessWidget {
-  final TechniqueMediaItem item;
-  final VoidCallback onTap;
-
-  const _FeaturedMediaCard({
-    required this.item,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final previewSource =
-        _previewSource(item);
-
-    return Semantics(
-      button: true,
-      label: item.title,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(
-            JudoRadius.lg,
-          ),
-          child: Ink(
-            decoration: BoxDecoration(
-              color: JudoColors.surface,
-              borderRadius: BorderRadius.circular(
-                JudoRadius.lg,
-              ),
-              border: Border.all(
-                color: JudoColors.gold.withValues(
-                  alpha: 0.45,
-                ),
-              ),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(
-                JudoRadius.lg,
-              ),
-              child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children: [
-                  AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        _MediaPreviewImage(
-                          source: previewSource,
-                        ),
-
-                        const DecoratedBox(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin:
-                                  Alignment.topCenter,
-                              end:
-                                  Alignment.bottomCenter,
-                              colors: [
-                                Colors.transparent,
-                                Color(0x66000000),
-                                Color(0xF2000000),
-                              ],
-                              stops: [
-                                0.25,
-                                0.65,
-                                1,
-                              ],
-                            ),
-                          ),
-                        ),
-
-                        PositionedDirectional(
-                          top: JudoSpacing.md,
-                          start: JudoSpacing.md,
-                          child: Wrap(
-                            spacing: JudoSpacing.sm,
-                            children: [
-                              const JudoBadge(
-                                text: 'Featured',
-                                type:
-                                    JudoBadgeType.premium,
-                              ),
-
-                              if (item.isVerified)
-                                const JudoBadge(
-                                  text: 'Verified',
-                                  type:
-                                      JudoBadgeType.verified,
-                                ),
-                            ],
-                          ),
-                        ),
-
-                        Positioned.fill(
-                          child: Center(
-                            child: Container(
-                              width: 52,
-                              height: 52,
-                              decoration: BoxDecoration(
-                                color: JudoColors.primary,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black
-                                        .withValues(
-                                      alpha: 0.40,
-                                    ),
-                                    blurRadius: 14,
-                                    offset:
-                                        const Offset(0, 6),
-                                  ),
-                                ],
-                              ),
-                              child: Icon(
-                                item.isImage
-                                    ? Icons
-                                        .zoom_in_rounded
-                                    : Icons
-                                        .play_arrow_rounded,
-                                color: Colors.white,
-                                size: 30,
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        PositionedDirectional(
-                          start: JudoSpacing.lg,
-                          end: JudoSpacing.lg,
-                          bottom: JudoSpacing.lg,
-                          child: Column(
-                            crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item.title,
-                                maxLines: 2,
-                                overflow:
-                                    TextOverflow.ellipsis,
-                                style: JudoTypography
-                                    .headingSmall
-                                    .copyWith(
-                                  color: Colors.white,
-                                ),
-                              ),
-
-                              const SizedBox(
-                                height: JudoSpacing.xs,
-                              ),
-
-                              Text(
-                                _sourceLine(item),
-                                maxLines: 1,
-                                overflow:
-                                    TextOverflow.ellipsis,
-                                style: JudoTypography
-                                    .bodySmall
-                                    .copyWith(
-                                  color: JudoColors
-                                      .textSecondary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 4,
+          height: 42,
+          decoration: BoxDecoration(
+            color: JudoColors.primary,
+            borderRadius: BorderRadius.circular(
+              JudoRadius.sm,
             ),
           ),
         ),
-      ),
+
+        const SizedBox(
+          width: JudoSpacing.md,
+        ),
+
+        Expanded(
+          child: Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
+            children: [
+              Text(
+                '$techniqueName Media',
+                style: JudoTypography.headingSmall,
+              ),
+
+              const SizedBox(
+                height: JudoSpacing.xs,
+              ),
+
+              Text(
+                'Official images, demonstrations, competition examples and technical analysis.',
+                style: JudoTypography.bodySmall,
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
 
-class _MediaCollection extends StatelessWidget {
+class _MediaGroup extends StatelessWidget {
   final String title;
   final String subtitle;
   final IconData icon;
@@ -587,363 +377,312 @@ class _MediaCollection extends StatelessWidget {
   final List<TechniqueMediaItem> items;
   final ValueChanged<TechniqueMediaItem>
       onItemTap;
+  final bool showRanking;
 
-  const _MediaCollection({
+  const _MediaGroup({
     required this.title,
     required this.subtitle,
     required this.icon,
     required this.accentColor,
     required this.items,
     required this.onItemTap,
+    this.showRanking = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: JudoSpacing.xxl,
-      ),
-      child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
-        children: [
-          Row(
+    return Column(
+      crossAxisAlignment:
+          CrossAxisAlignment.start,
+      children: [
+        _MediaGroupHeader(
+          title: title,
+          subtitle: subtitle,
+          icon: icon,
+          accentColor: accentColor,
+        ),
+
+        const SizedBox(
+          height: JudoSpacing.md,
+        ),
+
+        ...List.generate(
+          items.length,
+          (index) {
+            final item = items[index];
+
+            return Padding(
+              padding: EdgeInsets.only(
+                bottom: index == items.length - 1
+                    ? 0
+                    : JudoSpacing.sm,
+              ),
+              child: MediaCardFactory.build(
+  item: item,
+  onTap: () {
+    onItemTap(item);
+  },
+),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _MediaGroupHeader extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final Color accentColor;
+
+  const _MediaGroupHeader({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.accentColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment:
+          CrossAxisAlignment.start,
+      children: [
+        Icon(
+          icon,
+          color: accentColor,
+          size: 22,
+        ),
+
+        const SizedBox(
+          width: JudoSpacing.sm,
+        ),
+
+        Expanded(
+          child: Column(
             crossAxisAlignment:
                 CrossAxisAlignment.start,
             children: [
-              Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: accentColor.withValues(
-                    alpha: 0.13,
-                  ),
-                  borderRadius:
-                      BorderRadius.circular(
-                    JudoRadius.sm,
-                  ),
-                ),
-                child: Icon(
-                  icon,
+              Text(
+                title,
+                style:
+                    JudoTypography.titleLarge.copyWith(
                   color: accentColor,
-                  size: JudoIconSize.sm,
                 ),
               ),
 
               const SizedBox(
-                width: JudoSpacing.md,
+                height: JudoSpacing.xs,
               ),
 
-              Expanded(
-                child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: JudoTypography
-                          .titleLarge
-                          .copyWith(
-                        color: accentColor,
-                      ),
-                    ),
-
-                    const SizedBox(
-                      height: JudoSpacing.xs,
-                    ),
-
-                    Text(
-                      subtitle,
-                      style:
-                          JudoTypography.bodySmall,
-                    ),
-                  ],
-                ),
+              Text(
+                subtitle,
+                style: JudoTypography.bodySmall,
               ),
             ],
           ),
+        ),
+      ],
+    );
+  }
+}
 
-          const SizedBox(
-            height: JudoSpacing.md,
-          ),
 
-          ...items.map(
-            (item) => Padding(
-              padding: const EdgeInsets.only(
-                bottom: JudoSpacing.sm,
-              ),
-              child: _MediaItemCard(
-                item: item,
-                accentColor: accentColor,
-                onTap: () {
-                  onItemTap(item);
-                },
-              ),
+
+class _MediaThumbnail extends StatelessWidget {
+  final TechniqueMediaItem item;
+  final Color accentColor;
+  final int? ranking;
+
+  const _MediaThumbnail({
+    required this.item,
+    required this.accentColor,
+    required this.ranking,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final previewSource = _previewSource(
+      item,
+    );
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(
+        JudoRadius.sm,
+      ),
+      child: SizedBox(
+        width: 104,
+        height: 72,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            _MediaPreviewImage(
+              source: previewSource,
             ),
-          ),
-        ],
+
+            if (!item.isImage)
+              Container(
+                color: Colors.black.withValues(
+                  alpha: 0.18,
+                ),
+              ),
+
+            if (!item.isImage)
+              Center(
+                child: Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    color: accentColor.withValues(
+                      alpha: 0.90,
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.play_arrow_rounded,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ),
+              ),
+
+            if (ranking != null)
+              PositionedDirectional(
+                top: 5,
+                start: 5,
+                child: Container(
+                  width: 25,
+                  height: 25,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(
+                      alpha: 0.82,
+                    ),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: JudoColors.gold,
+                    ),
+                  ),
+                  child: Text(
+                    '$ranking',
+                    style: JudoTypography.labelSmall
+                        .copyWith(
+                      color: JudoColors.gold,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+              ),
+
+            if (item.formattedDuration.isNotEmpty)
+              PositionedDirectional(
+                end: 5,
+                bottom: 5,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 5,
+                    vertical: 2,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(
+                      alpha: 0.85,
+                    ),
+                    borderRadius:
+                        BorderRadius.circular(5),
+                  ),
+                  child: Text(
+                    item.formattedDuration,
+                    style:
+                        JudoTypography.labelSmall.copyWith(
+                      color: Colors.white,
+                      fontSize: 9,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class _MediaItemCard extends StatelessWidget {
+class _MediaItemInformation
+    extends StatelessWidget {
   final TechniqueMediaItem item;
   final Color accentColor;
-  final VoidCallback onTap;
 
-  const _MediaItemCard({
+  const _MediaItemInformation({
     required this.item,
     required this.accentColor,
-    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final previewSource =
-        _previewSource(item);
+    return Column(
+      crossAxisAlignment:
+          CrossAxisAlignment.start,
+      children: [
+        Text(
+          item.title,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: JudoTypography.titleSmall,
+        ),
 
-    return Semantics(
-      button: true,
-      label: item.title,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(
-            JudoRadius.lg,
-          ),
-          child: Ink(
-            decoration: BoxDecoration(
-              color: JudoColors.surface,
-              borderRadius: BorderRadius.circular(
-                JudoRadius.lg,
-              ),
-              border: Border.all(
-                color: accentColor.withValues(
-                  alpha: 0.28,
+        const SizedBox(
+          height: JudoSpacing.xs,
+        ),
+
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                item.sourceName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style:
+                    JudoTypography.bodySmall.copyWith(
+                  color: accentColor,
                 ),
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(
-                JudoSpacing.sm,
+
+            if (item.isVerified) ...[
+              const SizedBox(
+                width: JudoSpacing.xs,
               ),
-              child: Row(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius:
-                        BorderRadius.circular(
-                      JudoRadius.sm,
-                    ),
-                    child: SizedBox(
-                      width: 112,
-                      height: 76,
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          _MediaPreviewImage(
-                            source: previewSource,
-                          ),
-
-                          Container(
-                            color: Colors.black
-                                .withValues(
-                              alpha: 0.16,
-                            ),
-                          ),
-
-                          Center(
-                            child: Container(
-                              width: 32,
-                              height: 32,
-                              decoration:
-                                  BoxDecoration(
-                                color: accentColor
-                                    .withValues(
-                                  alpha: 0.90,
-                                ),
-                                shape:
-                                    BoxShape.circle,
-                              ),
-                              child: Icon(
-                                item.isImage
-                                    ? Icons
-                                        .image_outlined
-                                    : Icons
-                                        .play_arrow_rounded,
-                                color: Colors.white,
-                                size: 19,
-                              ),
-                            ),
-                          ),
-
-                          if (item.formattedDuration
-                              .isNotEmpty)
-                            PositionedDirectional(
-                              end: 5,
-                              bottom: 5,
-                              child: Container(
-                                padding:
-                                    const EdgeInsets
-                                        .symmetric(
-                                  horizontal: 5,
-                                  vertical: 2,
-                                ),
-                                decoration:
-                                    BoxDecoration(
-                                  color:
-                                      Colors.black87,
-                                  borderRadius:
-                                      BorderRadius
-                                          .circular(5),
-                                ),
-                                child: Text(
-                                  item
-                                      .formattedDuration,
-                                  style:
-                                      JudoTypography
-                                          .labelSmall
-                                          .copyWith(
-                                    color:
-                                        Colors.white,
-                                    fontSize: 9,
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(
-                    width: JudoSpacing.md,
-                  ),
-
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item.title,
-                          maxLines: 2,
-                          overflow:
-                              TextOverflow.ellipsis,
-                          style: JudoTypography
-                              .titleSmall,
-                        ),
-
-                        const SizedBox(
-                          height: JudoSpacing.xs,
-                        ),
-
-                        Text(
-                          item.sourceName,
-                          maxLines: 1,
-                          overflow:
-                              TextOverflow.ellipsis,
-                          style: JudoTypography
-                              .bodySmall
-                              .copyWith(
-                            color: accentColor,
-                          ),
-                        ),
-
-                        const SizedBox(
-                          height: JudoSpacing.xs,
-                        ),
-
-                        Wrap(
-                          spacing: 6,
-                          runSpacing: 5,
-                          children: [
-                            _CompactLabel(
-                              text:
-                                  item.mediaTypeLabel,
-                              color: accentColor,
-                            ),
-
-                            if (item.isVerified)
-                              const _CompactLabel(
-                                text: 'Verified',
-                                color:
-                                    JudoColors.success,
-                              ),
-
-                            if (item.isPremium)
-                              const _CompactLabel(
-                                text: 'Premium',
-                                color:
-                                    JudoColors.gold,
-                              ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(
-                    width: JudoSpacing.xs,
-                  ),
-
-                  const Icon(
-                    Icons
-                        .arrow_forward_ios_rounded,
-                    color:
-                        JudoColors.textSecondary,
-                    size: 14,
-                  ),
-                ],
+              Icon(
+                Icons.verified_rounded,
+                color: accentColor,
+                size: 15,
               ),
+            ],
+          ],
+        ),
+
+        if (_secondaryInformation(item).isNotEmpty) ...[
+          const SizedBox(
+            height: JudoSpacing.xs,
+          ),
+          Text(
+            _secondaryInformation(item),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: JudoTypography.labelSmall.copyWith(
+              color: JudoColors.textSecondary,
             ),
           ),
-        ),
-      ),
+        ],
+      ],
     );
   }
 }
 
-class _CompactLabel extends StatelessWidget {
-  final String text;
-  final Color color;
-
-  const _CompactLabel({
-    required this.text,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 7,
-        vertical: 3,
-      ),
-      decoration: BoxDecoration(
-        color: color.withValues(
-          alpha: 0.11,
-        ),
-        borderRadius: BorderRadius.circular(
-          JudoRadius.sm,
-        ),
-      ),
-      child: Text(
-        text,
-        style: JudoTypography.labelSmall.copyWith(
-          color: color,
-          fontSize: 9,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-    );
-  }
-}
-
-class _TechniqueImageDialog extends StatelessWidget {
+class _TechniqueImageDialog
+    extends StatelessWidget {
   final TechniqueMediaItem item;
 
   const _TechniqueImageDialog({
@@ -981,8 +720,6 @@ class _TechniqueImageDialog extends StatelessWidget {
                 JudoSpacing.md,
               ),
               child: Row(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: Column(
@@ -991,8 +728,8 @@ class _TechniqueImageDialog extends StatelessWidget {
                       children: [
                         Text(
                           item.title,
-                          style: JudoTypography
-                              .titleLarge,
+                          style:
+                              JudoTypography.titleLarge,
                         ),
 
                         const SizedBox(
@@ -1009,11 +746,14 @@ class _TechniqueImageDialog extends StatelessWidget {
                   ),
 
                   IconButton(
+                    tooltip: 'Close',
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                     icon: const Icon(
                       Icons.close_rounded,
+                      color:
+                          JudoColors.textSecondary,
                     ),
                   ),
                 ],
@@ -1042,6 +782,7 @@ class _MediaPreviewImage extends StatelessWidget {
     }
 
     final uri = Uri.tryParse(value);
+
     final isNetwork =
         uri != null &&
         (uri.scheme == 'http' ||
@@ -1086,28 +827,43 @@ class _MediaFallback extends StatelessWidget {
       child: const Icon(
         Icons.sports_martial_arts_rounded,
         color: JudoColors.gold,
-        size: 36,
+        size: 34,
       ),
     );
   }
 }
 
-class _EmptyMediaState extends StatelessWidget {
+class _EmptyMediaLibrary extends StatelessWidget {
   final String techniqueName;
 
-  const _EmptyMediaState({
+  const _EmptyMediaLibrary({
     required this.techniqueName,
   });
 
   @override
   Widget build(BuildContext context) {
-    return JudoCard(
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(
+        JudoSpacing.xl,
+      ),
+      decoration: BoxDecoration(
+        color: JudoColors.surface,
+        borderRadius: BorderRadius.circular(
+          JudoRadius.lg,
+        ),
+        border: Border.all(
+          color: JudoColors.primary.withValues(
+            alpha: 0.18,
+          ),
+        ),
+      ),
       child: Column(
         children: [
           const Icon(
             Icons.video_library_outlined,
             color: JudoColors.textSecondary,
-            size: 44,
+            size: 42,
           ),
 
           const SizedBox(
@@ -1115,7 +871,7 @@ class _EmptyMediaState extends StatelessWidget {
           ),
 
           Text(
-            '$techniqueName media library',
+            '$techniqueName Media Library',
             textAlign: TextAlign.center,
             style: JudoTypography.titleLarge,
           ),
@@ -1125,7 +881,7 @@ class _EmptyMediaState extends StatelessWidget {
           ),
 
           Text(
-            'Verified media has not been added yet.',
+            'Approved media has not been added yet.',
             textAlign: TextAlign.center,
             style: JudoTypography.bodySmall,
           ),
@@ -1150,16 +906,28 @@ String? _previewSource(
   return null;
 }
 
-String _sourceLine(
+String _secondaryInformation(
   TechniqueMediaItem item,
 ) {
-  final parts = <String>[
-    item.sourceName,
-    item.mediaTypeLabel,
-  ];
+  final parts = <String>[];
 
-  if (item.formattedDuration.isNotEmpty) {
-    parts.add(item.formattedDuration);
+  if (item.athleteName?.trim().isNotEmpty ??
+      false) {
+    parts.add(item.athleteName!.trim());
+  }
+
+  if (item.competitionName?.trim().isNotEmpty ??
+      false) {
+    parts.add(item.competitionName!.trim());
+  }
+
+  if (item.competitionYear != null) {
+    parts.add('${item.competitionYear}');
+  }
+
+  if (parts.isEmpty &&
+      item.level.trim().isNotEmpty) {
+    parts.add(item.level.trim());
   }
 
   return parts.join(' • ');

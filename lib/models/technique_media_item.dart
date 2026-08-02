@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'media_analysis_metadata.dart';
 
 /// ----------------------------------------------------------------
 /// Judo Mind Super App
@@ -126,7 +127,11 @@ class TechniqueMediaItem {
     this.scoreResult,
     this.sortOrder = 0,
     this.tags = const [],
+    this.analysis,
   });
+
+  /// 360 degree technical and tactical analysis data.
+  final MediaAnalysisMetadata? analysis;
 
   bool get isImage {
     return type == TechniqueMediaType.officialImage;
@@ -143,8 +148,7 @@ class TechniqueMediaItem {
       TechniqueMediaType.biomechanics ||
       TechniqueMediaType.topExecution ||
       TechniqueMediaType.championExample ||
-      TechniqueMediaType.aiComparison =>
-        true,
+      TechniqueMediaType.aiComparison => true,
     };
   }
 
@@ -172,26 +176,16 @@ class TechniqueMediaItem {
 
   String get mediaTypeLabel {
     return switch (type) {
-      TechniqueMediaType.officialImage =>
-        'Official Image',
-      TechniqueMediaType.officialDemonstration =>
-        'Official Demonstration',
-      TechniqueMediaType.trainingVideo =>
-        'Training Video',
-      TechniqueMediaType.competitionVideo =>
-        'Competition Video',
-      TechniqueMediaType.slowMotion =>
-        'Slow Motion',
-      TechniqueMediaType.animation =>
-        'Animation',
-      TechniqueMediaType.biomechanics =>
-        'Biomechanics',
-      TechniqueMediaType.topExecution =>
-        'Top Execution',
-      TechniqueMediaType.championExample =>
-        'Champion Example',
-      TechniqueMediaType.aiComparison =>
-        'AI Comparison',
+      TechniqueMediaType.officialImage => 'Official Image',
+      TechniqueMediaType.officialDemonstration => 'Official Demonstration',
+      TechniqueMediaType.trainingVideo => 'Training Video',
+      TechniqueMediaType.competitionVideo => 'Competition Video',
+      TechniqueMediaType.slowMotion => 'Slow Motion',
+      TechniqueMediaType.animation => 'Animation',
+      TechniqueMediaType.biomechanics => 'Biomechanics',
+      TechniqueMediaType.topExecution => 'Top Execution',
+      TechniqueMediaType.championExample => 'Champion Example',
+      TechniqueMediaType.aiComparison => 'AI Comparison',
     };
   }
 
@@ -200,14 +194,10 @@ class TechniqueMediaItem {
       TechniqueMediaSourceType.ijf => 'IJF',
       TechniqueMediaSourceType.kodokan => 'Kodokan',
       TechniqueMediaSourceType.eju => 'EJU',
-      TechniqueMediaSourceType.competitionArchive =>
-        'Competition Archive',
-      TechniqueMediaSourceType.judoMind =>
-        'Judo Mind',
-      TechniqueMediaSourceType.licensedPartner =>
-        'Licensed Partner',
-      TechniqueMediaSourceType.externalVerified =>
-        'Verified External Source',
+      TechniqueMediaSourceType.competitionArchive => 'Competition Archive',
+      TechniqueMediaSourceType.judoMind => 'Judo Mind',
+      TechniqueMediaSourceType.licensedPartner => 'Licensed Partner',
+      TechniqueMediaSourceType.externalVerified => 'Verified External Source',
     };
   }
 
@@ -238,55 +228,36 @@ class TechniqueMediaItem {
     String? scoreResult,
     int? sortOrder,
     List<String>? tags,
+    MediaAnalysisMetadata? analysis,
   }) {
     return TechniqueMediaItem(
       id: id ?? this.id,
       title: title ?? this.title,
-      description:
-          description ?? this.description,
+      description: description ?? this.description,
       type: type ?? this.type,
-      sourceType:
-          sourceType ?? this.sourceType,
-      sourceName:
-          sourceName ?? this.sourceName,
-      mediaUrl:
-          mediaUrl ?? this.mediaUrl,
-      thumbnailUrl:
-          thumbnailUrl ?? this.thumbnailUrl,
-      durationSeconds:
-          durationSeconds ?? this.durationSeconds,
-      languageCode:
-          languageCode ?? this.languageCode,
+      sourceType: sourceType ?? this.sourceType,
+      sourceName: sourceName ?? this.sourceName,
+      mediaUrl: mediaUrl ?? this.mediaUrl,
+      thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
+      durationSeconds: durationSeconds ?? this.durationSeconds,
+      languageCode: languageCode ?? this.languageCode,
       level: level ?? this.level,
-      isVerified:
-          isVerified ?? this.isVerified,
-      isPremium:
-          isPremium ?? this.isPremium,
-      isFeatured:
-          isFeatured ?? this.isFeatured,
-      athleteName:
-          athleteName ?? this.athleteName,
-      opponentName:
-          opponentName ?? this.opponentName,
-      competitionName:
-          competitionName ?? this.competitionName,
-      competitionYear:
-          competitionYear ?? this.competitionYear,
-      startAt:
-          startAt ?? this.startAt,
-      endAt:
-          endAt ?? this.endAt,
-      gripSituation:
-          gripSituation ?? this.gripSituation,
-      attackDirection:
-          attackDirection ?? this.attackDirection,
-      executionVariation:
-          executionVariation ?? this.executionVariation,
-      scoreResult:
-          scoreResult ?? this.scoreResult,
-      sortOrder:
-          sortOrder ?? this.sortOrder,
+      isVerified: isVerified ?? this.isVerified,
+      isPremium: isPremium ?? this.isPremium,
+      isFeatured: isFeatured ?? this.isFeatured,
+      athleteName: athleteName ?? this.athleteName,
+      opponentName: opponentName ?? this.opponentName,
+      competitionName: competitionName ?? this.competitionName,
+      competitionYear: competitionYear ?? this.competitionYear,
+      startAt: startAt ?? this.startAt,
+      endAt: endAt ?? this.endAt,
+      gripSituation: gripSituation ?? this.gripSituation,
+      attackDirection: attackDirection ?? this.attackDirection,
+      executionVariation: executionVariation ?? this.executionVariation,
+      scoreResult: scoreResult ?? this.scoreResult,
+      sortOrder: sortOrder ?? this.sortOrder,
       tags: tags ?? this.tags,
+      analysis: analysis ?? this.analysis,
     );
   }
 }

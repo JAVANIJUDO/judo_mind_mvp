@@ -1,3 +1,4 @@
+import '../../../../data/media/technique_media_registry.dart';
 import '../../../../models/technique_media_item.dart';
 import '../../../../models/technique_model.dart';
 
@@ -21,6 +22,17 @@ abstract final class TechniqueMediaResolver {
   static List<TechniqueMediaItem> resolve(
     TechniqueModel technique,
   ) {
+   final catalogItems =
+    TechniqueMediaRegistry.getMedia(
+  technique.id,
+);
+
+if (catalogItems.isNotEmpty) {
+  return List.unmodifiable(
+    catalogItems,
+  );
+}
+   
     final professionalItems = technique.mediaItems
         .where(_isApprovedProfessionalItem)
         .toList();
