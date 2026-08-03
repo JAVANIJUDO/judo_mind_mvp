@@ -1,3 +1,4 @@
+import 'video_player_widget.dart';
 import 'package:flutter/material.dart';
 import 'video_player_placeholder.dart';
 import '../../../../core/media/media_label_resolver.dart';
@@ -48,11 +49,8 @@ class VideoDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-VideoPlayerPlaceholder(
+VideoPlayerWidget(
   item: item,
-  onPlayPressed: () {
-    
-  },
 ),
               const SizedBox(height: JudoSpacing.lg),
 

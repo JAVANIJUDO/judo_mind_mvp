@@ -1,54 +1,78 @@
 import '../../../../data/media/technique_media_registry.dart';
+import '../../../../data/repositories/media_repository_provider.dart';
 import '../../../../models/technique_media_item.dart';
 import '../../../../models/technique_model.dart';
 
 /// ----------------------------------------------------------------
 /// Judo Mind Super App
 /// Service: Technique Media Resolver
-/// Version: 2.0.0
+/// Version: 2.1.0
 /// ----------------------------------------------------------------
 ///
 /// Media source policy:
 ///
-/// 1. Professional `mediaItems` are the only accepted video source.
-/// 2. Legacy image paths may temporarily be converted to image items.
-/// 3. Legacy video fields must never generate Media Library items.
-/// 4. YouTube search-result links must never enter the UI.
-/// 5. All 67 techniques will migrate gradually to controlled catalogs.
+/// 1. Repository catalogs are the preferred production source.
+/// 2. Professional `mediaItems` are the approved fallback source.
+/// 3. Legacy image paths may temporarily be converted to image items.
+/// 4. Legacy video fields must never generate Media Library items.
+/// 5. YouTube search-result links must never enter the UI.
+/// 6. All 67 techniques will migrate gradually to controlled catalogs.
 abstract final class TechniqueMediaResolver {
   const TechniqueMediaResolver._();
 
-  /// Returns the approved media collection for a technique.
+  /// Production resolver used by asynchronous UI components.
+  ///
+  /// Data priority:
+  /// 1. MediaRepository
+  /// 2. Professional TechniqueModel mediaItems
+  /// 3. Legacy technique images
+  static Future<List<TechniqueMediaItem>> resolveFromRepository(
+    TechniqueModel technique,
+  ) async {
+    final repositoryItems = await MediaRepositoryProvider.instance
+        .getMediaForTechnique(
+      technique.id,
+    );
+
+    if (repositoryItems.isNotEmpty) {
+  final sortedItems = List<TechniqueMediaItem>.of(
+    repositoryItems,
+    growable: false,
+  )..sort(_compareItems);
+
+  return List<TechniqueMediaItem>.unmodifiable(
+    sortedItems,
+  );
+}
+
+    return _resolveModelFallback(
+      technique,
+    );
+  }
+
+  /// Synchronous compatibility resolver.
+  ///
+  /// Existing synchronous consumers can continue using this method
+  /// until they are migrated to the repository-based data flow.
   static List<TechniqueMediaItem> resolve(
     TechniqueModel technique,
   ) {
-   final catalogItems =
-    TechniqueMediaRegistry.getMedia(
-  technique.id,
-);
+    final catalogItems = TechniqueMediaRegistry.getMedia(
+      technique.id,
+    );
 
-if (catalogItems.isNotEmpty) {
-  return List.unmodifiable(
+  if (catalogItems.isNotEmpty) {
+  final sortedItems = List<TechniqueMediaItem>.of(
     catalogItems,
+    growable: false,
+  )..sort(_compareItems);
+
+  return List<TechniqueMediaItem>.unmodifiable(
+    sortedItems,
   );
 }
-   
-    final professionalItems = technique.mediaItems
-        .where(_isApprovedProfessionalItem)
-        .toList();
 
-    if (professionalItems.isNotEmpty) {
-      professionalItems.sort(_compareItems);
-
-      return List.unmodifiable(
-        professionalItems,
-      );
-    }
-
-    // Temporary compatibility:
-    // Only legacy images may enter the Media Library.
-    // Legacy videos are intentionally ignored.
-    return _resolveLegacyImages(
+    return _resolveModelFallback(
       technique,
     );
   }
@@ -57,7 +81,9 @@ if (catalogItems.isNotEmpty) {
   static TechniqueMediaItem? primary(
     TechniqueModel technique,
   ) {
-    final items = resolve(technique);
+    final items = resolve(
+      technique,
+    );
 
     if (items.isEmpty) {
       return null;
@@ -99,11 +125,12 @@ if (catalogItems.isNotEmpty) {
         .where(
           (item) => item.type == type,
         )
-        .toList();
+        .toList(growable: false)
+      ..sort(_compareItems);
 
-    items.sort(_compareItems);
-
-    return List.unmodifiable(items);
+    return List<TechniqueMediaItem>.unmodifiable(
+      items,
+    );
   }
 
   /// Returns the total approved media count.
@@ -111,6 +138,26 @@ if (catalogItems.isNotEmpty) {
     TechniqueModel technique,
   ) {
     return resolve(technique).length;
+  }
+
+  /// Resolves approved model data when no repository catalog exists.
+  static List<TechniqueMediaItem> _resolveModelFallback(
+    TechniqueModel technique,
+  ) {
+    final professionalItems = technique.mediaItems
+        .where(_isApprovedProfessionalItem)
+        .toList(growable: false)
+      ..sort(_compareItems);
+
+    if (professionalItems.isNotEmpty) {
+      return List<TechniqueMediaItem>.unmodifiable(
+        professionalItems,
+      );
+    }
+
+    return _resolveLegacyImages(
+      technique,
+    );
   }
 
   /// Professional items must contain a usable direct resource.
@@ -143,8 +190,7 @@ if (catalogItems.isNotEmpty) {
       index < technique.images.length;
       index++
     ) {
-      final imageSource =
-          technique.images[index].trim();
+      final imageSource = technique.images[index].trim();
 
       if (imageSource.isEmpty) {
         continue;
@@ -159,8 +205,7 @@ if (catalogItems.isNotEmpty) {
           description:
               'Approved visual reference for studying ${technique.englishName}.',
           type: TechniqueMediaType.officialImage,
-          sourceType:
-              TechniqueMediaSourceType.judoMind,
+          sourceType: TechniqueMediaSourceType.judoMind,
           sourceName: 'Judo Mind Media Library',
           mediaUrl: imageSource,
           thumbnailUrl: imageSource,
@@ -179,9 +224,13 @@ if (catalogItems.isNotEmpty) {
       );
     }
 
-    items.sort(_compareItems);
+    items.sort(
+      _compareItems,
+    );
 
-    return List.unmodifiable(items);
+    return List<TechniqueMediaItem>.unmodifiable(
+      items,
+    );
   }
 
   static bool _isRejectedSearchUrl(
@@ -193,7 +242,9 @@ if (catalogItems.isNotEmpty) {
       return true;
     }
 
-    final uri = Uri.tryParse(value);
+    final uri = Uri.tryParse(
+      value,
+    );
 
     if (uri == null) {
       return true;
@@ -203,8 +254,7 @@ if (catalogItems.isNotEmpty) {
     final path = uri.path.toLowerCase();
 
     final isYouTube =
-        host.contains('youtube.com') ||
-        host.contains('youtu.be');
+        host.contains('youtube.com') || host.contains('youtu.be');
 
     if (isYouTube &&
         (path.contains('/results') ||
