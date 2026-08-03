@@ -25,29 +25,21 @@ abstract final class UchiMataMediaCatalog {
     TechniqueMediaItem(
       id: 'uchi-mata-official-image-001',
 
-      title:
-          'Uchi Mata — Official Technique Image',
+      title: 'Uchi Mata — Official Technique Image',
 
-      description:
-          'Official technical reference image for Uchi Mata.',
+      description: 'Official technical reference image for Uchi Mata.',
 
-      type:
-          TechniqueMediaType.officialImage,
+      type: TechniqueMediaType.officialImage,
 
-      sourceType:
-          TechniqueMediaSourceType.judoMind,
+      sourceType: TechniqueMediaSourceType.judoMind,
 
-      sourceName:
-          'Judo Mind Verified Library',
+      sourceName: 'Judo Mind Verified Library',
 
-      mediaUrl:
-          'assets/images/techniques/uchi_mata.png',
+      mediaUrl: 'assets/images/techniques/uchi_mata.png',
 
-      thumbnailUrl:
-          'assets/images/techniques/uchi_mata.png',
+      thumbnailUrl: 'assets/images/techniques/uchi_mata.png',
 
-      level:
-          'Advanced',
+      level: 'Advanced',
 
       isVerified: true,
 
@@ -55,155 +47,180 @@ abstract final class UchiMataMediaCatalog {
 
       sortOrder: 1,
 
-      tags: [
-        'Uchi Mata',
-        'Nage Waza',
-        'Ashi Waza',
-        'Official Image',
-      ],
+      tags: ['Uchi Mata', 'Nage Waza', 'Ashi Waza', 'Official Image'],
     ),
 
-
     TechniqueMediaItem(
-      id:
-          'uchi-mata-demo-placeholder-001',
+      id: 'uchi-mata-demo-placeholder-001',
 
-      title:
-          'Uchi Mata — Technical Demonstration',
+      title: 'Uchi Mata — Technical Demonstration',
 
       description:
           'Official demonstration placeholder. Replace with approved direct video source.',
 
-      type:
-          TechniqueMediaType.officialDemonstration,
+      type: TechniqueMediaType.officialDemonstration,
 
-      sourceType:
-          TechniqueMediaSourceType.ijf,
+      sourceType: TechniqueMediaSourceType.ijf,
 
-      sourceName:
-          'IJF Verified Archive',
+      sourceName: 'IJF Verified Archive',
 
-      mediaUrl:
-          '',
+      mediaUrl: '',
 
-      level:
-          'Advanced',
+      level: 'Advanced',
 
-      isVerified:
-          true,
+      isVerified: true,
 
-      sortOrder:
-          2,
+      sortOrder: 2,
 
-      tags: [
-        'Technical Demonstration',
-        'IJF',
-      ],
+      tags: ['Technical Demonstration', 'IJF'],
     ),
 
-
     TechniqueMediaItem(
-      id:
-          'uchi-mata-training-placeholder-001',
+      id: 'uchi-mata-training-placeholder-001',
 
-      title:
-          'Uchi Mata — Training Method',
+      title: 'Uchi Mata — Training Method',
 
-      description:
-          'Training drills and technical progression.',
+      description: 'Training drills and technical progression.',
 
-      type:
-          TechniqueMediaType.trainingVideo,
+      type: TechniqueMediaType.trainingVideo,
 
-      sourceType:
-          TechniqueMediaSourceType.judoMind,
+      sourceType: TechniqueMediaSourceType.judoMind,
 
-      sourceName:
-          'Judo Mind Training Library',
+      sourceName: 'Judo Mind Training Library',
 
-      mediaUrl:
-          '',
+      mediaUrl: '',
 
-      level:
-          'Advanced',
+      level: 'Advanced',
 
-      isPremium:
-          true,
+      isPremium: true,
 
-      sortOrder:
-          3,
+      sortOrder: 3,
 
-      tags: [
-        'Training',
-        'Drills',
-        'Progression',
-      ],
+      tags: ['Training', 'Drills', 'Progression'],
     ),
 
-
     TechniqueMediaItem(
-      id:
-          'uchi-mata-analysis-template-001',
+      id: 'uchi-mata-analysis-template-001',
 
-      title:
-          'Uchi Mata — 360° Analysis Template',
+      title: 'Uchi Mata — 360° Analysis Template',
 
-      description:
-          'Biomechanical and tactical analysis structure.',
+      description: 'Biomechanical and tactical analysis structure.',
 
-      type:
-          TechniqueMediaType.aiComparison,
+      type: TechniqueMediaType.aiComparison,
 
-      sourceType:
-          TechniqueMediaSourceType.judoMind,
+      sourceType: TechniqueMediaSourceType.judoMind,
 
-      sourceName:
-          'Sensi Bot AI Lab',
+      sourceName: 'Sensi Bot AI Lab',
 
-      mediaUrl:
-          '',
+      mediaUrl: '',
 
-      level:
-          'Advanced',
+      level: 'Advanced',
 
-      isPremium:
-          true,
+      isPremium: true,
 
-      analysis:
-    const MediaAnalysisMetadata(
-            opponentGuard:
-                'To be analyzed',
+      analysis: const MediaAnalysisMetadata(
+        opponentGuard: 'To be analyzed',
 
-            opponentStance:
-                'To be analyzed',
+        opponentStance: 'To be analyzed',
 
-            attackTiming:
-                'To be analyzed',
+        attackTiming: 'To be analyzed',
 
-            kuzushiDirection:
-                'To be analyzed',
+        kuzushiDirection: 'To be analyzed',
 
-            balanceAnalysis:
-                'To be analyzed',
+        balanceAnalysis: 'To be analyzed',
 
-            entryAngle:
-                'To be analyzed',
+        entryAngle: 'To be analyzed',
 
-            hipPosition:
-                'To be analyzed',
+        hipPosition: 'To be analyzed',
 
-            footPlacement:
-                'To be analyzed',
-          ),
+        footPlacement: 'To be analyzed',
+      ),
 
-      sortOrder:
-          4,
+      sortOrder: 4,
 
-      tags: [
-        'AI Analysis',
-        'Biomechanics',
-        '360 Analysis',
-      ],
+      tags: ['AI Analysis', 'Biomechanics', '360 Analysis'],
+    ),
+    TechniqueMediaItem(
+      id: 'uchi-mata-competition-analysis-001',
+
+      title: 'Uchi Mata — Competition Analysis',
+
+      description: 'High level competition execution analysis of Uchi Mata.',
+
+      type: TechniqueMediaType.competitionVideo,
+
+      sourceType: TechniqueMediaSourceType.competitionArchive,
+
+      sourceName: 'Judo Mind Competition Archive',
+
+      mediaUrl: '',
+
+      thumbnailUrl: '',
+
+      languageCode: 'en',
+
+      level: 'Elite',
+
+      isVerified: true,
+
+      isFeatured: true,
+
+      athleteName: 'Elite Athlete Example',
+
+      opponentName: 'International Opponent',
+
+      competitionName: 'World Championship Analysis',
+
+      competitionYear: 2024,
+
+      scoreResult: 'Ippon',
+
+      gripSituation: 'Standard sleeve and lapel grip',
+
+      attackDirection: 'Forward rotation',
+
+      executionVariation: 'Classic Uchi Mata',
+
+      tags: ['competition', 'elite', 'ippon', 'uchi mata'],
+    ),
+    TechniqueMediaItem(
+      id: 'uchi-mata-top-execution-001',
+
+      title: 'Uchi Mata — Top Execution',
+
+      description: 'Elite level Uchi Mata execution example.',
+
+      type: TechniqueMediaType.topExecution,
+
+      sourceType: TechniqueMediaSourceType.competitionArchive,
+
+      sourceName: 'Judo Mind Champion Archive',
+
+      mediaUrl: '',
+
+      thumbnailUrl: '',
+
+      languageCode: 'en',
+
+      level: 'Elite',
+
+      isVerified: true,
+
+      isFeatured: true,
+
+      athleteName: 'Elite Champion Example',
+
+      competitionName: 'Grand Slam Analysis',
+
+      competitionYear: 2024,
+
+      scoreResult: 'Ippon',
+
+      executionVariation: 'Classic Uchi Mata',
+
+      attackDirection: 'Forward rotation',
+
+      tags: ['top execution', 'champion', 'uchi mata', 'elite'],
     ),
   ];
 }

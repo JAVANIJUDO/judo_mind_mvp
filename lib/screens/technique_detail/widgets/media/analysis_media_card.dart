@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../../../../core/media/media_label_resolver.dart';
 import '../../../../core/theme/judo_design_tokens.dart';
 import '../../../../core/theme/judo_typography.dart';
 import '../../../../models/technique_media_item.dart';
@@ -66,17 +66,45 @@ class AnalysisMediaCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
 
                       children: [
-                        Text(item.title, style: JudoTypography.titleSmall),
+                      Text(
+  item.title
+      .replaceAll(' — 360° Analysis Template', '')
+      .replaceAll(' — AI Comparison', '')
+      .replaceAll(' — Biomechanics Analysis', ''),
 
-                        const SizedBox(height: JudoSpacing.xs),
+  maxLines: 1,
 
-                        Text(
-                          item.sourceName,
+  overflow: TextOverflow.ellipsis,
 
-                          style: JudoTypography.bodySmall.copyWith(
-                            color: JudoColors.gold,
-                          ),
-                        ),
+  style: JudoTypography.titleSmall,
+),
+
+const SizedBox(
+  height: JudoSpacing.xs,
+),
+
+Row(
+  children: [
+
+    const Icon(
+      Icons.psychology_alt_rounded,
+      size: 15,
+      color: JudoColors.gold,
+    ),
+
+    const SizedBox(
+      width: 5,
+    ),
+
+    Text(
+  MediaLabelResolver.category(item),
+
+  style: JudoTypography.bodySmall.copyWith(
+    color: JudoColors.gold,
+  ),
+),
+  ],
+),
                       ],
                     ),
                   ),
@@ -125,7 +153,7 @@ class AnalysisMediaCard extends StatelessWidget {
                 ),
 
                 child: const Text(
-                  'Open 360° Analysis',
+                  'Open Analysis',
 
                   style: TextStyle(
                     color: JudoColors.gold,

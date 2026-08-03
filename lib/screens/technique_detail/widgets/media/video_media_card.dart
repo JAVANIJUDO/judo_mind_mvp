@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/media/media_label_resolver.dart';
 
 import '../../../../core/theme/judo_design_tokens.dart';
 import '../../../../core/theme/judo_typography.dart';
@@ -44,50 +45,76 @@ class VideoMediaCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
 
                   children: [
-                    Text(
-                      item.title,
+  Text(
+  MediaLabelResolver.title(item),
 
-                      maxLines: 2,
+  maxLines: 1,
 
-                      overflow: TextOverflow.ellipsis,
+  overflow: TextOverflow.ellipsis,
 
-                      style: JudoTypography.titleSmall,
-                    ),
+  style: JudoTypography.titleSmall,
+),
 
-                    const SizedBox(height: JudoSpacing.xs),
+const SizedBox(
+  height: JudoSpacing.xs,
+),
 
-                    Text(
-                      item.sourceName,
+Text(
+  MediaLabelResolver.source(item),
 
-                      maxLines: 1,
+  maxLines: 1,
 
-                      overflow: TextOverflow.ellipsis,
+  overflow: TextOverflow.ellipsis,
 
-                      style: JudoTypography.bodySmall.copyWith(
-                        color: JudoColors.primary,
-                      ),
-                    ),
+  style: JudoTypography.bodySmall.copyWith(
+    color: JudoColors.primary,
+  ),
+),
 
-                    const SizedBox(height: JudoSpacing.xs),
+const SizedBox(
+  height: JudoSpacing.xs,
+),
 
-                    Row(
-                      children: [
-                        if (item.level.trim().isNotEmpty)
-                          Text(item.level, style: JudoTypography.labelSmall),
+Row(
+  children: [
 
-                        if (item.formattedDuration.isNotEmpty) ...[
-                          const SizedBox(width: JudoSpacing.sm),
+    if (item.isVerified)
+      const Icon(
+        Icons.verified,
+        size: 15,
+        color: JudoColors.gold,
+      ),
 
-                          Text(
-                            item.formattedDuration,
+    if (item.isVerified)
+      const SizedBox(
+        width: 5,
+      ),
 
-                            style: JudoTypography.labelSmall.copyWith(
-                              color: JudoColors.gold,
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
+    if (item.level.trim().isNotEmpty)
+      Text(
+        item.level,
+        style: JudoTypography.labelSmall,
+      ),
+
+    if (item.formattedDuration.isNotEmpty) ...[
+
+      const SizedBox(
+        width: JudoSpacing.sm,
+      ),
+
+      Text(
+        item.formattedDuration,
+
+        style:
+            JudoTypography.labelSmall.copyWith(
+          color: JudoColors.gold,
+        ),
+      ),
+    ],
+  ],
+),
+
+                    
                   ],
                 ),
               ),

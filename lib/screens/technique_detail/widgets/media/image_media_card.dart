@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../../../../core/media/media_label_resolver.dart';
 import '../../../../core/theme/judo_design_tokens.dart';
 import '../../../../core/theme/judo_typography.dart';
 import '../../../../models/technique_media_item.dart';
@@ -53,24 +53,52 @@ class ImageMediaCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      item.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: JudoTypography.titleSmall,
-                    ),
+  MediaLabelResolver.title(item),
 
-                    const SizedBox(height: JudoSpacing.xs),
+  maxLines: 1,
 
-                    Text(
-                      item.sourceName,
-                      style: JudoTypography.bodySmall.copyWith(
-                        color: JudoColors.primary,
-                      ),
-                    ),
+  overflow: TextOverflow.ellipsis,
 
-                    const SizedBox(height: JudoSpacing.xs),
+  style: JudoTypography.titleSmall,
+),
 
-                    Text(item.level, style: JudoTypography.labelSmall),
+const SizedBox(
+  height: JudoSpacing.xs,
+),
+
+Text(
+  MediaLabelResolver.category(item),
+
+  style: JudoTypography.bodySmall.copyWith(
+    color: JudoColors.primary,
+  ),
+),
+
+const SizedBox(
+  height: JudoSpacing.xs,
+),
+
+Row(
+  children: [
+
+    if (item.isVerified)
+      const Icon(
+        Icons.verified,
+        size: 15,
+        color: JudoColors.gold,
+      ),
+
+    if (item.isVerified)
+      const SizedBox(
+        width: 5,
+      ),
+
+    Text(
+      item.level,
+      style: JudoTypography.labelSmall,
+    ),
+  ],
+),
                   ],
                 ),
               ),

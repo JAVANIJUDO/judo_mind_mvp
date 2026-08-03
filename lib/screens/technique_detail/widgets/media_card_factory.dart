@@ -1,5 +1,6 @@
+import 'media/top_execution_card.dart';
 import 'package:flutter/material.dart';
-
+import 'media/competition_analysis_card.dart';
 import '../../../../models/technique_media_item.dart';
 
 import 'media/image_media_card.dart';
@@ -33,6 +34,14 @@ abstract final class MediaCardFactory {
     required TechniqueMediaItem item,
     required VoidCallback onTap,
   }) {
+    if (item.type ==
+        TechniqueMediaType.competitionVideo ||
+    item.type ==
+        TechniqueMediaType.championExample) {
+  return CompetitionAnalysisCard(
+    item: item,
+  );
+}
     if (_isAnalysis(item)) {
       return AnalysisMediaCard(
         item: item,
@@ -47,6 +56,12 @@ abstract final class MediaCardFactory {
       );
     }
 
+if (item.type ==
+    TechniqueMediaType.topExecution) {
+  return TopExecutionCard(
+    item: item,
+  );
+}
     if (item.isVideo) {
       return VideoMediaCard(
         item: item,
