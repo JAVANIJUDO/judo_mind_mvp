@@ -1,3 +1,4 @@
+import 'video_detail_screen.dart';
 import 'media_filter_bar.dart';
 import 'media_header.dart';
 import '../media_card_factory.dart';
@@ -31,86 +32,64 @@ import 'technique_media_resolver.dart';
 class MediaSection extends StatefulWidget {
   final TechniqueModel technique;
 
-  const MediaSection({
-    super.key,
-    required this.technique,
-  });
+  const MediaSection({super.key, required this.technique});
 
   @override
-  State<MediaSection> createState() =>
-      _MediaSectionState();
+  State<MediaSection> createState() => _MediaSectionState();
 }
-
 
 class _MediaSectionState extends State<MediaSection> {
+  MediaFilterType selectedFilter = MediaFilterType.all;
+  List<TechniqueMediaItem> _applyFilter(List<TechniqueMediaItem> items) {
+    switch (selectedFilter) {
+      case MediaFilterType.all:
+        return items;
 
-  MediaFilterType selectedFilter =
-      MediaFilterType.all;
-List<TechniqueMediaItem> _applyFilter(
-  List<TechniqueMediaItem> items,
-) {
+      case MediaFilterType.official:
+        return items
+            .where(
+              (item) =>
+                  item.type == TechniqueMediaType.officialImage ||
+                  item.type == TechniqueMediaType.officialDemonstration,
+            )
+            .toList();
 
-  switch (selectedFilter) {
+      case MediaFilterType.training:
+        return items
+            .where((item) => item.type == TechniqueMediaType.trainingVideo)
+            .toList();
 
-    case MediaFilterType.all:
-      return items;
+      case MediaFilterType.competition:
+        return items
+            .where(
+              (item) =>
+                  item.type == TechniqueMediaType.competitionVideo ||
+                  item.type == TechniqueMediaType.championExample,
+            )
+            .toList();
 
+      case MediaFilterType.topExecution:
+        return items
+            .where((item) => item.type == TechniqueMediaType.topExecution)
+            .toList();
 
-    case MediaFilterType.official:
-      return items.where(
-        (item) =>
-            item.type ==
-                TechniqueMediaType.officialImage ||
-            item.type ==
-                TechniqueMediaType.officialDemonstration,
-      ).toList();
-
-
-    case MediaFilterType.training:
-      return items.where(
-        (item) =>
-            item.type ==
-                TechniqueMediaType.trainingVideo,
-      ).toList();
-
-
-    case MediaFilterType.competition:
-      return items.where(
-        (item) =>
-            item.type ==
-                TechniqueMediaType.competitionVideo ||
-            item.type ==
-                TechniqueMediaType.championExample,
-      ).toList();
-
-
-    case MediaFilterType.topExecution:
-      return items.where(
-        (item) =>
-            item.type ==
-                TechniqueMediaType.topExecution,
-      ).toList();
-
-
-    case MediaFilterType.aiLab:
-      return items.where(
-        (item) =>
-            item.type ==
-                TechniqueMediaType.aiComparison ||
-            item.type ==
-                TechniqueMediaType.biomechanics ||
-            item.type ==
-                TechniqueMediaType.slowMotion,
-      ).toList();
+      case MediaFilterType.aiLab:
+        return items
+            .where(
+              (item) =>
+                  item.type == TechniqueMediaType.aiComparison ||
+                  item.type == TechniqueMediaType.biomechanics ||
+                  item.type == TechniqueMediaType.slowMotion,
+            )
+            .toList();
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
     final allItems = TechniqueMediaResolver.resolve(widget.technique);
-final filteredItems =
-    _applyFilter(allItems);
-    
+    final filteredItems = _applyFilter(allItems);
+
     if (allItems.isEmpty) {
       return _EmptyMediaLibrary(techniqueName: widget.technique.englishName);
     }
@@ -144,23 +123,17 @@ final filteredItems =
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         MediaHeader(techniqueName: widget.technique.englishName),
-        const SizedBox(
-  height: JudoSpacing.md,
-),
+        const SizedBox(height: JudoSpacing.md),
 
-MediaFilterBar(
-  selected: selectedFilter,
+        MediaFilterBar(
+          selected: selectedFilter,
 
-  onChanged: (filter) {
-
-    setState(() {
-
-      selectedFilter = filter;
-
-    });
-
-  },
-),
+          onChanged: (filter) {
+            setState(() {
+              selectedFilter = filter;
+            });
+          },
+        ),
 
         if (officialItems.isNotEmpty) ...[
           const SizedBox(height: JudoSpacing.xl),
@@ -253,6 +226,7 @@ MediaFilterBar(
     if (item.isImage) {
       await showDialog<void>(
         context: context,
+
         builder: (dialogContext) {
           return _TechniqueImageDialog(item: item);
         },
@@ -261,7 +235,22 @@ MediaFilterBar(
       return;
     }
 
+    if (item.isVideo) {
+      if (!context.mounted) {
+        return;
+      }
+
+      await Navigator.push(
+        context,
+
+        MaterialPageRoute(builder: (_) => VideoDetailScreen(item: item)),
+      );
+
+      return;
+    }
+
     final rawUrl = item.mediaUrl.trim();
+
     final uri = Uri.tryParse(rawUrl);
 
     if (!_isValidHttpUri(uri)) {
@@ -272,18 +261,12 @@ MediaFilterBar(
       return;
     }
 
-    if (_isRejectedSearchUrl(uri!)) {
-      if (context.mounted) {
-        _showMessage(
-          context,
-          'This media source has not yet been replaced with an approved direct video.',
-        );
-      }
+    final validUri = uri!;
 
-      return;
-    }
-
-    final opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    final opened = await launchUrl(
+      validUri,
+      mode: LaunchMode.externalApplication,
+    );
 
     if (!opened && context.mounted) {
       _showMessage(context, 'The selected media could not be opened.');
@@ -315,7 +298,6 @@ MediaFilterBar(
       ..showSnackBar(SnackBar(content: Text(message)));
   }
 }
-
 
 class _MediaLibraryIntro extends StatelessWidget {
   final String techniqueName;
