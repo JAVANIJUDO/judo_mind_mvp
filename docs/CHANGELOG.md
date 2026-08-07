@@ -1264,3 +1264,42 @@ Implemented, automated-test validated and physical-device end-to-end validated
 - Confirmed the backend temporary upload was removed after processing; local CPU processing took approximately 4 minutes 40 seconds and remains unsuitable for production latency.
 - No test was run on the closed Stereo video pair and no calibration or multiview file was changed.
 - Manual end-to-end validation with a new single-camera Uchi Mata clip passed on 2026-08-07.
+
+---
+
+## Uchi Mata Scientific Metrics v1 and Fight Intelligence 360 Levels
+
+Date:
+
+2026-08-08
+
+Status:
+
+Scientific/product architecture documented; no analysis implementation added
+
+### Added
+
+- Added `docs/UCHI_MATA_SCIENTIFIC_METRICS_V1.md` as the versioned scientific metric contract.
+- Formalized three independent Fight Intelligence 360 levels: Single-Camera AI, Multi-Camera 3D and Professional/Federation/Laboratory.
+- Defined metric IDs, required inputs, methods, units, level, provenance, confidence evidence, scientific sources and allowed/prohibited interpretations.
+- Defined Level 1 projected timing, angle, displacement, velocity, grip, foot-placement, relative-position, 2D COM-proxy and Uke balance-displacement candidates.
+- Defined Level 2 reconstructed 3D skeleton, trajectories, joint geometry, relative positioning, velocity, model-estimated COM and reference-comparison candidates.
+- Defined Level 3 measured force/sensor inputs and model-estimated momentum, inverse-dynamics, moment, work and power candidates.
+- Recorded the five approved Uchi Mata DOI sources and their methodological limits.
+- Recorded source-specific phase/event definitions and prohibited silent mapping to canonical Kuzushi/Tsukuri/Kake labels.
+- Defined Interactive 3D/360 as virtual-camera viewing of a validated reconstructed scene.
+- Defined AI Sensi, annotated-video, voice-coaching and scientific-report coordination and preserved Blue/Gold/Green overlay semantics.
+
+### Scientific safeguards
+
+- Preserved the JM-DEC-018 fail-closed calibration and OpenSim gates.
+- Preserved the rejected `review_required` stereo disposition and the ban on retesting its source videos.
+- Prohibited invented normative thresholds and promotion of provenance.
+- Required Level 1 Green arrows to be AI-inferred conceptual cues rather than measured force vectors.
+- Classified champion-specific and small-sample study findings as reference evidence, not universal ideals.
+
+### Validation
+
+- Documentation-only consistency review completed against AGENTS.md and all mandatory reference documents.
+- No Flutter or Python source was changed, so no application test or `flutter analyze` run was required.
+- No Stereo/Multiview test was run.

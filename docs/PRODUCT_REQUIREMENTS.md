@@ -12,7 +12,7 @@ Active Development
 
 Last Updated:
 
-2026-08-05
+2026-08-08
 
 
 ---
@@ -1122,3 +1122,60 @@ Every result must show or retain:
 User-facing scientific 3D requires at least the approved `good` calibration profile. OpenSim additionally requires independent approval of cross-camera identity, temporal alignment, reconstructed motion quality and anatomical mapping. Passing calibration is necessary but never sufficient for an OpenSim result.
 
 The stereo extrinsic from the calibration cycle closed on 2026-08-07 is rejected for product use. Its `review_required` status, 48.2750333 px RMS and 55.4328918 px median epipolar error must keep it blocked from 3D, biomechanics and OpenSim.
+
+# 9.18 Three-Level Fight Intelligence 360 Product Requirement
+
+Fight Intelligence 360 must present three scientific levels with independent promises and availability:
+
+## Level 1 - Single-Camera AI Analysis
+
+- Accept an ordinary training or competition video.
+- Provide measured media metadata, projected 2D pose/movement metrics and AI-inferred technical coaching where reportable.
+- Label projected angles, displacement, velocity, 2D COM proxy and balance cues with confidence and limitations.
+- Never present true/reconstructed 3D, measured force, true 3D COM, actual joint moment, power or torque.
+
+## Level 2 - Multi-Camera 3D Analysis
+
+- Require synchronized cameras, accepted intrinsics/extrinsics/orientation, persistent cross-camera Tori/Uke identity, landmark correspondence, triangulation and reconstruction-quality gates.
+- Permit reconstructed 3D skeleton, trajectories, joint geometry, relative position and 3D velocity only after all gates pass.
+- Permit model-estimated COM and later OpenSim only after their additional gates pass.
+- Keep every `review_required` calibration and the rejected 2026-08-07 stereo extrinsic blocked.
+
+## Level 3 - Professional / Federation / Laboratory Analysis
+
+- Support future synchronized high-speed cameras, calibrated volumes, marker-based or validated markerless systems, optional IMUs, force plates/external-force systems, approved EMG and OpenSim.
+- Permit measured force only from valid instrumentation.
+- Permit inverse dynamics, joint moment, power, work and momentum only as model-estimated results with disclosed assumptions and quality evidence.
+- Provide the reference environment for validation of lower product levels.
+
+## Metric and Report Requirements
+
+The official Uchi Mata metric registry is `docs/UCHI_MATA_SCIENTIFIC_METRICS_V1.md`. Every finding must retain:
+
+- Metric ID, name, value and unit
+- athlete role and phase/event schema
+- analysis level and provenance
+- confidence components and quality state
+- method/model version
+- limitation and scientific source
+- coaching interpretation and prohibited interpretation
+
+The product must not invent normative targets. Source-specific phases must not be silently mapped to canonical Kuzushi/Tsukuri/Kake.
+
+## Interactive 3D / 360
+
+After valid Level 2/3 reconstruction, the user may view Front, Side, Rear, Top and Free 360 virtual-camera perspectives. Product copy must say `3D reconstruction + 360 viewing`; it must not imply 360-camera capture.
+
+## Result Experience
+
+The result must connect:
+
+- AI Sensi
+- annotated video
+- voice coaching
+- scientific report
+- interactive 3D/360 when evidence permits
+
+Blue overlays show movement/position/joint geometry. Gold overlays show grip/Hikite/Tsurite/upper-body control. Green overlays show balance/COM/mechanical direction; at Level 1, directional cues are conceptual `AI-inferred` coaching cues and never measured force vectors.
+
+AI Sensi must remain independent Judo Mind intellectual property. It may be inspired by Mohammad Javani's visual identity without copying his full face. No real narrator or third-party voice may be cloned without permission.

@@ -9,13 +9,13 @@ Document:
 Software Architecture
 
 Version:
-1.1
+1.2
 
 Status:
 Approved Architecture Baseline
 
 Last Updated:
-2026-08-05
+2026-08-08
 
 ---
 
@@ -888,3 +888,39 @@ An OpenSim-purpose calibration context proves only that the calibration portion 
 ### Closed 2026-08-07 Calibration Cycle
 
 The current two-phone extrinsic has RMS 48.2750333 px, median epipolar error 55.4328918 px and quality `review_required`. It is blocked from offline 3D validation, user-facing scientific 3D and OpenSim. The current pair is retained as evidence, but its source videos must not be tested again. Stabilization/EIS/OIS virtual-camera change is recorded only as an unconfirmed hypothesis.
+
+---
+
+## 6.14 Three-Level Fight Intelligence 360 Architecture
+
+JM-DEC-019 expands the product-level analysis architecture from the two operational video pipelines in JM-DEC-018 into three explicit scientific levels. It does not weaken or remove the Single-Camera/Multi-Camera boundary or any calibration safeguard.
+
+### Level 1 - Single-Camera AI Analysis
+
+One ordinary video may produce measured media metadata, model-estimated projected 2D kinematics and AI-inferred phases or coaching observations. Spatial results must use `projected` or `image-plane` language. True/reconstructed 3D, true 3D COM, measured force, actual joint moment, torque or power are prohibited.
+
+### Level 2 - Multi-Camera 3D Analysis
+
+The required pipeline is:
+
+`synchronization -> intrinsics -> extrinsics -> orientation -> cross-camera Tori/Uke identity -> correspondence -> triangulation -> 3D reconstruction -> filtering -> confidence/quality gates -> 3D metrics`
+
+Only a run that passes every gate may publish reconstructed 3D landmarks, trajectories, geometric joint angles, relative position, velocity, model-estimated COM or interactive 3D/360 viewing. `review_required` remains rejected. The failed 2026-08-07 dataset is evidence of an invalid capture/calibration cycle, not a reason to remove the Level 2 architecture.
+
+### Level 3 - Professional / Federation / Laboratory Analysis
+
+This level may combine synchronized high-speed cameras, a calibrated capture volume, marker-based or validated markerless capture, optional IMUs, force plates or other external-force instrumentation, EMG where approved, and OpenSim. It supports high-quality 3D kinematics and only supports kinetics/inverse dynamics when valid external-force and model evidence is available.
+
+Level 3 is the reference-validation environment for Levels 1 and 2. Laboratory context alone does not authorize a measured or kinetic claim.
+
+### Metric Registry Boundary
+
+The versioned scientific contract is `docs/UCHI_MATA_SCIENTIFIC_METRICS_V1.md`. Every metric must declare its ID, role, phase/event schema, method, unit, minimum input, valid level, provenance, confidence evidence, source and prohibited interpretation. No threshold or normative target may be introduced without supporting evidence, validation and a recorded decision.
+
+### Interactive 3D / 360
+
+Interactive viewing is a virtual camera over a validated reconstructed scene. It provides Front, Side, Rear, Top and Free 360 views and must be described as `3D reconstruction + 360 viewing`, not 360-camera capture. Athlete-versus-reference comparison may show compatible angle, time and position differences but must not treat a single champion, trial or incompatible phase schema as a universal ideal.
+
+### Result Presentation
+
+Fight Intelligence results coordinate AI Sensi, annotated video, voice coaching, a scientific report and, when Level 2/3 evidence permits, interactive 3D/360. Blue represents movement/position/joint geometry; Gold represents grip/Hikite/Tsurite/upper-body control; Green represents balance/COM/mechanical direction. At Level 1, Green directional arrows are AI-inferred conceptual coaching cues, never measured force vectors.

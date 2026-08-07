@@ -1021,3 +1021,104 @@ A professional two-phone stereo capture protocol will be designed separately. St
 - CHANGELOG.md
 - PRODUCT_REQUIREMENTS.md
 - PROJECT_STATUS.md
+
+---
+
+## JM-DEC-019
+
+Date:
+
+2026-08-08
+
+Status:
+
+Approved
+
+Category:
+
+Scientific Architecture, Product Integrity and Analysis UX
+
+Title:
+
+Three-Level Fight Intelligence 360 and Uchi Mata Scientific Metrics Contract
+
+### Context
+
+JM-DEC-018 established separate Single-Camera AI and Multi-Camera 3D Scientific pipelines and a fail-closed calibration boundary. Judo Mind now requires a formal metric contract and a third professional/laboratory level so that ordinary video, validated 3D reconstruction and instrumented scientific analysis cannot be confused in the product.
+
+The recent failed stereo cycle remains a rejected dataset/capture result. It does not invalidate the Multi-Camera architecture, and its two source videos remain closed to further testing.
+
+### Decision
+
+Fight Intelligence 360 has three independent scientific levels:
+
+1. Level 1 - Single-Camera AI Analysis
+2. Level 2 - Multi-Camera 3D Analysis
+3. Level 3 - Professional / Federation / Laboratory Analysis
+
+Every published result must be bounded by its level and retain measured, reconstructed, model-estimated or AI-inferred provenance without promotion.
+
+### Level 1 Boundary
+
+- Accept one ordinary video.
+- Permit measured media metadata, projected/image-plane model estimates and AI-inferred phases or coaching.
+- Require confidence, method, source and visible limitations.
+- Prohibit true/reconstructed 3D, true 3D COM, measured force, actual joint moment, power or torque.
+- Permit Green balance/mechanical arrows only as conceptual AI-inferred coaching cues.
+
+### Level 2 Boundary
+
+Require this fail-closed sequence before publishing 3D:
+
+`synchronization -> intrinsics -> extrinsics -> orientation -> cross-camera Tori/Uke identity -> correspondence -> triangulation -> reconstruction -> filtering -> confidence/quality gates`
+
+Only after all gates pass may the product expose reconstructed 3D landmarks, trajectories, geometric joint angles, relative position, 3D velocities, model-estimated COM and interactive 3D/360 viewing. `review_required` remains forbidden.
+
+### Level 3 Boundary
+
+Level 3 may use synchronized high-speed cameras, a calibrated capture volume, marker-based or validated markerless capture, optional IMUs, force plates/external-force systems, approved EMG and OpenSim. Measured external forces require valid instrumentation. Inverse-dynamics, joint moment, joint power and momentum remain model-estimated outputs derived under disclosed assumptions.
+
+Level 3 is the reference-validation environment for Level 1 and Level 2 accuracy claims.
+
+### Metric Contract
+
+`docs/UCHI_MATA_SCIENTIFIC_METRICS_V1.md` is the official versioned specification. Each metric must define:
+
+- Metric ID and coaching name
+- scientific variable
+- Tori/Uke role
+- phase/event schema
+- required landmarks or sensors
+- formula/method and unit
+- required camera setup and valid level
+- provenance and confidence evidence
+- DOI/source
+- allowed and prohibited interpretations
+
+No normative threshold may be invented from memory, a single athlete, a small study or an incompatible phase definition.
+
+### Phase Definitions
+
+The canonical Judo Mind sequence remains Preparation, Kuzushi, Tsukuri, Kake, Flight/Throw, Landing and Transition. Source-specific phase/event definitions must be stored and may be mapped only through explicit expert review. DOI `10.3390/jfmk10040378`, for example, uses a noncanonical Approach/Turning/Throw mapping and must not be silently relabelled.
+
+### Interactive 3D / 360
+
+The feature is `3D reconstruction + 360 viewing`: Front, Side, Rear, Top and Free virtual-camera views over valid reconstructed motion. It is not 360-camera capture. Future athlete/reference comparison may show compatible angle, timing and position differences without declaring one champion or trial a universal ideal.
+
+### Result Experience
+
+Fight Intelligence results combine AI Sensi, annotated video, voice coaching, scientific report and conditional 3D/360. Every finding exposes metric, value, phase, provenance, confidence, limitation, scientific source and coaching interpretation. No real narrator or third party may be cloned without permission.
+
+### First Implementation Direction
+
+After persistent Tori identity and a reviewed event-annotation protocol exist, the first recommended metrics are execution duration, projected trunk inclination and projected support-leg knee angle. This decision authorizes specification only; it does not claim implementation or validation.
+
+### Required Documentation Updates
+
+- `ARCHITECTURE.md`
+- `DECISION_LOG.md`
+- `PROJECT_STATUS.md`
+- `CHANGELOG.md`
+- `PRODUCT_REQUIREMENTS.md`
+- `AI_DEVELOPMENT_RULES.md`
+- `UCHI_MATA_SCIENTIFIC_METRICS_V1.md`

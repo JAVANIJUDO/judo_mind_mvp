@@ -20,7 +20,7 @@ v0.15
 
 Last Updated:
 
-2026-08-07
+2026-08-08
 
 Development Stage:
 
@@ -714,6 +714,41 @@ Validation:
 
 ---
 
+# Uchi Mata Scientific Metrics Specification v1
+
+Status:
+
+Official architecture and scientific specification approved; implementation not started.
+
+Recorded on:
+
+2026-08-08
+
+Completed in this specification stage:
+
+- Defined Fight Intelligence 360 Level 1 Single-Camera AI, Level 2 Multi-Camera 3D and Level 3 Professional/Federation/Laboratory analysis.
+- Preserved every JM-DEC-018 calibration and provenance safeguard.
+- Defined a versioned Uchi Mata metric registry with required role, phase/event, landmarks or sensors, formula, unit, level, provenance, confidence, source, allowed interpretation and prohibited interpretation.
+- Defined the Level 1 boundary as projected 2D model estimates and AI inference, never true/reconstructed 3D or measured kinetics.
+- Preserved Level 2 as the official path to reconstructed 3D after synchronization, calibration, orientation, cross-camera identity, correspondence, triangulation and quality gates.
+- Defined Level 3 as the validation and advanced laboratory path for high-speed motion capture, force plates, optional IMUs/EMG and OpenSim-supported modeling.
+- Recorded source-specific phase definitions without forcing them into the canonical Preparation/Kuzushi/Tsukuri/Kake/Flight/Landing/Transition sequence.
+- Defined Interactive 3D/360 as virtual-camera viewing of valid reconstruction, not 360-camera capture.
+- Defined the coordinated result UX: AI Sensi, annotated video, voice coaching, scientific report and conditional 3D/360.
+- Selected execution duration, projected trunk inclination and projected support-leg knee angle as the first three metrics recommended after stable Tori identity and an event-annotation protocol exist.
+
+Scientific source review:
+
+- DOI `10.3390/jfmk10040378`
+- DOI `10.34518/rjsp.16.0_10`
+- DOI `10.51979/KSSLS.2013.12.54.1073`
+- DOI `10.5103/KJSB.2002.12.1.063`
+- DOI `10.11214/budo.50.S_73`
+
+No source-code implementation or new video analysis was performed in this stage. No old Stereo video was tested or modified.
+
+---
+
 # Current Main Development Task
 
 ## Judo Mind Scientific Biomechanics Foundation
@@ -724,19 +759,19 @@ Uchi Mata
 
 Current objective:
 
-Maintain separate Single-Camera AI and Multi-Camera 3D Scientific pipelines while building the validated foundations required before OpenSim biomechanical analysis.
+Implement the approved Uchi Mata Scientific Metrics v1 incrementally within the three-level Fight Intelligence 360 boundary while preserving every validation gate required before 3D, kinetics or OpenSim use.
 
 Current focus:
 
-→ Fail-closed calibration quality architecture
+→ Persistent Tori / Uke identity and reviewed event annotation for Level 1
 
-→ Multi-camera synchronization architecture
+→ First three projected/temporal Level 1 metrics with provenance and confidence
 
-→ Tori / Uke identity architecture
+→ Fail-closed calibration and synchronization architecture for Level 2
 
-→ 2D-to-3D landmark reconstruction
+→ Cross-camera identity and 2D-to-3D landmark reconstruction
 
-→ OpenSim-compatible motion data
+→ Level 3 reference-validation path and OpenSim-compatible motion data
 
 ---
 

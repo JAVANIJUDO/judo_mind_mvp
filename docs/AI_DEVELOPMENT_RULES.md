@@ -1,7 +1,7 @@
 # Judo Mind AI Development Rules
 
 Version:
-2.0
+2.1
 
 Status:
 Active Development Standard
@@ -1136,3 +1136,57 @@ The JM-DEC-018 boundary between Single-Camera AI Analysis and Multi-Camera 3D Sc
 - Record stabilization/EIS/OIS virtual-camera change as a hypothesis until independently verified; do not present it as the confirmed cause.
 - Do not run further tests on the two videos from the stereo calibration cycle closed on 2026-08-07.
 - Any future threshold change requires scientific validation and synchronization of `ARCHITECTURE.md`, `DECISION_LOG.md`, `PROJECT_STATUS.md`, `PRODUCT_REQUIREMENTS.md` and `CHANGELOG.md`.
+
+---
+
+## 14. Intent-to-Metric Scientific Execution Rules
+
+JM-DEC-019 and `docs/UCHI_MATA_SCIENTIFIC_METRICS_V1.md` are mandatory whenever AI designs or implements Fight Intelligence metrics.
+
+### Three-Level Boundary
+
+- Level 1 is Single-Camera AI: measured media metadata, projected/image-plane model estimates and AI inference only.
+- Level 2 is Multi-Camera 3D: reconstructed results only after synchronization, calibration, orientation, identity, correspondence, geometry and reconstruction-quality gates pass.
+- Level 3 is Professional/Federation/Laboratory: instrumented reference analysis and scientifically supported model-based kinetics.
+- A higher product tier or laboratory label must never promote the provenance of an unsupported value.
+
+### Metric Work Order
+
+Before implementation, AI must create or update an internal engineering Work Order that identifies:
+
+- the approved Metric ID and scientific variable;
+- athlete role and source/canonical phase schema;
+- required landmarks, sensors and camera setup;
+- formula, coordinate frame, smoothing and unit;
+- valid level and exact provenance;
+- confidence components and withholding conditions;
+- scientific source and validation dataset;
+- allowed and prohibited UI interpretation;
+- API, Flutter, test and documentation effects.
+
+The Work Order need not be shown in full unless requested, but implementation must not begin when these fields are unresolved in a way that materially changes scientific meaning.
+
+### Evidence Rules
+
+- Do not invent normative angles, timing, velocities, thresholds or coaching targets from memory.
+- Do not convert group means, a single champion, a small sample or an incompatible protocol into a universal ideal.
+- Preserve the original phase/event definition from each source. Map it to Preparation/Kuzushi/Tsukuri/Kake/Flight/Landing/Transition only after explicit expert review.
+- Treat pose-derived 2D angles and landmarks as `model-estimated`, not measured.
+- Treat automated phase labels, error labels and coaching cues as `AI-inferred`.
+- Treat triangulated 3D geometry as `reconstructed` and OpenSim/inverse-dynamics output as `model-estimated`.
+- Treat force, IMU or EMG signals as `measured` only when suitable calibrated hardware directly captured them.
+
+### UX and Visualization Rules
+
+- Every scientific finding must expose or retain metric, value, unit, role, phase, level, provenance, confidence, limitation, source and method version.
+- Blue overlays represent movement, position and joint geometry.
+- Gold overlays represent grip, Hikite, Tsurite, pull and upper-body control.
+- Green overlays represent balance, COM and mechanical direction. Level 1 Green arrows must be labelled as AI-inferred conceptual cues and must not imitate measured force vectors.
+- Interactive 3D/360 is available only from valid reconstruction and must be described as `3D reconstruction + 360 viewing`.
+
+### Validation Rules
+
+- Validate projected Level 1 metrics against expert frame annotations and, where possible, synchronized Level 3 reference capture.
+- Validate Level 2 reconstruction against a higher-quality laboratory reference before making production accuracy claims.
+- Require metric-specific tests for formula, units, provenance, confidence, invalid input, identity uncertainty, occlusion and UI wording.
+- Update the metric registry, API contract, Flutter presentation and all required project documents together.
