@@ -2051,6 +2051,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sensi Bot Recommendation'**
   String get sensiBotRecommendation;
+
+  /// No description provided for @singleCameraPoseSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Single-Camera Pose Summary'**
+  String get singleCameraPoseSummaryTitle;
+
+  /// No description provided for @experimentalPoseBaseline.
+  ///
+  /// In en, this message translates to:
+  /// **'experimental pose baseline'**
+  String get experimentalPoseBaseline;
+
+  /// No description provided for @measuredVideoMetadataLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Video metadata · measured'**
+  String get measuredVideoMetadataLabel;
+
+  /// No description provided for @modelEstimatedPoseCoverageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pose coverage · model-estimated'**
+  String get modelEstimatedPoseCoverageLabel;
+
+  /// No description provided for @analyzedFramesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyzed frames'**
+  String get analyzedFramesLabel;
+
+  /// No description provided for @atLeastOnePoseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'At least one pose detected'**
+  String get atLeastOnePoseLabel;
+
+  /// No description provided for @twoPosesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Two poses detected'**
+  String get twoPosesLabel;
+
+  /// No description provided for @scientificConfidenceUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Scientific confidence is not available in this diagnostic slice. Coverage is not biomechanics confidence.'**
+  String get scientificConfidenceUnavailable;
+
+  /// No description provided for @scientificLimitationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scientific limitations'**
+  String get scientificLimitationsTitle;
+
+  /// No description provided for @poseIdentityNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Pose order is frame-local and does not establish persistent Tori or Uke identity.'**
+  String get poseIdentityNotAvailable;
+
+  /// No description provided for @phaseDetectionNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Kuzushi, Tsukuri and Kake are not detected in this version.'**
+  String get phaseDetectionNotAvailable;
+
+  /// No description provided for @singleCamera2dOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'This single-camera result is not measured or reconstructed 3D.'**
+  String get singleCamera2dOnly;
+
+  /// No description provided for @forceTorqueNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No real force, torque or laboratory-grade biomechanics is reported.'**
+  String get forceTorqueNotAvailable;
+
+  /// No description provided for @experimentalPoseLimitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Pose coverage comes from an experimental model and is not a scientific confidence score.'**
+  String get experimentalPoseLimitation;
+
+  /// No description provided for @runPoseAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'Run 2D Pose Check'**
+  String get runPoseAnalysis;
+
+  /// No description provided for @poseAnalysisRunning.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking Pose Visibility...'**
+  String get poseAnalysisRunning;
 }
 
 class _AppLocalizationsDelegate

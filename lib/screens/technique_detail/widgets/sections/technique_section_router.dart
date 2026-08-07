@@ -1,5 +1,8 @@
+import '../analyze/analyze_section.dart';
+import 'conditioning_section.dart';
+import 'shadow_training_section.dart';
 import 'package:flutter/material.dart';
-
+import 'biomechanics_section.dart';
 import '../../../../core/theme/judo_design_tokens.dart';
 import '../../../../core/theme/judo_typography.dart';
 import '../../../../core/widgets/judo_badge.dart';
@@ -43,22 +46,18 @@ abstract final class TechniqueSectionRouter {
           title: 'Overview',
           icon: Icons.dashboard_customize_outlined,
           accentColor: JudoColors.primary,
-          child: OverviewSection(
-            technique: technique,
-          ),
+          child: OverviewSection(technique: technique),
         );
 
       case TechniqueDashboardSection.videos:
-  return TechniqueBottomSheet.show<void>(
-    context: context,
-    title: 'Media Library',
-    icon: Icons.video_library_outlined,
-    accentColor: JudoColors.primary,
-    initialChildSize: 0.92,
-    child: MediaSection(
-      technique: technique,
-    ),
-  );
+        return TechniqueBottomSheet.show<void>(
+          context: context,
+          title: 'Media Library',
+          icon: Icons.video_library_outlined,
+          accentColor: JudoColors.primary,
+          initialChildSize: 0.92,
+          child: MediaSection(technique: technique),
+        );
 
       case TechniqueDashboardSection.technicalAnalysis:
         return TechniqueBottomSheet.show<void>(
@@ -67,9 +66,16 @@ abstract final class TechniqueSectionRouter {
           icon: Icons.analytics_outlined,
           accentColor: JudoColors.primary,
           initialChildSize: 0.88,
-          child: TechnicalAnalysisSection(
-            technique: technique,
-          ),
+          child: TechnicalAnalysisSection(technique: technique),
+        );
+      case TechniqueDashboardSection.biomechanics:
+        return TechniqueBottomSheet.show<void>(
+          context: context,
+          title: 'Biomechanics',
+          icon: Icons.hub_outlined,
+          accentColor: JudoColors.success,
+          initialChildSize: 0.92,
+          child: BiomechanicsSection(technique: technique),
         );
 
       case TechniqueDashboardSection.training:
@@ -95,7 +101,25 @@ abstract final class TechniqueSectionRouter {
             ],
           ),
         );
+      case TechniqueDashboardSection.shadowTraining:
+        return TechniqueBottomSheet.show<void>(
+          context: context,
+          title: 'Shadow Training',
+          icon: Icons.directions_run_outlined,
+          accentColor: JudoColors.primary,
+          initialChildSize: 0.92,
+          child: ShadowTrainingSection(technique: technique),
+        );
 
+      case TechniqueDashboardSection.conditioning:
+        return TechniqueBottomSheet.show<void>(
+          context: context,
+          title: 'Strength & Conditioning',
+          icon: Icons.sports_gymnastics_outlined,
+          accentColor: JudoColors.success,
+          initialChildSize: 0.92,
+          child: ConditioningSection(technique: technique),
+        );
       case TechniqueDashboardSection.tactical:
         return TechniqueBottomSheet.show<void>(
           context: context,
@@ -103,9 +127,7 @@ abstract final class TechniqueSectionRouter {
           icon: Icons.psychology_alt_outlined,
           accentColor: JudoColors.success,
           initialChildSize: 0.86,
-          child: TacticalIntelligenceSection(
-            technique: technique,
-          ),
+          child: TacticalIntelligenceSection(technique: technique),
         );
 
       case TechniqueDashboardSection.competition:
@@ -115,9 +137,7 @@ abstract final class TechniqueSectionRouter {
           icon: Icons.emoji_events_outlined,
           accentColor: JudoColors.success,
           initialChildSize: 0.86,
-          child: CompetitionAnalysisSection(
-            technique: technique,
-          ),
+          child: CompetitionAnalysisSection(technique: technique),
         );
 
       case TechniqueDashboardSection.combinations:
@@ -147,8 +167,7 @@ abstract final class TechniqueSectionRouter {
             children: [
               _TechniqueListContent(
                 title: 'Common Mistakes',
-                emptyMessage:
-                    'No common mistakes have been recorded yet.',
+                emptyMessage: 'No common mistakes have been recorded yet.',
                 icon: Icons.warning_amber_rounded,
                 accentColor: JudoColors.danger,
                 items: technique.commonMistakes,
@@ -156,8 +175,7 @@ abstract final class TechniqueSectionRouter {
               const SizedBox(height: JudoSpacing.xl),
               _TechniqueListContent(
                 title: 'Safety Guidance',
-                emptyMessage:
-                    'Safety guidance has not been added yet.',
+                emptyMessage: 'Safety guidance has not been added yet.',
                 icon: Icons.health_and_safety_outlined,
                 accentColor: JudoColors.warning,
                 items: technique.safetyTips,
@@ -196,9 +214,7 @@ abstract final class TechniqueSectionRouter {
           title: 'Champions',
           icon: Icons.workspace_premium_outlined,
           accentColor: JudoColors.gold,
-          child: _ChampionsContent(
-            champions: technique.famousUsers,
-          ),
+          child: _ChampionsContent(champions: technique.famousUsers),
         );
 
       case TechniqueDashboardSection.sensiBot:
@@ -210,10 +226,9 @@ abstract final class TechniqueSectionRouter {
           initialChildSize: 0.84,
           child: TechniqueSectionPlaceholder(
             title: 'Sensi Bot AI Coach',
-            description:
-                technique.aiTrainingAdvice.trim().isEmpty
-                    ? 'Personalized technical guidance will be generated from training history and AI analysis.'
-                    : technique.aiTrainingAdvice,
+            description: technique.aiTrainingAdvice.trim().isEmpty
+                ? 'Personalized technical guidance will be generated from training history and AI analysis.'
+                : technique.aiTrainingAdvice,
             icon: Icons.smart_toy_outlined,
             accentColor: JudoColors.gold,
             isAiFeature: true,
@@ -234,9 +249,7 @@ abstract final class TechniqueSectionRouter {
           icon: Icons.quiz_outlined,
           accentColor: JudoColors.gold,
           initialChildSize: 0.92,
-          child: QuizSection(
-            quizzes: technique.quiz,
-          ),
+          child: QuizSection(quizzes: technique.quiz),
         );
 
       case TechniqueDashboardSection.sources:
@@ -245,9 +258,16 @@ abstract final class TechniqueSectionRouter {
           title: 'Official Sources',
           icon: Icons.verified_outlined,
           accentColor: JudoColors.gold,
-          child: _SourcesContent(
-            sources: technique.sources,
-          ),
+          child: _SourcesContent(sources: technique.sources),
+        );
+      case TechniqueDashboardSection.aiAnalysis:
+        return TechniqueBottomSheet.show<void>(
+          context: context,
+          title: 'AI Fight Intelligence 360',
+          icon: Icons.auto_graph_rounded,
+          accentColor: JudoColors.gold,
+          initialChildSize: 0.94,
+          child: AnalyzeSection(technique: technique),
         );
     }
   }
@@ -270,36 +290,21 @@ class _TechniqueListContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final visibleItems = items
-        .where(
-          (item) => item.trim().isNotEmpty,
-        )
-        .toList();
+    final visibleItems = items.where((item) => item.trim().isNotEmpty).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _ContentHeader(
-          title: title,
-          icon: icon,
-          accentColor: accentColor,
-        ),
+        _ContentHeader(title: title, icon: icon, accentColor: accentColor),
         const SizedBox(height: JudoSpacing.lg),
         if (visibleItems.isEmpty)
-          _EmptyContent(
-            message: emptyMessage,
-            icon: icon,
-          )
+          _EmptyContent(message: emptyMessage, icon: icon)
         else
           ...visibleItems.map(
             (item) => Padding(
-              padding: const EdgeInsets.only(
-                bottom: JudoSpacing.sm,
-              ),
+              padding: const EdgeInsets.only(bottom: JudoSpacing.sm),
               child: JudoCard(
-                padding: const EdgeInsets.all(
-                  JudoSpacing.md,
-                ),
+                padding: const EdgeInsets.all(JudoSpacing.md),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -310,10 +315,7 @@ class _TechniqueListContent extends StatelessWidget {
                     ),
                     const SizedBox(width: JudoSpacing.sm),
                     Expanded(
-                      child: Text(
-                        item,
-                        style: JudoTypography.bodyMedium,
-                      ),
+                      child: Text(item, style: JudoTypography.bodyMedium),
                     ),
                   ],
                 ),
@@ -328,16 +330,12 @@ class _TechniqueListContent extends StatelessWidget {
 class _ChampionsContent extends StatelessWidget {
   final List<String> champions;
 
-  const _ChampionsContent({
-    required this.champions,
-  });
+  const _ChampionsContent({required this.champions});
 
   @override
   Widget build(BuildContext context) {
     final visibleChampions = champions
-        .where(
-          (item) => item.trim().isNotEmpty,
-        )
+        .where((item) => item.trim().isNotEmpty)
         .toList();
 
     if (visibleChampions.isEmpty) {
@@ -368,13 +366,9 @@ class _ChampionsContent extends StatelessWidget {
         const SizedBox(height: JudoSpacing.lg),
         ...visibleChampions.map(
           (champion) => Padding(
-            padding: const EdgeInsets.only(
-              bottom: JudoSpacing.sm,
-            ),
+            padding: const EdgeInsets.only(bottom: JudoSpacing.sm),
             child: JudoCard(
-              borderColor: JudoColors.gold.withValues(
-                alpha: 0.35,
-              ),
+              borderColor: JudoColors.gold.withValues(alpha: 0.35),
               child: Row(
                 children: [
                   const Icon(
@@ -384,10 +378,7 @@ class _ChampionsContent extends StatelessWidget {
                   ),
                   const SizedBox(width: JudoSpacing.md),
                   Expanded(
-                    child: Text(
-                      champion,
-                      style: JudoTypography.titleSmall,
-                    ),
+                    child: Text(champion, style: JudoTypography.titleSmall),
                   ),
                 ],
               ),
@@ -402,16 +393,13 @@ class _ChampionsContent extends StatelessWidget {
 class _SourcesContent extends StatelessWidget {
   final List<TechniqueSource> sources;
 
-  const _SourcesContent({
-    required this.sources,
-  });
+  const _SourcesContent({required this.sources});
 
   @override
   Widget build(BuildContext context) {
     if (sources.isEmpty) {
       return const _EmptyContent(
-        message:
-            'No official references have been added for this technique.',
+        message: 'No official references have been added for this technique.',
         icon: Icons.verified_outlined,
       );
     }
@@ -423,26 +411,16 @@ class _SourcesContent extends StatelessWidget {
           spacing: JudoSpacing.sm,
           runSpacing: JudoSpacing.sm,
           children: [
-            JudoBadge(
-              text: 'Official',
-              type: JudoBadgeType.official,
-            ),
-            JudoBadge(
-              text: 'Verified',
-              type: JudoBadgeType.verified,
-            ),
+            JudoBadge(text: 'Official', type: JudoBadgeType.official),
+            JudoBadge(text: 'Verified', type: JudoBadgeType.verified),
           ],
         ),
         const SizedBox(height: JudoSpacing.lg),
         ...sources.map(
           (source) => Padding(
-            padding: const EdgeInsets.only(
-              bottom: JudoSpacing.sm,
-            ),
+            padding: const EdgeInsets.only(bottom: JudoSpacing.sm),
             child: JudoCard(
-              padding: const EdgeInsets.all(
-                JudoSpacing.md,
-              ),
+              padding: const EdgeInsets.all(JudoSpacing.md),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -456,14 +434,9 @@ class _SourcesContent extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          source.title,
-                          style: JudoTypography.titleSmall,
-                        ),
+                        Text(source.title, style: JudoTypography.titleSmall),
                         if (source.url.trim().isNotEmpty) ...[
-                          const SizedBox(
-                            height: JudoSpacing.xs,
-                          ),
+                          const SizedBox(height: JudoSpacing.xs),
                           Text(
                             source.url,
                             maxLines: 2,
@@ -503,26 +476,16 @@ class _ContentHeader extends StatelessWidget {
           width: 36,
           height: 36,
           decoration: BoxDecoration(
-            color: accentColor.withValues(
-              alpha: 0.14,
-            ),
-            borderRadius: BorderRadius.circular(
-              JudoRadius.sm,
-            ),
+            color: accentColor.withValues(alpha: 0.14),
+            borderRadius: BorderRadius.circular(JudoRadius.sm),
           ),
-          child: Icon(
-            icon,
-            color: accentColor,
-            size: JudoIconSize.sm,
-          ),
+          child: Icon(icon, color: accentColor, size: JudoIconSize.sm),
         ),
         const SizedBox(width: JudoSpacing.md),
         Expanded(
           child: Text(
             title,
-            style: JudoTypography.headingSmall.copyWith(
-              color: accentColor,
-            ),
+            style: JudoTypography.headingSmall.copyWith(color: accentColor),
           ),
         ),
       ],
@@ -534,21 +497,14 @@ class _EmptyContent extends StatelessWidget {
   final String message;
   final IconData icon;
 
-  const _EmptyContent({
-    required this.message,
-    required this.icon,
-  });
+  const _EmptyContent({required this.message, required this.icon});
 
   @override
   Widget build(BuildContext context) {
     return JudoCard(
       child: Column(
         children: [
-          Icon(
-            icon,
-            color: JudoColors.textHint,
-            size: JudoIconSize.lg,
-          ),
+          Icon(icon, color: JudoColors.textHint, size: JudoIconSize.lg),
           const SizedBox(height: JudoSpacing.sm),
           Text(
             message,

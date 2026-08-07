@@ -1,5 +1,21 @@
 {
   "@@locale": "fa",
+  "singleCameraPoseSummaryTitle": "خلاصه تشخیص پوز تک‌دوربین",
+  "experimentalPoseBaseline": "خط‌پایه آزمایشی تشخیص پوز",
+  "measuredVideoMetadataLabel": "فراداده ویدئو · اندازه‌گیری‌شده",
+  "modelEstimatedPoseCoverageLabel": "پوشش تشخیص پوز · برآورد مدل",
+  "analyzedFramesLabel": "فریم‌های بررسی‌شده",
+  "atLeastOnePoseLabel": "تشخیص حداقل یک پوز",
+  "twoPosesLabel": "تشخیص دو پوز",
+  "scientificConfidenceUnavailable": "در این برش تشخیصی confidence علمی موجود نیست. نرخ پوشش، confidence بیومکانیکی نیست.",
+  "scientificLimitationsTitle": "محدودیت‌های علمی",
+  "poseIdentityNotAvailable": "ترتیب پوزها فقط مربوط به همان فریم است و هویت پایدار توری یا اوکه را مشخص نمی‌کند.",
+  "phaseDetectionNotAvailable": "کوزوشی، تسوکوری و کاکه در این نسخه تشخیص داده نمی‌شوند.",
+  "singleCamera2dOnly": "این نتیجه تک‌دوربین، سه‌بعدی اندازه‌گیری‌شده یا بازسازی‌شده نیست.",
+  "forceTorqueNotAvailable": "هیچ نیروی واقعی، گشتاور واقعی یا بیومکانیک آزمایشگاهی گزارش نمی‌شود.",
+  "experimentalPoseLimitation": "پوشش تشخیص پوز از یک مدل آزمایشی می‌آید و امتیاز confidence علمی نیست.",
+  "runPoseAnalysis": "بررسی پوز دوبعدی",
+  "poseAnalysisRunning": "در حال بررسی دیده‌شدن پوز...",
 
   "appName": "جودو مایند",
 

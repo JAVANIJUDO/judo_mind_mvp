@@ -11,22 +11,23 @@ import 'technique_dashboard_item.dart';
 /// Widget: Technique Dashboard Grid
 /// Module: Techniques
 /// Reference Technique: Uchi Mata
-/// Version: 4.0.0
+/// Version: 4.1.0
 /// ----------------------------------------------------------------
 ///
 /// Responsibilities:
-/// - Organize technique content into three clear groups.
+/// - Organize technique content into clear learning groups.
 /// - Use the centralized Judo Mind icon registry.
+/// - Support three-layer visual learning.
 /// - Keep dashboard cards compact and mobile-friendly.
-/// - Support all 67 official techniques.
-/// - Prepare icons for future SVG replacement.
-/// ----------------------------------------------------------------
-
+/// - Remain reusable for all 67 official techniques.
 enum TechniqueDashboardSection {
   videos,
   overview,
   technicalAnalysis,
+  biomechanics,
   training,
+  shadowTraining,
+  conditioning,
   tactical,
   competition,
   champions,
@@ -36,6 +37,7 @@ enum TechniqueDashboardSection {
   sensiBot,
   quiz,
   sources,
+  aiAnalysis,
 }
 
 class TechniqueDashboardGrid extends StatelessWidget {
@@ -51,16 +53,12 @@ class TechniqueDashboardGrid extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Learning Dashboard', style: JudoTypography.headingMedium),
-
         const SizedBox(height: JudoSpacing.xs),
-
         Text(
           'Watch, understand, practise, analyze and master the technique.',
           style: JudoTypography.bodySmall,
         ),
-
         const SizedBox(height: JudoSpacing.xl),
-
         ...groups.map(
           (group) => Padding(
             padding: const EdgeInsets.only(bottom: JudoSpacing.xl),
@@ -75,37 +73,53 @@ class TechniqueDashboardGrid extends StatelessWidget {
     return const [
       _TechniqueDashboardGroupData(
         title: 'Learn',
-        subtitle: 'Watch and understand the technique',
+        subtitle: 'Watch, understand and visually explore the technique',
         color: JudoColors.primary,
         items: [
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.overview,
             title: 'Overview',
-            icon: JudoIcons.throwTechnique,
+            icon: JudoIcons.overview,
           ),
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.videos,
             title: 'Media Library',
-icon: Icons.video_library_outlined,
+            icon: JudoIcons.mediaLibrary,
           ),
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.technicalAnalysis,
             title: 'Technical Analysis',
-            icon: JudoIcons.aiAnalysis,
+            icon: JudoIcons.technicalAnalysis,
+          ),
+          _TechniqueDashboardItemData(
+            section: TechniqueDashboardSection.biomechanics,
+            title: 'Biomechanics',
+            icon: JudoIcons.biomechanics,
+            badgeText: 'Learn',
           ),
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.training,
             title: 'Training',
-            icon: JudoIcons.entry,
+            icon: JudoIcons.training,
+          ),
+          _TechniqueDashboardItemData(
+            section: TechniqueDashboardSection.shadowTraining,
+            title: 'Shadow Training',
+            icon: JudoIcons.shadowTraining,
+            badgeText: 'Visual',
           ),
         ],
       ),
-
       _TechniqueDashboardGroupData(
         title: 'Performance',
-        subtitle: 'Apply the technique in training and competition',
+        subtitle: 'Build physical ability and apply the technique',
         color: JudoColors.success,
         items: [
+          _TechniqueDashboardItemData(
+            section: TechniqueDashboardSection.conditioning,
+            title: 'Conditioning',
+            icon: JudoIcons.conditioning,
+          ),
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.tactical,
             title: 'Tactical',
@@ -124,17 +138,16 @@ icon: Icons.video_library_outlined,
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.mistakesAndSafety,
             title: 'Mistakes & Safety',
-            icon: Icons.health_and_safety_outlined,
+            icon: JudoIcons.mistakesAndSafety,
             colorOverride: JudoColors.danger,
           ),
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.mastery,
             title: 'Mastery',
-            icon: JudoIcons.precision,
+            icon: JudoIcons.mastery,
           ),
         ],
       ),
-
       _TechniqueDashboardGroupData(
         title: 'Professional',
         subtitle: 'Advanced knowledge and intelligent tools',
@@ -143,7 +156,7 @@ icon: Icons.video_library_outlined,
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.champions,
             title: 'Champions',
-            icon: JudoIcons.goldenScore,
+            icon: JudoIcons.champions,
           ),
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.sensiBot,
@@ -154,13 +167,13 @@ icon: Icons.video_library_outlined,
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.quiz,
             title: 'Quiz',
-            icon: Icons.quiz_outlined,
+            icon: JudoIcons.quiz,
             badgeText: '10',
           ),
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.sources,
             title: 'Sources',
-            icon: Icons.verified_outlined,
+            icon: JudoIcons.sources,
           ),
         ],
       ),
@@ -170,6 +183,7 @@ icon: Icons.video_library_outlined,
 
 class _DashboardGroup extends StatelessWidget {
   final _TechniqueDashboardGroupData group;
+
   final ValueChanged<TechniqueDashboardSection> onSectionTap;
 
   const _DashboardGroup({required this.group, required this.onSectionTap});
@@ -184,9 +198,7 @@ class _DashboardGroup extends StatelessWidget {
           subtitle: group.subtitle,
           color: group.color,
         ),
-
         const SizedBox(height: JudoSpacing.md),
-
         LayoutBuilder(
           builder: (context, constraints) {
             final crossAxisCount = _crossAxisCount(constraints.maxWidth);
@@ -275,9 +287,7 @@ class _GroupHeader extends StatelessWidget {
             borderRadius: BorderRadius.circular(JudoRadius.xs),
           ),
         ),
-
         const SizedBox(width: JudoSpacing.sm),
-
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,9 +296,7 @@ class _GroupHeader extends StatelessWidget {
                 title,
                 style: JudoTypography.titleLarge.copyWith(color: color),
               ),
-
               const SizedBox(height: JudoSpacing.xs),
-
               Text(
                 subtitle,
                 maxLines: 2,
@@ -307,6 +315,7 @@ class _TechniqueDashboardGroupData {
   final String title;
   final String subtitle;
   final Color color;
+
   final List<_TechniqueDashboardItemData> items;
 
   const _TechniqueDashboardGroupData({
@@ -319,6 +328,7 @@ class _TechniqueDashboardGroupData {
 
 class _TechniqueDashboardItemData {
   final TechniqueDashboardSection section;
+
   final String title;
   final IconData icon;
   final String? badgeText;

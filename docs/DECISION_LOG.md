@@ -755,3 +755,269 @@ Each media item must reference one specific selected resource and include:
 6. Curated external media when necessary
 
 Official API integration requires permission or partnership when the source does not provide a public integration API.
+
+---
+
+## JM-DEC-017
+
+Date: 2026-08-05
+Status: Approved
+
+Title: Scientific Biomechanics & Multi-View Motion Analysis Architecture
+
+### Decision
+
+Judo Mind biomechanical analysis shall not be based solely on 2D pose estimation or visual skeleton overlays.
+
+The official biomechanics architecture will use a scientific multi-layer motion-analysis pipeline inspired by validated research and professional biomechanics systems.
+
+### Core Architecture
+
+The Judo Mind Biomechanics Engine will include:
+
+1. Multi-person athlete detection
+2. Tori / Uke identity tracking
+3. 2D anatomical landmark detection
+4. Camera calibration
+5. Multi-view synchronized capture
+6. 3D landmark reconstruction
+7. Musculoskeletal modeling
+8. OpenSim-based kinematic analysis
+9. Judo-specific phase detection
+10. Confidence and quality validation
+
+### Official Biomechanics Core
+
+OpenSim 4.6 is approved as the primary musculoskeletal modeling and biomechanical computation engine.
+
+OpenSim will support future calculations including:
+
+- Joint angles
+- Segment orientation
+- Joint range of motion
+- Center-of-mass analysis
+- Angular velocity
+- Angular acceleration
+- Musculoskeletal modeling
+- Inverse kinematics
+- Inverse dynamics when sufficient external-force data is available
+- Joint moments and powers when scientifically supported
+
+### Computer Vision Layer
+
+RTMPose-M is approved as the current baseline computer-vision pose engine.
+
+It is not considered the complete biomechanics engine.
+
+Current benchmark on the same real Judo competition video:
+
+- MediaPipe Heavy two-athlete detection: 31.48%
+- RTMPose-M: 48.33%
+- RTMPose-M + PoseTracker: 46.85%
+- RTMO-M: 8.15%
+
+RTMPose-M therefore remains the current baseline while Judo-specific multi-person and occlusion intelligence is developed.
+
+### Capture Quality Levels
+
+Judo Mind will support multiple scientific analysis levels.
+
+#### Standard Analysis
+
+Input:
+
+- Single uploaded training or competition video
+
+Output:
+
+- Estimated pose and movement analysis
+- Technical analysis
+- Tactical analysis
+- Technique-phase recognition
+- Estimated biomechanical indicators
+
+These results must be clearly marked as estimated where measurement certainty is limited.
+
+#### Advanced Biomechanics
+
+Input:
+
+- Two or more synchronized and calibrated cameras or smartphones
+
+Output:
+
+- Multi-view 3D reconstruction
+- Improved joint kinematics
+- Center-of-mass trajectory
+- Body-segment orientation
+- Technique-specific biomechanical analysis
+- Tori / Uke interaction analysis
+
+#### Research / Validation
+
+Optional synchronized integration with:
+
+- Force plates
+- EMG
+- IMU sensors
+- Laboratory motion capture
+
+This mode will be used for scientific validation and advanced research partnerships.
+
+### Scientific Integrity Rule
+
+Judo Mind must never present an estimated biomechanical quantity as a directly measured quantity.
+
+Examples:
+
+- Ground reaction force from a force plate = Measured
+- Ground reaction force inferred from video = Estimated
+- EMG signal = Measured muscle activation
+- Musculoskeletal-model muscle activation = Estimated
+
+Every biomechanical result must carry appropriate confidence, measurement source and limitation metadata.
+
+### Judo-Specific Intelligence
+
+Generic human pose estimation is not sufficient for final Judo Mind analysis.
+
+The biomechanics system must eventually understand:
+
+- Tori
+- Uke
+- Grip interaction
+- Kuzushi
+- Tsukuri
+- Kake
+- Throw direction
+- Hip and leg interaction
+- Center-of-mass relationship
+- Support base
+- Rotation
+- Contact and occlusion
+- Landing
+- Counter movement
+
+Uchi Mata remains the official reference technique for development and validation of this architecture before expansion to the remaining 66 techniques.
+
+### Validation Requirement
+
+Before Judo Mind biomechanical analysis is considered production-grade, representative Judo movements must be validated against higher-quality reference measurements where practical.
+
+Validation targets may include:
+
+- Marker-based motion capture
+- Multi-camera laboratory systems
+- Force plates
+- EMG
+- Expert technical annotation
+
+### Infrastructure Decision
+
+Local CPU processing is approved for development and baseline validation only.
+
+Production high-accuracy computer-vision processing will be designed for GPU-backed server infrastructure.
+
+### Product Objective
+
+The AI biomechanics system must become a meaningful competitive advantage of Judo Mind rather than a decorative pose-estimation feature.
+
+The final system must provide scientifically defensible and practically useful feedback for:
+
+- Athletes
+- Coaches
+- Sports scientists
+- Clubs
+- Federations
+- Researchers
+
+### Required Documentation Updates
+
+- ARCHITECTURE.md
+- PROJECT_STATUS.md
+- CHANGELOG.md
+- PRODUCT_REQUIREMENTS.md
+- DECISION_LOG.md
+
+---
+
+## JM-DEC-018
+
+Date:
+
+2026-08-07
+
+Status:
+
+Approved
+
+Category:
+
+Scientific Architecture and Product Integrity
+
+Title:
+
+Dual-Level Video Analysis and Fail-Closed Calibration Gate
+
+### Context
+
+The current two-phone stereo calibration cycle was closed after approximately 48 hours of investigation. A geometric +0.55 s candidate correction did not solve the cross-camera geometry. The stereo RMS worsened from the previously recorded 39.26 px to 48.2750333 px, the median epipolar error was 55.4328918 px, and the final quality remained `review_required`.
+
+Camera 101 and 102 intrinsic calibrations remain strong, and their orientations are confirmed. These findings do not validate the current stereo extrinsic. Stabilization/EIS/OIS changing the effective virtual camera remains a hypothesis and must not be recorded as the confirmed cause.
+
+### Decision
+
+Judo Mind video analysis is divided into two scientifically distinct product and processing levels.
+
+#### Single-Camera AI Analysis
+
+- Accepts an ordinary training or competition video.
+- May provide 2D pose, phase and timing analysis, technical or tactical feedback, normalized movement indicators and other defensible single-view estimates.
+- Must attach confidence, source, method, quality and limitations.
+- Must classify results as `model-estimated` or `AI-inferred` when appropriate.
+- Must never describe unmeasured depth, kinematics, kinetics, force or body motion as measured or reconstructed 3D.
+
+#### Multi-Camera 3D Scientific Analysis
+
+- Requires two or more suitable camera streams.
+- Requires accepted calibration, synchronization, cross-camera athlete identity, geometry and reconstruction-quality gates before 3D results may be exposed.
+- Classifies triangulated landmarks as `reconstructed`.
+- Classifies OpenSim outputs as `model-estimated` unless backed by a qualifying direct measurement source.
+- May reach OpenSim only after all upstream scientific gates pass.
+
+### Calibration Gate
+
+Calibration acceptance is fail closed:
+
+- `status=completed` alone is insufficient.
+- `quality=review_required`, missing metrics, malformed metrics or out-of-threshold metrics are rejected.
+- `usable_for_3d_validation` may authorize only offline validation; it must not authorize user-facing scientific 3D or OpenSim.
+- User-facing scientific 3D requires `good` or `excellent` plus at least 10 valid stereo holds, RMS reprojection error at or below 2.0 px, median epipolar error at or below 1.25 px and median absolute sync error at or below 8.5 ms.
+- OpenSim uses the same minimum calibration profile but also requires independent identity, motion, reconstruction and anatomical-quality approval. Calibration approval is necessary, not sufficient.
+
+### Current Calibration Disposition
+
+The current `stereo_static_hold_extrinsics.json` report is scientifically rejected and must not enter production 3D reconstruction, biomechanics or OpenSim. No further test is to be run on the two videos from this closed cycle.
+
+### Provenance Rule
+
+Every relevant result must remain explicitly classified as one of:
+
+- measured
+- reconstructed
+- model-estimated
+- AI-inferred
+
+Weak, uncertain or estimated output must not be presented to users as “precise biomechanics.”
+
+### Deferred Work
+
+A professional two-phone stereo capture protocol will be designed separately. Stabilization, resolution/FPS, exposure/focus, orientation, synchronization, rig geometry and standardized calibration capture are outside the scope of this decision implementation.
+
+### Required Documentation Updates
+
+- AI_DEVELOPMENT_RULES.md
+- ARCHITECTURE.md
+- CHANGELOG.md
+- PRODUCT_REQUIREMENTS.md
+- PROJECT_STATUS.md

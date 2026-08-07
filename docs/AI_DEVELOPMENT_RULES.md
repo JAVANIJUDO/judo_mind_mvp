@@ -1079,3 +1079,60 @@ Illustrations must:
 Temporary Material icon implementations may be used during development.
 
 Final SVG replacement must occur through the centralized Design System layer and must not require modifications in individual feature screens.
+
+---
+
+# Repository Agent Instruction File
+
+The root `AGENTS.md` file is the repository-level operational entry point for AI-assisted development.
+
+Before project work begins, AI assistants must read:
+
+- `docs/AI_DEVELOPMENT_RULES.md`
+- `docs/PROJECT_STATUS.md`
+- `docs/CHANGELOG.md`
+- `docs/ARCHITECTURE.md`
+- `docs/DECISION_LOG.md`
+
+`AGENTS.md` consolidates the stable approved rules in the project documentation. It does not replace the source documents and must not introduce independent product or architecture decisions.
+
+AI assistants must preserve existing user work and existing functionality, follow the documentation-synchronization rules, maintain the approved scientific data classifications, and respect the current Flutter and Python AI Engine architecture.
+
+Explicit user approval is required before destructive Git operations or Git push.
+
+---
+
+## 13. Scientific Video Analysis Gate Rules
+
+The JM-DEC-018 boundary between Single-Camera AI Analysis and Multi-Camera 3D Scientific Analysis is mandatory in code, APIs, models, reports and UI copy.
+
+### Single-Camera Rules
+
+- Treat ordinary single-video analysis as 2D, model-estimated or AI-inferred unless a value is directly measured from the media itself.
+- Attach confidence, source, method, quality and limitations to relevant outputs.
+- Do not use `reconstructed`, “measured 3D,” “precise biomechanics” or equivalent language for depth or physical quantities not scientifically recovered.
+- Do not infer authorization for OpenSim from the availability of a pose sequence.
+
+### Multi-Camera Rules
+
+- Require explicit calibration, synchronization, cross-camera identity, geometry and reconstruction-quality gates.
+- Stop the scientific pipeline when any required gate fails.
+- Do not silently downgrade a failed multi-camera run to single-camera processing while retaining 3D, biomechanics or OpenSim labels.
+- Mark triangulated 3D landmarks as `reconstructed`, not measured.
+- Mark OpenSim outputs as `model-estimated` unless the specific value is backed by a qualifying direct measurement source.
+
+### Calibration Safeguard Rules
+
+- `status=completed` alone is never calibration approval.
+- Reject `quality=review_required` for every 3D, biomechanics and OpenSim path.
+- Reject missing, malformed, non-finite, negative or out-of-threshold calibration evidence.
+- Limit `usable_for_3d_validation` to offline development/validation. It must never authorize user-facing scientific 3D or OpenSim.
+- Require a validated-calibration context before multi-view reconstruction; raw projection matrices alone are not authorization.
+- Treat calibration approval as necessary but insufficient for OpenSim. Identity, temporal, reconstruction, anatomical and motion-quality checks remain mandatory.
+
+### Evidence and Hypothesis Rules
+
+- Preserve failed calibration evidence when requested, but block it from production processing.
+- Record stabilization/EIS/OIS virtual-camera change as a hypothesis until independently verified; do not present it as the confirmed cause.
+- Do not run further tests on the two videos from the stereo calibration cycle closed on 2026-08-07.
+- Any future threshold change requires scientific validation and synchronization of `ARCHITECTURE.md`, `DECISION_LOG.md`, `PROJECT_STATUS.md`, `PRODUCT_REQUIREMENTS.md` and `CHANGELOG.md`.

@@ -1,6 +1,7 @@
 import 'quiz_model.dart';
 import 'technique_media_item.dart';
 import 'technique_translation.dart';
+import 'technique_visual_learning_model.dart';
 
 class TechniqueModel {
   final String id;
@@ -21,9 +22,6 @@ class TechniqueModel {
   // -----------------------------------------------------------
   // Legacy media fields
   // -----------------------------------------------------------
-  //
-  // These fields remain temporarily for backward compatibility.
-  // New content must gradually migrate to mediaItems.
 
   final List<String> images;
   final List<String> videos;
@@ -36,6 +34,24 @@ class TechniqueModel {
   // -----------------------------------------------------------
 
   final List<TechniqueMediaItem> mediaItems;
+
+  // -----------------------------------------------------------
+  // Three-layer visual learning architecture
+  // -----------------------------------------------------------
+  //
+  // Supports:
+  // - Technical execution
+  // - Biomechanics
+  // - Shadow training
+  // - Strength and conditioning
+  // - Mobility
+  //
+  // Each sequence can contain three synchronized layers:
+  // 1. Movement
+  // 2. Control
+  // 3. Biomechanics
+
+  final TechniqueVisualLearningPlan? visualLearningPlan;
 
   // -----------------------------------------------------------
   // Technical learning data
@@ -72,6 +88,7 @@ class TechniqueModel {
     required this.trainingVideo,
     required this.competitionVideo,
     this.mediaItems = const [],
+    this.visualLearningPlan,
     required this.executionSteps,
     required this.keyPoints,
     required this.commonMistakes,
@@ -157,72 +174,44 @@ class TechniqueModel {
   // -----------------------------------------------------------
 
   bool get hasProfessionalMedia {
-    return mediaItems.any(
-      (item) => item.hasValidMedia,
-    );
+    return mediaItems.any((item) => item.hasValidMedia);
   }
 
   List<TechniqueMediaItem> get verifiedMediaItems {
     return mediaItems
-        .where(
-          (item) =>
-              item.isVerified &&
-              item.hasValidMedia,
-        )
+        .where((item) => item.isVerified && item.hasValidMedia)
         .toList(growable: false);
   }
 
   List<TechniqueMediaItem> get featuredMediaItems {
     final items = mediaItems
-        .where(
-          (item) =>
-              item.isFeatured &&
-              item.hasValidMedia,
-        )
+        .where((item) => item.isFeatured && item.hasValidMedia)
         .toList();
 
-    items.sort(
-      (first, second) =>
-          first.sortOrder.compareTo(
-        second.sortOrder,
-      ),
-    );
+    items.sort((first, second) => first.sortOrder.compareTo(second.sortOrder));
 
     return List.unmodifiable(items);
   }
 
-  List<TechniqueMediaItem> mediaByType(
-    TechniqueMediaType mediaType,
-  ) {
+  List<TechniqueMediaItem> mediaByType(TechniqueMediaType mediaType) {
     final items = mediaItems
-        .where(
-          (item) =>
-              item.type == mediaType &&
-              item.hasValidMedia,
-        )
+        .where((item) => item.type == mediaType && item.hasValidMedia)
         .toList();
 
-    items.sort(
-      (first, second) =>
-          first.sortOrder.compareTo(
-        second.sortOrder,
-      ),
-    );
+    items.sort((first, second) => first.sortOrder.compareTo(second.sortOrder));
 
     return List.unmodifiable(items);
   }
 
   TechniqueMediaItem? get primaryMediaItem {
     for (final item in featuredMediaItems) {
-      if (item.hasThumbnail ||
-          item.isImage) {
+      if (item.hasThumbnail || item.isImage) {
         return item;
       }
     }
 
     for (final item in verifiedMediaItems) {
-      if (item.hasThumbnail ||
-          item.isImage) {
+      if (item.hasThumbnail || item.isImage) {
         return item;
       }
     }
@@ -237,25 +226,41 @@ class TechniqueModel {
   }
 
   int get professionalMediaCount {
-    return mediaItems
-        .where(
-          (item) => item.hasValidMedia,
-        )
-        .length;
+    return mediaItems.where((item) => item.hasValidMedia).length;
+  }
+
+  // -----------------------------------------------------------
+  // Visual learning helpers
+  // -----------------------------------------------------------
+
+  bool get hasVisualLearning {
+    return visualLearningPlan?.isNotEmpty ?? false;
+  }
+
+  List<TechniqueVisualSequence> visualSequencesByType(
+    TechniqueVisualLearningType type,
+  ) {
+    return visualLearningPlan?.sequencesByType(type) ?? const [];
+  }
+
+  bool get hasValidThreeLayerSequence {
+    final sequences = visualLearningPlan?.sequences ?? const [];
+
+    return sequences.any((sequence) => sequence.hasThreeLayerArchitecture);
+  }
+
+  int get visualSequenceCount {
+    return visualLearningPlan?.totalSequences ?? 0;
   }
 
   // -----------------------------------------------------------
   // Localization
   // -----------------------------------------------------------
 
-  TechniqueTranslation? getTranslation(
-    String languageCode,
-  ) {
+  TechniqueTranslation? getTranslation(String languageCode) {
     try {
       return translations.firstWhere(
-        (item) =>
-            item.languageCode ==
-            languageCode,
+        (item) => item.languageCode == languageCode,
       );
     } catch (_) {
       return null;
@@ -267,8 +272,5 @@ class TechniqueSource {
   final String title;
   final String url;
 
-  const TechniqueSource({
-    required this.title,
-    required this.url,
-  });
+  const TechniqueSource({required this.title, required this.url});
 }

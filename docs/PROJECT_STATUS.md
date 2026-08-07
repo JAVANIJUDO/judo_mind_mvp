@@ -6,31 +6,29 @@ Project:
 
 Judo Mind Super App
 
-
 Platform:
 
-Flutter Mobile Application
-
+Flutter Mobile Application + Python AI Services
 
 Development Path:
 
 D:\projects\judo_mind
 
-
 Current Version:
 
-v0.14
+v0.15
 
+Last Updated:
+
+2026-08-07
 
 Development Stage:
 
-Architecture Stabilization + Technique Intelligence Phase
-
+Uchi Mata Reference Completion + Scientific AI Biomechanics Foundation
 
 Status:
 
 Active Development
-
 
 ---
 
@@ -38,32 +36,51 @@ Active Development
 
 Judo Mind is evolving from a mobile application into a global digital Judo ecosystem.
 
-The platform connects:
+Vision:
+
+Train Your Body, Master Your Mind.
+
+Strategic Direction:
+
+Operating System for World Judo
+
+Target ecosystem:
 
 - Athletes
 - Coaches
 - Clubs
 - Federations
 - Fans
+- Researchers
 - Administrators
 
+---
 
-Vision:
+# Official Product Architecture
 
-Train Your Body, Master Your Mind.
+Judo Mind consists of 17 official modules:
 
-
-Strategic Direction:
-
-Operating System for World Judo
-
+1. Home
+2. Techniques
+3. Sensi Bot
+4. Sensi Bet
+5. Monitoring
+6. Judo Cast
+7. Athlete Profile
+8. Training Center
+9. Champions Hub
+10. Competitions & Challenges
+11. News
+12. Store & Subscription
+13. Club Management
+14. Coach Forum
+15. Online Courses
+16. Country Judo History
+17. Administration & System Settings
 
 ---
 
 # Development Foundation
-
-
-## Environment
 
 Completed:
 
@@ -71,698 +88,785 @@ Completed:
 
 ✅ VS Code development environment
 
+✅ Android physical-device workflow
+
 ✅ Git version control
 
 ✅ Project migrated to D drive
 
-✅ Stable Flutter development workflow
+✅ Provider architecture
 
+✅ Dependency injection foundation
+
+✅ Repository architecture
+
+✅ Local data-source architecture
+
+✅ Feature-based architecture preparation
+
+✅ Documentation architecture
 
 ---
 
 # Documentation System
 
+Completed:
+
+✅ AGENTS.md repository instruction file
+
+✅ AI_DEVELOPMENT_RULES.md
+
+✅ ARCHITECTURE.md
+
+✅ CHANGELOG.md
+
+✅ DECISION_LOG.md
+
+✅ PROJECT_STATUS.md
+
+✅ PRODUCT_REQUIREMENTS.md
+
+Documentation synchronization is mandatory for all major product and architecture changes.
+
+The root `AGENTS.md` now provides the operational entry point for future AI-assisted work. It requires review of the approved reference documents, preservation of existing user work, documentation synchronization, scientific data classification, explicit approval before destructive Git operations or push, and compliance with the current 17-module Flutter and Python AI Engine architecture.
+
+---
+
+# Design System Status
+
+Judo Mind Design System 1.0 foundation is implemented.
 
 Completed:
 
-✅ AI Development Rules
+✅ Design Tokens
 
-✅ Software Architecture Document
+✅ Global Color System
 
-✅ Changelog System
+✅ Global Spacing System
 
-✅ Decision Log System
+✅ Global Radius System
 
-✅ Project Status System
+✅ Typography System
 
-✅ Product Requirements Document
+✅ Global Theme
 
+✅ Core UI Components
 
-Purpose:
+✅ Judo App Bar
 
-Maintain professional documentation for:
+✅ Centralized JudoIcons registry
 
-- Development team
-- Investors
-- Partners
-- Future developers
-- Long-term maintenance
+✅ Standard JudoIcon component
 
+✅ Custom Illustration infrastructure
 
----
+✅ Selective Dashboard illustration system
 
-# Current Architecture Status
+Current visual direction:
 
-
-## Completed
-
-
-✅ Flutter foundation
-
-✅ Provider architecture
-
-✅ Dependency injection preparation
-
-✅ Feature-based architecture preparation
-
-✅ Technique Model architecture
-
-✅ Technique Bundle architecture
-
-✅ Repository pattern preparation
-
-✅ Local data source architecture
-
-✅ Documentation architecture
-
-
----
-
-# Current Product Architecture
-
-
-Official module structure:
-
-17 Modules
-
-
-1. Home
-
-2. Techniques
-
-3. Sensi Bot
-
-4. Sensi Bet
-
-5. Monitoring
-
-6. Judo Cast
-
-7. Athlete Profile
-
-8. Training Center
-
-9. Champions Hub
-
-10. Competitions & Challenges
-
-11. News
-
-12. Store & Subscription
-
-13. Club Management
-
-14. Coach Forum
-
-15. Online Courses
-
-16. Country Judo History
-
-17. Administration & System Settings
-
-
----
-
-# Current Implemented Features
-
-
-## Home Module
-
-Status:
-
-Initial implementation completed
-
-
-Implemented:
-
-✅ Home screen foundation
-
-
-Future:
-
-- Personalized dashboard
-
-- Recommendation system
-
-- CMS controlled content
-
+- Dark professional theme
+- Blue intelligence accent
+- Gold professional/premium accent
+- Green performance accent
+- Centralized icon language
+- Custom Judo Mind visual identity
 
 ---
 
 # Techniques Module
 
+Status:
+
+Active Development
+
+Reference Technique:
+
+Uchi Mata
+
+Objective:
+
+Complete Uchi Mata as the approved technical, educational, visual, biomechanical and AI architecture for all 67 official Judo techniques.
+
+Implemented:
+
+✅ Technique List
+
+✅ Technique Cards
+
+✅ Search
+
+✅ Category Filters
+
+✅ Difficulty Filters
+
+✅ Filter Bottom Sheet
+
+✅ Technique Model
+
+✅ Technique Bundle Architecture
+
+✅ Repository Foundation
+
+✅ Local Data Source
+
+✅ Technique Detail Architecture
+
+✅ Technique Dashboard
+
+✅ Technique Bottom Sheet Navigation
+
+✅ Technique Section Router
+
+✅ Modular Technique Sections
+
+✅ Professional Media Model
+
+✅ Media Resolver
+
+✅ Media Library Foundation
+
+✅ Quiz Foundation
+
+✅ Sources
+
+✅ Localization Foundation
+
+---
+
+# Uchi Mata Reference Technique
+
+Status:
+
+Active Reference Implementation
+
+Completed:
+
+✅ Technique identity
+
+✅ Hero Section
+
+✅ Compact Learning Dashboard
+
+✅ Technical information architecture
+
+✅ Media architecture
+
+✅ Quiz
+
+✅ Sources
+
+✅ Training entry
+
+✅ Competition entry
+
+✅ Sensi Bot / AI entry architecture
+
+✅ Three-Layer Visual Learning architecture
+
+✅ Shadow Training visual architecture
+
+✅ Conditioning visual architecture
+
+✅ Biomechanics visual architecture
+
+✅ AI video selection
+
+✅ Video recording entry
+
+✅ Video preview
+
+✅ Camera-angle selection
+
+✅ Scientific disclaimer
+
+✅ AI analysis preparation flow
+
+---
+
+# Three-Layer Visual Learning System
+
+Status:
+
+Architecture Implemented
+
+Approved visual layers:
+
+Blue:
+
+Movement / Footwork / Body Motion
+
+Gold:
+
+Grip / Pull / Upper-Body Control
+
+Green:
+
+Force / Balance / Center of Gravity / Biomechanics
+
+Current implementation:
+
+✅ Reusable visual-learning data model
+
+✅ Layer visibility controls
+
+✅ Playback control
+
+✅ Playback speed control
+
+✅ Uchi Mata reference animation prototype
+
+✅ Technical Execution sequence
+
+✅ Biomechanics sequence
+
+✅ Shadow Training sequence
+
+✅ Strength & Conditioning sequence
+
+Current limitation:
+
+The current CustomPainter representation is an instructional prototype.
+
+It is not the final biomechanical visualization quality target.
+
+---
+
+# AI Fight Intelligence 360
 
 Status:
 
 Active Development
 
+Objective:
 
-Completed:
+Analyze real Judo training and competition video with practical technical, tactical and biomechanical intelligence.
 
+Flutter foundation completed:
 
-✅ Technique list
+✅ Video picker
 
-✅ Technique detail page foundation
+✅ Video recording
 
-✅ Technique card
+✅ Video preview
 
-✅ Search system
+✅ Video metadata
 
-✅ Category filters
+✅ Camera-angle selection
 
-✅ Difficulty filters
+✅ Scientific disclaimer
 
-✅ Filter bottom sheet
+✅ AI analysis entry
 
-✅ Technique Model
-
-✅ Technique Bundle architecture
-
-✅ Local repository preparation
-
-✅ Local data source preparation
-
-✅ Sample technique database structure
-
+✅ Analyze My Uchi Mata routing
 
 ---
 
-# Technique Intelligence System
-
+# Python AI Engine
 
 Status:
 
-In Progress
+Operational Development Foundation
 
+Location:
 
-Architecture includes:
+ai_engine/
 
+Computer Vision environment:
 
-## Technical Layer
+ai_engine/.venv
 
-- Kuzushi
-- Tsukuri
-- Kake
-- Execution steps
-- Common mistakes
+Biomechanics environment:
 
-
-## Biomechanics Layer
-
-- Movement analysis
-- Force direction
-- Center of gravity
-- Muscle activation
-
-
-## Training Layer
-
-- Shadow Training
-- Uchikomi
-- Nagekomi
-- Conditioning
-- Mobility
-
-
-## Competition Layer
-
-- Tactical application
-- Combination
-- Counter
-- Match analysis
-
-
-## AI Layer
-
-- Progress analysis
-- Recommendations
-- Personalized training
-
-
----
-
-# Current Sample Data
-
-
-Implemented:
-
-1. Uchi Mata
-
-2. Seoi Nage
-
-3. O Soto Gari
-
-4. Harai Goshi
-
-5. Tomoe Nage
-
-
-Future:
-
-Complete 67 official techniques database.
-
-
----
-
-# Technique Detail UI Evolution
-
-
-Current:
-
-Traditional detail page
-
-
-New Architecture:
-
-Technique Dashboard System
-
-
-Includes:
-
-
-✅ Technique Dashboard Item
-
-✅ Technique Dashboard Grid
-
-✅ Technique Bottom Sheet
-
-
-Goal:
-
-Reduce excessive scrolling and provide professional navigation.
-
-
----
-
-# Localization Status
-
-
-Current:
-
-Prepared:
-
-- English
-- Persian
-
-
-Architecture planned:
-
-- Japanese
-- French
-- German
-- Spanish
-- Russian
-- Arabic
-
-
-Requirements:
-
-- Full app translation
-
-- Content translation
-
-- RTL/LTR support
-
-- Runtime language switching
-
-
----
-
-# CMS and Administration Strategy
-
-
-Status:
-
-Architecture Planned
-
-
-Goal:
-
-Administrators can update application content without Flutter code changes.
-
-
-CMS will manage:
-
-
-- Techniques
-
-- Images
-
-- Videos
-
-- News
-
-- Courses
-
-- Champions
-
-- Quiz
-
-- Translations
-
-- Advertisements
-
-- Home content
-
-
-Administration module:
-
-Module 17
-
-
----
-
-Current Main Development Task
-
-Technique Module 2.0 Integration
+ai_engine/.biomech_venv
 
 Completed:
 
-✅ Dashboard Grid Architecture
+✅ Python 3.12 development environment
 
-✅ Dashboard Item Component
+✅ FastAPI backend foundation
 
-✅ Bottom Sheet Component
+✅ Uvicorn server
 
-✅ Technique Section Components
+✅ Health endpoint
 
-✅ Extended Dashboard Sections
+✅ Video upload endpoint foundation
 
-Current:
+✅ OpenCV
 
-→ Connecting Dashboard to Technique Detail Screen
+✅ MediaPipe
 
-## Technique Module Refactoring 2.0
+✅ RTMLib
 
+✅ ONNX Runtime
 
-Goals:
+✅ RTMPose
 
+✅ RTMO evaluation
 
-1. Complete Dashboard UI
-
-2. Connect Bottom Sheet sections
-
-3. Separate large files
-
-4. Create reusable components
-
-5. Improve performance
-
-6. Prepare for 67 techniques
-
+✅ OpenSim 4.6
 
 ---
 
-# Current Technical Decisions
+# AI Pose Benchmark
 
+Reference Input:
 
-Architecture:
+Same real Judo competition video
 
-Feature-based architecture preparation
+Duration:
 
+53.89 seconds
 
-State Management:
+Resolution:
 
-Current:
+1306 × 720
 
-Provider
+Source FPS:
 
+30.03
 
-Future:
+Analysis sample:
 
-Riverpod migration ready
+540 frames at approximately 10 FPS
 
+## Results
 
-Localization:
+| Engine | At Least One Athlete | Two Athletes |
+|---|---:|---:|
+| MediaPipe Heavy | 99.63% | 31.48% |
+| RTMPose-M | 97.04% | 48.33% |
+| RTMPose-M + PoseTracker | 96.85% | 46.85% |
+| RTMO-M | 40.56% | 8.15% |
 
-Localization-first strategy
+Current baseline:
 
+RTMPose-M
 
-Content:
+Reason:
 
-CMS-first strategy
+RTMPose-M currently provides the best two-athlete detection result on the reference Judo video.
 
+Important:
 
-Data:
+48.33% two-athlete detection is not considered production quality.
 
-Repository architecture
+Generic pose estimation alone is not sufficient for Judo Mind.
 
+---
+
+# Scientific Biomechanics Architecture
+
+Status:
+
+Foundation Approved and Started
+
+Architecture Decision:
+
+JM-DEC-017 and JM-DEC-018
+
+Core scientific direction:
+
+Video
+
+↓
+
+Multi-Person Pose Estimation
+
+↓
+
+Tori / Uke Identity
+
+↓
+
+Camera Calibration
+
+↓
+
+Multi-View 3D Reconstruction
+
+↓
+
+OpenSim
+
+↓
+
+Judo-Specific Biomechanics
+
+↓
+
+AI Fight Intelligence
+
+---
+
+# OpenSim Foundation
+
+Status:
+
+Operational
+
+Installed:
+
+OpenSim 4.6
+
+Environment:
+
+ai_engine/.biomech_venv
+
+Validation:
+
+✅ Python import successful
+
+✅ OpenSim Model initialization successful
+
+Verified output:
+
+Judo Mind OpenSim Engine: READY
+
+Purpose:
+
+- Musculoskeletal modeling
+- Joint kinematics
+- Joint angles
+- Segment orientation
+- Center-of-mass calculations
+- Inverse kinematics
+- Inverse dynamics when scientifically valid
+- Joint moments and power when supported
+- Future musculoskeletal simulation
+
+---
+
+# Biomechanics Quality Levels
+
+## Standard Analysis
+
+Input:
+
+Single uploaded training or competition video
+
+Classification:
+
+Estimated
+
+Targets:
+
+- Technique recognition
+- Phase analysis
+- Technical feedback
+- Tactical feedback
+- Estimated movement metrics
+
+---
+
+## Advanced Biomechanics
+
+Input:
+
+Two or more synchronized and calibrated cameras
+
+Classification:
+
+3D Model-Based Analysis
+
+Targets:
+
+- Multi-view 3D reconstruction
+- Joint kinematics
+- Center-of-mass trajectory
+- Segment orientation
+- Tori / Uke interaction
+- Technique-specific biomechanics
+
+---
+
+## Research / Validation
+
+Possible integration:
+
+- Marker-based Motion Capture
+- Force Plates
+- EMG
+- IMU sensors
+- Laboratory systems
+
+Purpose:
+
+Scientific validation of Judo Mind algorithms.
+
+---
+
+# Stereo Calibration Cycle Closure — 2026-08-07
+
+Status:
+
+Closed — current stereo extrinsic scientifically rejected
+
+Scope:
+
+The approximately 48-hour test cycle using the current two-phone video pair is complete. No further calibration, synchronization or geometry tests are to be run on those two videos.
+
+Confirmed evidence:
+
+- Camera 101 intrinsic calibration: `excellent`, RMS 0.4702348 px.
+- Camera 102 intrinsic calibration: `good`, RMS 0.5232957 px.
+- Camera orientations are confirmed as camera 101 `rotate180` and camera 102 `clockwise`.
+- Applying the geometric +0.55 s candidate correction did not solve the stereo geometry.
+- Stereo RMS worsened from the previously recorded 39.26 px result to 48.2750333 px.
+- Median epipolar error is 55.4328918 px.
+- Final stereo quality is `review_required`.
+
+Scientific disposition:
+
+- The current stereo extrinsic is rejected.
+- It must not enter user-facing 3D reconstruction, biomechanics or OpenSim processing.
+- The strong intrinsic results do not make the cross-camera extrinsic valid.
+- A simple synchronization correction no longer explains the failure.
+- Stabilization/EIS/OIS changing the effective virtual camera is a leading hypothesis only; it is not a confirmed cause.
+
+Implemented safeguard:
+
+- Multi-view reconstruction now requires a sealed validated-calibration context.
+- Missing evidence and `review_required` reports fail closed.
+- `usable_for_3d_validation` is limited to offline validation and cannot authorize user-facing scientific 3D.
+- Calibration approval alone is necessary but not sufficient for OpenSim; identity, motion, reconstruction and anatomical-quality gates remain required.
+
+---
+
+# Scientific Integrity Rule
+
+Judo Mind must distinguish:
+
+- Measured
+- Reconstructed
+- Estimated
+- AI-Inferred
+
+Estimated physical quantities must never be presented as direct measurements.
+
+Examples:
+
+Force Plate GRF:
+
+Measured
+
+Video-derived GRF:
+
+Estimated
+
+EMG muscle activity:
+
+Measured
+
+OpenSim-derived activation:
+
+Model Estimated
+
+---
+
+# Single-Camera Uchi Mata AI Analysis v1
+
+## Vertical Slice 1: Pose Detection Summary
+
+Status:
+
+Implemented, automated-test validated and physical-device end-to-end validated with a new, explicitly single-camera Uchi Mata competition clip on 2026-08-07.
+
+Implemented flow:
+
+1. Flutter selects or records a video and records the camera view.
+2. Flutter uploads the video to `POST /v1/analysis/single-camera/pose-summary` as multipart form data.
+3. The Python AI Engine runs the existing MediaPipe Pose Landmarker Heavy baseline with a requested 10 FPS sampling target and the current integer-stride sampler.
+4. Python returns the versioned `1.0.0` single-camera contract.
+5. Flutter parses the contract, enforces the single-camera capability boundary, and displays pose coverage plus scientific limitations.
+
+Scientific classification:
+
+- Video resolution, duration, frame count and source FPS: `measured` container/video metadata.
+- Pose visibility coverage: `model-estimated`.
+- Coverage rate is not a scientific or biomechanical confidence score.
+- Persistent Tori/Uke identity: not available.
+- Kuzushi/Tsukuri/Kake phase detection: not available.
+- Measured or reconstructed 3D: not available.
+- Real force, real torque and laboratory-grade biomechanics: not available.
+
+Safeguards:
+
+- The API declares all unavailable capabilities as `false` and includes explicit limitations.
+- Flutter rejects a response that claims identity, phase detection, 3D reconstruction, force or torque inside this single-camera contract.
+- The result screen labels the current pose engine as experimental.
+- The former ambiguous `3D` badge on the educational Biomechanics dashboard card is no longer shown.
+- Local cleartext HTTP is enabled only in the Android debug manifest; production transport must use HTTPS.
+- The AI Engine base URL can be set with `--dart-define=JUDO_MIND_AI_BASE_URL=...`; Android emulator development defaults to `http://10.0.2.2:8000`.
+
+Validation:
+
+- Two synthetic, video-free Python API tests pass.
+- Three Flutter tests pass for parsing/provenance, multipart request wiring and result rendering.
+- `flutter analyze` reports no diagnostic attributable to the new vertical-slice code; 20 existing repository warnings/information diagnostics remain outside this scope.
+- Physical Android validation passed through the complete Video -> Flutter multipart upload -> FastAPI -> MediaPipe Pose Landmarker Heavy -> versioned `1.0.0` JSON -> Flutter parsing -> Result Card path.
+- The real validation clip was 640x1136, 25 FPS, 593 source frames and 23.72 seconds long; the engine analyzed 297 sampled frames.
+- The 297-frame result is approximately 12.5 sampled frames per second because the current integer-stride sampler rounds 25/10 to a stride of 2. Exact target-rate sampling remains an implementation limitation.
+- The displayed model-estimated pose coverage was 97% for at least one pose and 7% for two poses. These rates are diagnostic coverage only, not identity or biomechanics confidence.
+- The final API request returned HTTP 200, all five scientific limitations were rendered, and no affirmative identity, phase, 3D, force or torque result was displayed.
+- The temporary backend upload existed only during processing and the upload directory was empty after the response.
+- Local CPU processing took approximately 4 minutes 40 seconds for this clip, confirming that the current local engine is a development baseline and remains too slow for production.
+- No current or historical Stereo calibration video was processed or modified.
+
+---
+
+# Current Main Development Task
+
+## Judo Mind Scientific Biomechanics Foundation
+
+Reference Technique:
+
+Uchi Mata
+
+Current objective:
+
+Maintain separate Single-Camera AI and Multi-Camera 3D Scientific pipelines while building the validated foundations required before OpenSim biomechanical analysis.
+
+Current focus:
+
+→ Fail-closed calibration quality architecture
+
+→ Multi-camera synchronization architecture
+
+→ Tori / Uke identity architecture
+
+→ 2D-to-3D landmark reconstruction
+
+→ OpenSim-compatible motion data
+
+---
+
+# Current Technical Limitations
+
+- Two-athlete detection is not yet production quality.
+- Tori / Uke identity persistence is not implemented.
+- Severe Judo occlusion remains unresolved.
+- Low-level multi-view triangulation exists only as a guarded development foundation; production 3D reconstruction is not implemented or scientifically validated.
+- The current two-phone stereo extrinsic is scientifically rejected and blocked from 3D, biomechanics and OpenSim use.
+- OpenSim has not yet been connected to reconstructed Judo motion.
+- Joint kinetics cannot be claimed from ordinary video as measured data.
+- Local CPU AI processing is too slow for production.
+- Production GPU infrastructure is not yet implemented.
+- Judo-specific AI models are not yet trained.
+- Scientific Judo validation dataset has not yet been created.
+
+---
+
+# Infrastructure Direction
+
+Local CPU:
+
+Development and Benchmarking
+
+Production:
+
+GPU-backed AI infrastructure
+
+Flutter:
+
+Capture + Interaction + Visualization
+
+AI Backend:
+
+Computer Vision + 3D Reconstruction + Biomechanics + Judo Intelligence
+
+CMS / Backend:
+
+Planned
 
 ---
 
 # Development Roadmap
 
-
 ## Phase 1
 
-Technique Module Refactor
+Uchi Mata Reference Technique
 
 Status:
 
 Active
 
-
 ## Phase 2
 
-Complete Technique Intelligence Database
+Scientific Biomechanics + AI Fight Intelligence Foundation
 
+Status:
+
+Active
 
 ## Phase 3
 
-Training Center Module
+Complete Technique Intelligence Database
 
+Target:
+
+67 official techniques
 
 ## Phase 4
 
-Sensi Bot AI Foundation
-
+Training Center
 
 ## Phase 5
 
-Athlete Profile and Monitoring
-
+Sensi Bot AI
 
 ## Phase 6
 
-Backend and CMS Foundation
-
+Athlete Profile + Monitoring
 
 ## Phase 7
 
+Backend + CMS
+
+## Phase 8
+
 Administration Panel
-
-
----
-
-# Known Issues
-
-
-Current:
-
-- Some Technique UI components require optimization.
-
-- Design System needs implementation.
-
-- Localization files need expansion.
-
-- Backend integration not started.
-
-- CMS backend not implemented.
-
 
 ---
 
 # Git Status
 
-
 Repository:
 
 Active
 
-
 Current Development:
 
-Architecture Stabilization
-
+Uchi Mata + AI Fight Intelligence + Scientific Biomechanics
 
 Next Recommended Commit:
 
-Technique Dashboard Architecture Integration
-
+Scientific Biomechanics Foundation + OpenSim Architecture
 
 ---
 
-# Documentation Synchronization Rule
-
+# Documentation Synchronization
 
 Every major change must update:
 
-
 - ARCHITECTURE.md
-
 - PROJECT_STATUS.md
-
 - CHANGELOG.md
-
 - DECISION_LOG.md
-
 - PRODUCT_REQUIREMENTS.md
-
 
 ---
 
 # Final Vision
 
-
 Build the world's most complete digital Judo ecosystem combining:
 
-
-- Technical knowledge
-
+- Judo technical knowledge
 - Biomechanics
-
 - Training science
-
 - Artificial intelligence
-
 - Athlete development
-
-- Coaching tools
-
+- Coaching intelligence
+- Competition analysis
 - Federation services
-
+- Scientific validation
 - Professional digital infrastructure
-
-# Current Main Task
-
-Judo Mind Design System 1.0
-
-## Completed Before Design System
-
-- HeroSection refactor
-- BasicInfoSection refactor
-- IjfProfileSection refactor
-- MediaSection refactor
-- DescriptionSection refactor
-- TacticalIntelligenceSection refactor
-- CompetitionSection refactor
-- Technique Dashboard and Bottom Sheet integration
-
-## In Progress
-
-- Global color system
-- Global spacing system
-- Global radius system
-- Typography hierarchy
-- Reusable card system
-- Reusable button hierarchy
-- Technique Detail visual unification
-
-## Current Development Status
-
-Completed:
-
-✅ Flutter architecture setup
-✅ Gradle moved to D drive
-✅ Design tokens
-✅ Typography system
-✅ Global Theme
-✅ Core UI Components foundation
-
-# Current Main Task
-
-Uchi Mata Reference Technique Completion
-
-## Objective
-
-Complete Uchi Mata as the approved architecture, design, learning and AI reference for all 67 official Judo techniques.
-
-## Current Status
-
-Completed:
-
-- Design Tokens
-- Typography System
-- Global Theme
-- Core UI Components
-- Judo App Bar
-- Technique Hero redesign
-- Compact grouped Dashboard
-- Basic modular Technique sections
-- Universal AI-access decision
-- Fight Intelligence 360 architecture decision
-
-In Progress:
-
-- Removing duplicated inline content
-- Connecting all Dashboard sections
-- Completing Uchi Mata learning flow
-- Adding visual learning media architecture
-- Designing AI upload and analysis entry
-
-## Current Development Status — 2026-08-02
-
-### Completed
-
-- Uchi Mata Reference Technique architecture
-- Compact grouped Technique Dashboard
-- Technique Section Router
-- Bottom Sheet navigation architecture
-- Professional Media Model foundation
-- Media Resolver foundation
-- Technique Media Preview
-- Judo Mind icon registry
-- Standard JudoIcon component
-- Dashboard card visual refinement
-- Reduced dashboard icon size
-- Centralized dashboard icon usage
-
-### Current Phase
-
-JMDS-005 — Custom Illustration Infrastructure
-
-### Current Objective
-
-Create a reusable illustration system for high-value Judo Mind features without introducing external image dependencies or feature-specific visual duplication.
-
-### Initial Illustration Set
-
-- Sensi Bot
-- Quiz
-- Training
-- Competition
-- Mastery
-
-### Completed
-
-- Custom Illustration Type Registry
-- CustomPainter Illustration Renderer
-- Initial JMDS illustration family
-- Dark-theme-compatible scalable illustrations
-- Accessibility labels for illustration components
-
-### Current Phase
-
-JMDS-007 — Selective Dashboard Illustration Integration
-
-### Completed — JMDS-007
-
-- Selective Dashboard illustration integration
-- Training illustration
-- Competition illustration
-- Mastery illustration
-- Sensi Bot illustration
-- Quiz illustration
-- Mixed icon and illustration Dashboard architecture
-- Flutter Analyze validation
-
-### Current Validation Task
-
-Review the Uchi Mata Dashboard on a physical mobile device before finalizing:
-
-- Illustration size
-- Card height
-- Internal spacing
-- Badge positioning
-- Group spacing
-- Visual consistency

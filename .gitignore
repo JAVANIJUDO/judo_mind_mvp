@@ -43,3 +43,34 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Python AI environments and caches
+/ai_engine/.venv/
+/ai_engine/.biomech_venv/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# AI runtime and generated analysis artifacts
+/ai_engine/runtime/
+
+# Raw video captures
+*.mp4
+*.mov
+*.m4v
+*.avi
+*.mkv
+*.webm
+
+# Large AI model binaries (add only after an explicit repository decision)
+*.task
+*.onnx
+*.pt
+*.pth
+*.tflite
+*.engine
+
+# Known generated root artifact; preserved locally but not versioned
+/-.png

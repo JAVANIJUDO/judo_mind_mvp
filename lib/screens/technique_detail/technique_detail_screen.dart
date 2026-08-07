@@ -38,10 +38,7 @@ import 'widgets/technique_dashboard_grid.dart';
 class TechniqueDetailScreen extends StatelessWidget {
   final TechniqueModel technique;
 
-  const TechniqueDetailScreen({
-    super.key,
-    required this.technique,
-  });
+  const TechniqueDetailScreen({super.key, required this.technique});
 
   void _openTechniqueSection(
     BuildContext context,
@@ -56,21 +53,15 @@ class TechniqueDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final languageProvider =
-        context.watch<LanguageProvider>();
+    final languageProvider = context.watch<LanguageProvider>();
 
-    final favoriteProvider =
-        context.watch<FavoriteProvider>();
+    final favoriteProvider = context.watch<FavoriteProvider>();
 
-    final translation = technique.getTranslation(
-      languageProvider.languageCode,
-    );
+    final translation = technique.getTranslation(languageProvider.languageCode);
 
-    final techniqueTitle =
-        translation?.name ?? technique.nameEn;
+    final techniqueTitle = translation?.name ?? technique.nameEn;
 
-    final isFavorite =
-        favoriteProvider.isFavorite(technique.id);
+    final isFavorite = favoriteProvider.isFavorite(technique.id);
 
     return Scaffold(
       backgroundColor: JudoColors.background,
@@ -79,9 +70,7 @@ class TechniqueDetailScreen extends StatelessWidget {
         subtitle: null,
         isFavorite: isFavorite,
         onFavorite: () async {
-          await favoriteProvider.toggleFavorite(
-            technique.id,
-          );
+          await favoriteProvider.toggleFavorite(technique.id);
         },
       ),
       body: SingleChildScrollView(
@@ -93,47 +82,29 @@ class TechniqueDetailScreen extends StatelessWidget {
         ),
         child: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxWidth: 900,
-            ),
+            constraints: const BoxConstraints(maxWidth: 900),
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                HeroSection(
-                  technique: technique,
-                  title: techniqueTitle,
-                ),
+                HeroSection(technique: technique, title: techniqueTitle),
 
-                const SizedBox(
-                  height: JudoSpacing.xxl,
-                ),
+                const SizedBox(height: JudoSpacing.xxl),
 
                 TechniqueDashboardGrid(
                   onSectionTap: (section) {
-                    _openTechniqueSection(
-                      context,
-                      section,
-                    );
+                    _openTechniqueSection(context, section);
                   },
                 ),
 
-                const SizedBox(
-                  height: JudoSpacing.xl,
-                ),
+                const SizedBox(height: JudoSpacing.xl),
 
                 TechniquePrimaryActions(
                   technique: technique,
                   onAiAnalysis: () {
-                    ScaffoldMessenger.of(context)
-                      ..hideCurrentSnackBar()
-                      ..showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'Sensi Bot AI Lab will open here.',
-                          ),
-                        ),
-                      );
+                    _openTechniqueSection(
+                      context,
+                      TechniqueDashboardSection.aiAnalysis,
+                    );
                   },
                   onStartTraining: () {
                     _openTechniqueSection(
@@ -149,9 +120,7 @@ class TechniqueDetailScreen extends StatelessWidget {
                   },
                 ),
 
-                const SizedBox(
-                  height: JudoSpacing.xxxl,
-                ),
+                const SizedBox(height: JudoSpacing.xxxl),
               ],
             ),
           ),

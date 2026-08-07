@@ -979,4 +979,59 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get sensiBotRecommendation => 'Sensi Bot Recommendation';
+
+  @override
+  String get singleCameraPoseSummaryTitle => 'Single-Camera Pose Summary';
+
+  @override
+  String get experimentalPoseBaseline => 'experimental pose baseline';
+
+  @override
+  String get measuredVideoMetadataLabel => 'Video metadata · measured';
+
+  @override
+  String get modelEstimatedPoseCoverageLabel =>
+      'Pose coverage · model-estimated';
+
+  @override
+  String get analyzedFramesLabel => 'Analyzed frames';
+
+  @override
+  String get atLeastOnePoseLabel => 'At least one pose detected';
+
+  @override
+  String get twoPosesLabel => 'Two poses detected';
+
+  @override
+  String get scientificConfidenceUnavailable =>
+      'Scientific confidence is not available in this diagnostic slice. Coverage is not biomechanics confidence.';
+
+  @override
+  String get scientificLimitationsTitle => 'Scientific limitations';
+
+  @override
+  String get poseIdentityNotAvailable =>
+      'Pose order is frame-local and does not establish persistent Tori or Uke identity.';
+
+  @override
+  String get phaseDetectionNotAvailable =>
+      'Kuzushi, Tsukuri and Kake are not detected in this version.';
+
+  @override
+  String get singleCamera2dOnly =>
+      'This single-camera result is not measured or reconstructed 3D.';
+
+  @override
+  String get forceTorqueNotAvailable =>
+      'No real force, torque or laboratory-grade biomechanics is reported.';
+
+  @override
+  String get experimentalPoseLimitation =>
+      'Pose coverage comes from an experimental model and is not a scientific confidence score.';
+
+  @override
+  String get runPoseAnalysis => 'Run 2D Pose Check';
+
+  @override
+  String get poseAnalysisRunning => 'Checking Pose Visibility...';
 }

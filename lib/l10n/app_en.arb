@@ -348,5 +348,21 @@
 "theory": "Theory",
 "technique": "Technique",
 "competition": "Competition",
-"sensiBotRecommendation": "Sensi Bot Recommendation"
+"sensiBotRecommendation": "Sensi Bot Recommendation",
+"singleCameraPoseSummaryTitle": "Single-Camera Pose Summary",
+"experimentalPoseBaseline": "experimental pose baseline",
+"measuredVideoMetadataLabel": "Video metadata · measured",
+"modelEstimatedPoseCoverageLabel": "Pose coverage · model-estimated",
+"analyzedFramesLabel": "Analyzed frames",
+"atLeastOnePoseLabel": "At least one pose detected",
+"twoPosesLabel": "Two poses detected",
+"scientificConfidenceUnavailable": "Scientific confidence is not available in this diagnostic slice. Coverage is not biomechanics confidence.",
+"scientificLimitationsTitle": "Scientific limitations",
+"poseIdentityNotAvailable": "Pose order is frame-local and does not establish persistent Tori or Uke identity.",
+"phaseDetectionNotAvailable": "Kuzushi, Tsukuri and Kake are not detected in this version.",
+"singleCamera2dOnly": "This single-camera result is not measured or reconstructed 3D.",
+"forceTorqueNotAvailable": "No real force, torque or laboratory-grade biomechanics is reported.",
+"experimentalPoseLimitation": "Pose coverage comes from an experimental model and is not a scientific confidence score.",
+"runPoseAnalysis": "Run 2D Pose Check",
+"poseAnalysisRunning": "Checking Pose Visibility..."
 }

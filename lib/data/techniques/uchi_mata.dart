@@ -1,3 +1,4 @@
+import 'uchi_mata_visual_learning.dart';
 import '../../models/technique_model.dart';
 import '../../models/quiz_model.dart';
 import '../../models/technique_translation.dart';
@@ -132,6 +133,8 @@ const TechniqueModel uchiMata = TechniqueModel(
 
   competitionVideo:
       "https://www.youtube.com/results?search_query=Uchi+Mata+competition+analysis",
+
+  visualLearningPlan: uchiMataVisualLearningPlan,
 
   executionSteps: [
     "Create kuzushi by breaking the opponent's balance forward.",

@@ -979,4 +979,58 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get sensiBotRecommendation => 'پیشنهاد Sensi Bot';
+
+  @override
+  String get singleCameraPoseSummaryTitle => 'خلاصه تشخیص پوز تک‌دوربین';
+
+  @override
+  String get experimentalPoseBaseline => 'خط‌پایه آزمایشی تشخیص پوز';
+
+  @override
+  String get measuredVideoMetadataLabel => 'فراداده ویدئو · اندازه‌گیری‌شده';
+
+  @override
+  String get modelEstimatedPoseCoverageLabel => 'پوشش تشخیص پوز · برآورد مدل';
+
+  @override
+  String get analyzedFramesLabel => 'فریم‌های بررسی‌شده';
+
+  @override
+  String get atLeastOnePoseLabel => 'تشخیص حداقل یک پوز';
+
+  @override
+  String get twoPosesLabel => 'تشخیص دو پوز';
+
+  @override
+  String get scientificConfidenceUnavailable =>
+      'در این برش تشخیصی confidence علمی موجود نیست. نرخ پوشش، confidence بیومکانیکی نیست.';
+
+  @override
+  String get scientificLimitationsTitle => 'محدودیت‌های علمی';
+
+  @override
+  String get poseIdentityNotAvailable =>
+      'ترتیب پوزها فقط مربوط به همان فریم است و هویت پایدار توری یا اوکه را مشخص نمی‌کند.';
+
+  @override
+  String get phaseDetectionNotAvailable =>
+      'کوزوشی، تسوکوری و کاکه در این نسخه تشخیص داده نمی‌شوند.';
+
+  @override
+  String get singleCamera2dOnly =>
+      'این نتیجه تک‌دوربین، سه‌بعدی اندازه‌گیری‌شده یا بازسازی‌شده نیست.';
+
+  @override
+  String get forceTorqueNotAvailable =>
+      'هیچ نیروی واقعی، گشتاور واقعی یا بیومکانیک آزمایشگاهی گزارش نمی‌شود.';
+
+  @override
+  String get experimentalPoseLimitation =>
+      'پوشش تشخیص پوز از یک مدل آزمایشی می‌آید و امتیاز confidence علمی نیست.';
+
+  @override
+  String get runPoseAnalysis => 'بررسی پوز دوبعدی';
+
+  @override
+  String get poseAnalysisRunning => 'در حال بررسی دیده‌شدن پوز...';
 }
