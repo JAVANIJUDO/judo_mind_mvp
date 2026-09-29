@@ -7,8 +7,10 @@ from pathlib import Path
 from unittest import TestCase
 
 from fastapi import HTTPException
+from pydantic import ValidationError
 from starlette.datastructures import Headers, UploadFile
 
+from ai_engine.contracts.single_camera_pose_summary import PoseCoverageSummary
 from ai_engine.main import (
     UPLOAD_DIRECTORY,
     analyze_single_camera_pose_summary,
@@ -42,8 +44,12 @@ class _FakePoseEngine:
             },
             "analysis": {
                 "target_fps": target_fps,
-                "sample_stride": 3,
+                "sampling_strategy": (
+                    "nearest_source_frame_to_target_timestamp"
+                ),
+                "nominal_sample_interval_frames": 3.0,
                 "analyzed_frame_count": 30,
+                "effective_analyzed_fps": 10.0,
                 "frames_with_pose": 27,
                 "frames_with_two_poses": 21,
                 "single_or_multi_pose_rate": 0.9,
@@ -53,7 +59,69 @@ class _FakePoseEngine:
         }
 
 
+class _FailingPoseEngine:
+    def close(self) -> None:
+        return None
+
+    def analyze_video(
+        self,
+        video_path: str | Path,
+        target_fps: float,
+    ) -> dict:
+        del target_fps
+
+        if not Path(video_path).exists():
+            raise AssertionError("Temporary upload was not created.")
+
+        raise RuntimeError("expected inference failure")
+
+
 class SingleCameraPoseSummaryApiTest(TestCase):
+    def test_pose_coverage_contract_rejects_inconsistent_counts(self) -> None:
+        with self.assertRaises(ValidationError):
+            PoseCoverageSummary(
+                analyzed_frame_count=10,
+                frames_with_at_least_one_pose=8,
+                frames_with_two_poses=9,
+                at_least_one_pose_rate=0.8,
+                two_pose_rate=0.9,
+            )
+
+    def test_pose_coverage_contract_rejects_inconsistent_rates(self) -> None:
+        with self.assertRaises(ValidationError):
+            PoseCoverageSummary(
+                analyzed_frame_count=10,
+                frames_with_at_least_one_pose=8,
+                frames_with_two_poses=4,
+                at_least_one_pose_rate=0.7,
+                two_pose_rate=0.4,
+            )
+
+    def test_engine_failure_returns_bounded_error_and_cleans_upload(self) -> None:
+        existing_uploads = set(UPLOAD_DIRECTORY.iterdir())
+        app.state.pose_engine = _FailingPoseEngine()
+        upload = UploadFile(
+            filename="uchi-mata.mp4",
+            file=BytesIO(b"not-a-real-video"),
+            headers=Headers({"content-type": "video/mp4"}),
+        )
+
+        with self.assertRaises(HTTPException) as raised:
+            asyncio.run(
+                analyze_single_camera_pose_summary(
+                    video=upload,
+                    technique_id="uchi-mata",
+                    camera_view="side",
+                )
+            )
+
+        self.assertEqual(raised.exception.status_code, 500)
+        self.assertEqual(
+            raised.exception.detail,
+            "Single-camera pose analysis failed.",
+        )
+        self.assertEqual(set(UPLOAD_DIRECTORY.iterdir()), existing_uploads)
+
     def test_returns_bounded_versioned_summary_and_cleans_upload(self) -> None:
         existing_uploads = set(UPLOAD_DIRECTORY.iterdir())
         app.state.pose_engine = _FakePoseEngine()
@@ -98,6 +166,7 @@ class SingleCameraPoseSummaryApiTest(TestCase):
         self.assertEqual(set(UPLOAD_DIRECTORY.iterdir()), existing_uploads)
 
     def test_rejects_non_video_upload(self) -> None:
+        existing_uploads = set(UPLOAD_DIRECTORY.iterdir())
         upload = UploadFile(
             filename="notes.txt",
             file=BytesIO(b"not a video"),
@@ -114,3 +183,27 @@ class SingleCameraPoseSummaryApiTest(TestCase):
             )
 
         self.assertEqual(raised.exception.status_code, 400)
+        self.assertTrue(upload.file.closed)
+        self.assertEqual(set(UPLOAD_DIRECTORY.iterdir()), existing_uploads)
+
+    def test_empty_technique_is_rejected_without_leaking_upload(self) -> None:
+        existing_uploads = set(UPLOAD_DIRECTORY.iterdir())
+        upload = UploadFile(
+            filename="uchi-mata.mp4",
+            file=BytesIO(b"not-a-real-video"),
+            headers=Headers({"content-type": "video/mp4"}),
+        )
+
+        with self.assertRaises(HTTPException) as raised:
+            asyncio.run(
+                analyze_single_camera_pose_summary(
+                    video=upload,
+                    technique_id="   ",
+                    camera_view="unknown",
+                )
+            )
+
+        self.assertEqual(raised.exception.status_code, 400)
+        self.assertEqual(raised.exception.detail, "technique_id must not be empty.")
+        self.assertTrue(upload.file.closed)
+        self.assertEqual(set(UPLOAD_DIRECTORY.iterdir()), existing_uploads)

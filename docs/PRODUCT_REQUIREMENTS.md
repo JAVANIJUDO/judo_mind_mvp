@@ -2,7 +2,7 @@
 
 Version:
 
-1.1
+1.3
 
 
 Status:
@@ -12,7 +12,7 @@ Active Development
 
 Last Updated:
 
-2026-08-08
+2026-08-13
 
 
 ---
@@ -133,14 +133,14 @@ Needs:
 # 4. Product Modules
 
 
-Judo Mind consists of 17 modules.
+Judo Mind consists of 18 modules.
 
 
 ---
 
 # Module 1
 
-## Home Dashboard
+## Home
 
 
 Purpose:
@@ -162,7 +162,7 @@ Requirements:
 
 # Module 2
 
-## Techniques
+## Techniques — 67 Techniques
 
 
 Purpose:
@@ -274,7 +274,7 @@ Requirements:
 
 # Module 5
 
-## Monitoring
+## Monitoring / Progress & Mastery
 
 
 Requirements:
@@ -291,7 +291,7 @@ Requirements:
 
 # Module 6
 
-## Judo Cast
+## AudioCast
 
 
 Requirements:
@@ -384,7 +384,7 @@ Requirements:
 
 # Module 12
 
-## Store & Subscription
+## Store & Subscriptions
 
 
 Requirements:
@@ -399,7 +399,7 @@ Requirements:
 
 # Module 13
 
-## Club Management
+## Club Administration
 
 
 Requirements:
@@ -459,7 +459,7 @@ Requirements:
 
 # Module 17
 
-## Administration & System Settings
+## App Management & Settings
 
 
 Purpose:
@@ -493,6 +493,120 @@ System:
 
 
 ---
+
+# Module 18
+
+## Training Program Validator
+
+Purpose:
+
+Evaluate an athlete- or coach-provided training plan as evidence-aware decision
+support for Judo performance planning.
+
+Required context:
+
+- Training season or period
+- Time remaining to competition
+- Athlete context and declared constraints
+- Evidence-based strength and conditioning
+- Physiology
+- Recovery and training-load principles
+- Judo-specific requirements
+- Academic or primary scientific evidence
+
+Required analysis behavior:
+
+- Identify elements supported by the available context and evidence.
+- Identify questionable, risky or internally inconsistent elements.
+- Explain the reasoning and relevant uncertainty.
+- Propose alternatives only when justified.
+- Cite evidence and preserve the provenance of each conclusion.
+- Avoid claiming that one training plan is universally correct.
+- Distinguish sport-performance guidance from medical diagnosis.
+- Refer medical symptoms, diagnosis and treatment decisions to qualified health
+  professionals rather than inferring them from a training plan.
+
+Scientific and product boundary:
+
+- Plan-review findings and recommendations are `AI-inferred` unless a specific
+  result has a different defensible source classification.
+- Athlete-reported context is self-reported input and must not be relabelled as
+  a direct physiological measurement.
+- The module must show limitations and must not automatically alter or prescribe
+  a plan without an explicit future product decision and appropriate safeguards.
+- This requirement formalizes the module only; Flutter UI and backend
+  implementation are not part of the current milestone.
+
+---
+
+# Platform Framework and Product Position
+
+The canonical long-term product charter is
+`docs/JUDO_MIND_PRODUCT_FRAMEWORK.md`. This requirements document may refine
+bounded product requirements but must not create a conflicting module list,
+platform boundary or completion claim. Runtime availability belongs to the
+canonical code registry and validated current capability belongs to
+`docs/PROJECT_STATUS.md`.
+
+Judo Mind is a trusted multilingual Judo Intelligence Platform connecting
+structured technique education, scientifically governed video analysis,
+athlete development history, AI-guided explanation and
+coach/federation workflows.
+
+The platform coordinates four surfaces:
+
+1. Athlete App
+2. Coach Workspace
+3. Club/Federation Console
+4. Judo Intelligence Core
+
+The 18 official modules are distributed across these surfaces and must not be
+represented as 18 equal-weight Athlete Home tiles. The future Athlete Home
+information architecture prioritizes five journeys: Learn, Train, Analyze,
+Track Progress and Connect with Coach.
+
+Technique Analysis (one attempt), Training/Drill Analysis (multiple
+repetitions) and Competition Analysis (full match) are cross-module analysis
+capabilities. They do not increase the official module count.
+
+The competitive moat is the governed connection of structured 67-technique
+knowledge, scientifically bounded video analysis, grounded AI Sensei
+explanations, longitudinal athlete progress, athlete-coach-club-federation
+workflows and multilingual content/governance. This positioning is a product
+direction, not a claim of market leadership or production readiness.
+
+Sensi Bet remains isolated and deferred pending legal, age, ethical and
+federation-brand review.
+
+# Localization Completion Contract
+
+- Selecting Persian requires Persian user-facing UI and approved content for a
+  completed production experience; selecting English requires English.
+- Japanese technique names may remain Japanese alongside the selected-language
+  explanation.
+- The contract covers UI labels, structured technique content, Quiz, Sources,
+  validation errors, analysis results, safety messages and future grounded AI
+  Sensei output.
+- RTL covers layout, navigation direction, directional icons, charts and
+  interaction order, not text alignment alone.
+- Silent English fallback must not be presented as completed Persian content.
+  Missing or untranslated material remains explicitly incomplete or
+  unavailable until approved.
+
+# Uchi Mata Gold Reference Definition
+
+The complete Gold Reference target includes approved overview/technical
+content; Kuzushi/Tsukuri/Kake; execution steps; key points, mistakes and
+safety; combinations/counters; licensed media and visual learning;
+technique-specific biomechanics; Shadow Training; Strength & Conditioning;
+Resistance-Band Training; visual/video Quiz; V1 and reviewed V2A; grounded AI
+Sensei explanation; local History and Progress; and complete English/Persian
+experiences.
+
+Every educational destination requires a distinct primary visual artifact.
+Renaming or reusing one generic stick-figure animation across destinations is
+not completion evidence. The target definition does not mark missing media,
+training, Progress, AI Sensei or Persian content as implemented.
 
 # 5. Global Product Requirements
 
@@ -1179,3 +1293,265 @@ The result must connect:
 Blue overlays show movement/position/joint geometry. Gold overlays show grip/Hikite/Tsurite/upper-body control. Green overlays show balance/COM/mechanical direction; at Level 1, directional cues are conceptual `AI-inferred` coaching cues and never measured force vectors.
 
 AI Sensi must remain independent Judo Mind intellectual property. It may be inspired by Mohammad Javani's visual identity without copying his full face. No real narrator or third-party voice may be cloned without permission.
+
+---
+
+# 9.19 Three Video Analysis Mode Product Requirement
+
+Fight Intelligence 360 must separate three user-facing analysis modes. The
+mode describes what portion of activity is being analyzed; the Level 1/2/3
+classification independently describes what scientific evidence is available.
+
+## Technique Analysis - One Attempt
+
+The user selects one primary technique execution, with useful context
+immediately before and after it. One analysis window must equal one primary
+attempt. The product must not impose an arbitrary universal duration limit.
+
+If multiple attempts are present before automatic segmentation is validated,
+the Analyze flow must require selection or trimming of one attempt. It must not
+average unsegmented attempts or present them as one execution.
+
+Future result experience:
+
+- Annotated Video
+- AI Sensi
+- Voice Coaching
+- Scientific Report
+- Interactive 3D/360 only when the scientific analysis level permits it
+
+## Training / Drill Analysis - Multiple Repetitions
+
+This mode analyzes repeated practice of the same technique. Every repetition
+must first become a separate event and receive its own Attempt 1, Attempt 2,
+Attempt 3 and subsequent per-attempt result.
+
+Only after reliable segmentation and per-attempt analysis may the product
+report comparison, consistency, variability, progression, degradation or
+repeatability of validated metrics. It must not blend repetitions into one
+execution. A fatigue finding requires validated evidence and must not be
+inferred merely from changing repetitions.
+
+## Competition Analysis - Full Match
+
+This mode analyzes an entire match as an event timeline. It must support the
+future sequence:
+
+`temporal event detection -> attack/event segmentation -> technique candidate/classification -> individual attempt analysis -> outcome -> match-level tactical aggregation`
+
+Required future result layers:
+
+- Event timeline
+- Individual attack cards
+- Per-attempt analysis
+- Match tactical summary
+- AI Sensi competition review
+
+The product must not combine all attacks into one biomechanics report.
+Match-level tactical findings and per-attempt technique findings must retain
+separate methods, confidence, provenance and limitations.
+
+## Benchmark and Sampling Boundary
+
+Pose Engine Benchmark results evaluate detection coverage, reliability and
+processing performance; they are not Technique Analysis. Multiple movements in
+a benchmark video do not authorize one combined athlete or technique result.
+
+The current timestamp-based 10 FPS target is a benchmark/evaluation setting.
+Scientific metric extraction must retain source timestamps and use a validated,
+metric-appropriate temporal resolution, potentially including native
+25/30/50/60 FPS. No universal biomechanics sampling rate is approved.
+
+## Scientific Requirements
+
+All three modes must:
+
+- Preserve measured, reconstructed, model-estimated and AI-inferred provenance.
+- Withhold Tori/Uke claims when identity is not validated.
+- Withhold Kuzushi/Tsukuri/Kake judgments when event/phase segmentation is not
+  validated.
+- Prohibit measured-force claims from ordinary video.
+- Prohibit true 3D and actual torque, moment or power claims from single-camera
+  video.
+- Present confidence, method, quality and limitations appropriate to each
+  result.
+
+This section formalizes the three-mode architecture. Automatic segmentation,
+classification, Drill/Match analysis and the general mode-selection UX remain
+unimplemented. The bounded Single-Attempt V2A foundation described in section
+9.20 is now implemented separately.
+
+---
+
+# 9.20 Single-Attempt Uchi Mata V2A Product Requirement
+
+The first bounded implementation of Technique Analysis - One Attempt must
+produce exactly:
+
+1. reviewed execution duration (`UM-TIM-001`);
+2. projected trunk inclination (`UM-ANG-001`);
+3. projected support-leg knee angle (`UM-ANG-002`);
+4. projected attacking-leg knee angle (`UM-ANG-003`).
+
+## Required Review Inputs
+
+Until each automatic capability is scientifically validated, the product must
+require a human-selected start/end event pair, human-confirmed Tori mapped to a
+neutral track, human-confirmed support leg and a reviewed angle frame/event.
+Projected angle reportability also requires reviewed near-planar view
+suitability and low roll.
+
+The user must not need to understand internal landmark indices. The eventual
+selection UX should present video frames and neutral persons/tracks, then store
+the reviewed decision in the versioned contract.
+
+## Result Requirements
+
+Each metric must show:
+
+- value and unit when available;
+- `reportable`, `review_required` or `withheld` state;
+- measured or model-estimated provenance;
+- frame/timestamp or start/end interval;
+- method version;
+- meaningful confidence evidence when available;
+- an explicit limitation and withheld reason when applicable.
+
+The result may draw a blue trunk line, blue support-side hip-knee-ankle
+polyline and blue projected-angle labels. It must not draw force vectors, fake
+COM, reconstructed 3D or normative target geometry.
+
+AI Sensi copy is descriptive only, for example: `Projected trunk inclination
+is X degrees at timestamp Y.` It must not call an angle wrong, claim poor phase
+execution or prescribe an ideal until validated coaching-reference rules exist.
+
+## Fail-Closed Acceptance
+
+- Missing/invalid/degenerate angle geometry is withheld with no value or
+  overlay.
+- Unreviewed camera suitability results in `review_required`, not an approved
+  projected angle.
+- Frame-local pose order cannot establish Tori/Uke identity.
+- Model landmark visibility cannot be labelled pose accuracy or biomechanics
+  confidence.
+- The benchmark 10 FPS setting cannot become the product's fixed scientific
+  temporal resolution.
+- Ordinary single-camera video cannot yield true 3D, measured force, actual
+  torque, moment, power, load or injury risk.
+
+Current delivery includes the versioned Python evaluation contract, metric
+math, human annotation/evaluation schema, a multipart reviewed-video endpoint
+that infers only the selected source frame, a typed Flutter HTTP service,
+result parser/card, blue geometry layer and the explicit user-facing
+review/selection workflow. The first reviewed real attempt remains pending.
+
+## 9.21 Grounded Sensei V1 Product Requirement
+
+The first Grounded Sensei is a deterministic, local explanation layer bound to
+one exact human-reviewed Uchi Mata V2A request/result pair. It is not open
+generative AI, a chatbot prompt surface, a new analysis engine or a source of
+new scientific values.
+
+It accepts only the exact four approved V2A metrics and must preserve their
+value, status, provenance, confidence availability and method version. Missing,
+duplicate or unknown metrics, technique/request/result mismatches, unsupported
+locale, invalid scientific boundaries or reportable multi-person interaction
+must fail closed without hiding the underlying V2A result.
+
+The explanation presents finding, evidence, bounded relevance, BLUE overlay
+availability, next action, approved selected-language safety, limitations and
+versioned provenance. No performance classification, automatic identity,
+phase, leg-role inference, confidence fabrication, 3D, kinetics or interaction
+claim is permitted. Without an explicitly approved metric-to-drill mapping,
+the next action is honestly unavailable rather than fabricated.
+
+## 9.22 Reusable Technique Explanation Content Standard
+
+All official technique explanations use the 18-section bilingual structure in
+`scientific_foundation/JM_TECHNIQUE_EXPLANATION_CONTENT_STANDARD_EN_FA.md`:
+identity, overview, grip/start, Kuzushi, Tsukuri, Kake, relevant
+Makikomi/follow-through, coaching points, mistakes, safety, variations,
+canonical combinations, canonical counters, visual explanation, video
+explanation, technical interpretation, optional biomechanical interpretation,
+and evidence/review status.
+
+Overview, execution phases and coaching points remain prominent; longer
+material is expandable. Visuals are zoomable and accessible. English and
+Persian values are independently governed, with full RTL behavior in Persian.
+Missing content is unavailable rather than generated or silently translated.
+
+Technical educational review and scientific review are distinct. Optional
+biomechanical material stays hidden/locked unless statement classification,
+method, limitations, provenance and review data are complete. Conceptual
+arrows carry the exact no-direct-force-measurement disclaimer. Media must be
+project-owned, licensed or backed by recorded permission/provenance. The
+external design example is not a product asset or content/scientific source.
+
+The standard alone does not populate any technique, make a route ready,
+create scientific approval, enable analysis, or alter a scientific rule,
+threshold, metric or capability.
+
+## 9.23 Canonical Technique Identity Registry
+
+The official 67-technique roadmap has one provenance-aware, content-free
+identity registry. Canonical ID, display order, model availability,
+identity/classification verification, Persian-name state and unlock state are
+independent. Existing IDs `001–005` are preserved; the other normalized
+mappings require qualified human confirmation. Registry membership never
+creates a model, translation, educational content, scientific approval or
+unlock.
+
+Unknown, duplicate, unresolved, conflicting, human-review-pending or
+model-missing identities fail closed. Uchi Mata `001` remains specialized and
+no non-Uchi technique is unlocked by the registry foundation.
+
+## 9.24 Human-First Analysis Role Contract
+
+Technique Intelligence must require an explicit human role assignment after
+the user selects a frame-local candidate. The governed assignment is:
+
+```text
+role: TORI
+source: HUMAN_CONFIRMATION
+candidate_token: selected session candidate
+```
+
+No candidate is selected by default. Confirmation is a separate human action,
+changing the candidate invalidates it, and analysis remains disabled until all
+required review fields are complete. The server independently verifies that
+the candidate token belongs to the current review session and rejects missing,
+AI-derived, identity-bearing or cross-session assignments.
+
+Clothing colour is permitted only as a visual helper and is not identity,
+tracking or role evidence. V2A scientific outputs and contracts remain
+unchanged. AI-Assisted Competition Timeline and Coach Analysis Marketplace are
+future separate product layers; this requirement does not implement either.
+
+## 9.25 D2 Review-Frame Temporal Context
+
+Guided PREPARE may supply MediaPipe VIDEO mode with a bounded contiguous
+pre-roll ending at the human-selected Review Frame. The context must remain
+inside the human-confirmed attempt and is an internal engineering aid only.
+Only the exact Review Frame may create candidate evidence; every preceding
+output is discarded. Temporal context does not create a track, identity, Judo
+role, phase, metric or coaching interpretation.
+
+The current 500 ms maximum is a computational engineering bound. The observed
+15-frame success in one 30 FPS Uchi Mata diagnostic video does not establish a
+universal, scientific or Judo-specific threshold. Insufficient Review Frame
+evidence continues to fail closed, and D2 remains incomplete until positive
+real-device validation.
+
+## JM-COMP-01 — Global Judo AI Competitive Benchmark Governance
+
+Future comparative review may consider Judo AI: Training Coach, BukatsuLog,
+Onform, Dartfish, Hudl and CoachNow across Product/UX, Video Intelligence, Judo
+Intelligence, Coaching/Progress and Scientific/Governance axes. Findings must
+be classified `ADOPT`, `ADAPT` or `REJECT` only after documented review.
+
+Candidate ideas for later evaluation include Waza Maps/Combination Flow,
+Analysis-to-Training Action, Coach/Athlete collaboration and Progress
+workflows. Advertising, UI visibility or a competitor claim is not evidence of
+a validated capability. No idea may enter Judo Mind without scientific,
+engineering, UX, privacy and JM-BTIG-01 compatibility review. JM-COMP-01 records
+benchmark governance only and activates no competitor-derived feature.

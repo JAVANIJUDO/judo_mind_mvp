@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:judo_mind/core/ai/analysis/single_camera_analysis_service.dart';
 import 'package:judo_mind/data/ai/http_single_camera_analysis_service.dart';
 import 'package:judo_mind/l10n/app_localizations.dart';
 import 'package:judo_mind/models/analysis_provenance.dart';
@@ -16,10 +17,49 @@ void main() {
     final summary = SingleCameraPoseSummary.fromJson(_poseSummaryPayload());
 
     expect(summary.schemaVersion, '1.0.0');
+    expect(summary.status, 'completed');
     expect(summary.video.provenance, AnalysisProvenance.measured);
     expect(summary.poseCoverage.provenance, AnalysisProvenance.modelEstimated);
     expect(summary.poseCoverage.confidenceAvailable, isFalse);
     expect(summary.hasExpectedScientificBoundary, isTrue);
+  });
+
+  test('rejects incompatible or scientifically promoted payloads', () {
+    final mutations = <void Function(Map<String, dynamic>)>[
+      (payload) => payload['schema_version'] = '2.0.0',
+      (payload) => payload['status'] = 'partial',
+      (payload) {
+        (payload['video'] as Map<String, dynamic>)['provenance'] =
+            'model-estimated';
+      },
+      (payload) {
+        (payload['pose_coverage'] as Map<String, dynamic>)['provenance'] =
+            'reconstructed';
+      },
+      (payload) {
+        (payload['pose_coverage']
+                as Map<String, dynamic>)['confidence_available'] =
+            true;
+      },
+      (payload) {
+        final limitations = payload['limitations'] as List<dynamic>;
+        limitations.removeWhere(
+          (item) =>
+              (item as Map<String, dynamic>)['code'] == 'single_camera_2d_only',
+        );
+      },
+    ];
+
+    for (final mutate in mutations) {
+      final payload =
+          jsonDecode(jsonEncode(_poseSummaryPayload())) as Map<String, dynamic>;
+      mutate(payload);
+
+      expect(
+        SingleCameraPoseSummary.fromJson(payload).hasExpectedScientificBoundary,
+        isFalse,
+      );
+    }
   });
 
   test('HTTP service sends the bounded multipart work order', () async {
@@ -50,6 +90,44 @@ void main() {
       expect(request.fields['camera_view'], 'side');
       expect(request.files.single.field, 'video');
       expect(summary.poseCoverage.twoPoseRate, 0.7);
+    } finally {
+      await tempDirectory.delete(recursive: true);
+    }
+  });
+
+  test('HTTP service diagnoses a stale or wrong endpoint', () async {
+    final client = _RecordingClient(const {
+      'detail': 'Not Found',
+    }, statusCode: 404);
+    final service = HttpSingleCameraAnalysisService(
+      client: client,
+      endpoint: Uri.parse('http://localhost/wrong-endpoint'),
+    );
+    final tempDirectory = await Directory.systemTemp.createTemp(
+      'judo-mind-pose-test-',
+    );
+    final video = File('${tempDirectory.path}/uchi-mata.mp4');
+    await video.writeAsBytes(const [0, 1, 2, 3]);
+
+    try {
+      await expectLater(
+        service.analyzePoseSummary(
+          VideoAnalysisRequest.singleCameraPoseSummary(
+            techniqueId: 'uchi-mata',
+            techniqueName: 'Uchi Mata',
+            videoPath: video.path,
+            cameraView: AnalysisCameraView.side,
+            createdAt: DateTime.utc(2026, 8, 8),
+          ),
+        ),
+        throwsA(
+          isA<SingleCameraAnalysisException>().having(
+            (error) => error.message,
+            'message',
+            contains('endpoint was not found (HTTP 404)'),
+          ),
+        ),
+      );
     } finally {
       await tempDirectory.delete(recursive: true);
     }
@@ -88,9 +166,10 @@ void main() {
 }
 
 class _RecordingClient extends http.BaseClient {
-  _RecordingClient(this.payload);
+  _RecordingClient(this.payload, {this.statusCode = 200});
 
   final Map<String, dynamic> payload;
+  final int statusCode;
   http.BaseRequest? lastRequest;
 
   @override
@@ -98,7 +177,7 @@ class _RecordingClient extends http.BaseClient {
     lastRequest = request;
     return http.StreamedResponse(
       Stream.value(utf8.encode(jsonEncode(payload))),
-      200,
+      statusCode,
       headers: const {'content-type': 'application/json'},
     );
   }

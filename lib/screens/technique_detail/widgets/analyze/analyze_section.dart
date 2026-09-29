@@ -5,6 +5,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../../core/ai/analysis/single_camera_analysis_service.dart';
+import '../../../../core/ai/analysis/grounded_sensei_service.dart';
+import '../../../../core/ai/analysis/guided_single_attempt_v2a_service.dart';
+import '../../../../core/ai/analysis/single_attempt_v2a_service.dart';
 import '../../../../core/dependency_injection/injection_container.dart';
 import '../../../../core/theme/judo_design_tokens.dart';
 import '../../../../core/theme/judo_typography.dart';
@@ -13,6 +16,7 @@ import '../../../../models/single_camera_pose_summary.dart';
 import '../../../../models/technique_model.dart';
 import '../../../../models/video_analysis_request.dart';
 import 'single_camera_pose_summary_card.dart';
+import 'guided_single_attempt_review_panel.dart';
 
 /// ----------------------------------------------------------------
 /// Judo Mind Super App
@@ -33,11 +37,17 @@ import 'single_camera_pose_summary_card.dart';
 class AnalyzeSection extends StatefulWidget {
   final TechniqueModel technique;
   final SingleCameraAnalysisService? analysisService;
+  final SingleAttemptV2AService? singleAttemptV2AService;
+  final GuidedSingleAttemptV2AService? guidedSingleAttemptV2AService;
+  final GroundedSenseiService? groundedSenseiService;
 
   const AnalyzeSection({
     super.key,
     required this.technique,
     this.analysisService,
+    this.singleAttemptV2AService,
+    this.guidedSingleAttemptV2AService,
+    this.groundedSenseiService,
   });
 
   @override
@@ -48,6 +58,7 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
   final ImagePicker _picker = ImagePicker();
 
   XFile? _selectedVideo;
+  String? _selectedVideoId;
   VideoPlayerController? _videoController;
 
   bool _isSelectingVideo = false;
@@ -92,7 +103,9 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(
-          SnackBar(content: Text('Video could not be selected: $error')),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.videoSelectionFailed),
+          ),
         );
     } finally {
       if (mounted) {
@@ -105,6 +118,9 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
 
   Future<void> _loadVideo(XFile video) async {
     final previousController = _videoController;
+    final videoLength = await video.length();
+    final videoId =
+        'local-${video.name}-$videoLength-${DateTime.now().microsecondsSinceEpoch}';
 
     final controller = VideoPlayerController.file(File(video.path));
 
@@ -118,6 +134,7 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
 
     setState(() {
       _selectedVideo = video;
+      _selectedVideoId = videoId;
       _videoController = controller;
       _analysisResult = null;
       _analysisError = null;
@@ -131,6 +148,7 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
 
     setState(() {
       _selectedVideo = null;
+      _selectedVideoId = null;
       _videoController = null;
       _acceptedAnalysisNotice = false;
       _analysisResult = null;
@@ -165,8 +183,13 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
 
     final bytes = await video.length();
     final megabytes = bytes / (1024 * 1024);
+    if (!mounted) {
+      return '';
+    }
 
-    return '${megabytes.toStringAsFixed(1)} MB';
+    return AppLocalizations.of(
+      context,
+    )!.videoSizeMegabytes(megabytes.toStringAsFixed(1));
   }
 
   Future<void> _submitForAnalysis() async {
@@ -207,7 +230,9 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
       }
 
       setState(() {
-        _analysisError = error.message;
+        _analysisError = Localizations.localeOf(context).languageCode == 'en'
+            ? error.message
+            : AppLocalizations.of(context)!.analysisFailedUnexpectedly;
       });
     } catch (_) {
       if (!mounted) {
@@ -215,7 +240,9 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
       }
 
       setState(() {
-        _analysisError = 'Pose analysis failed unexpectedly.';
+        _analysisError = AppLocalizations.of(
+          context,
+        )!.analysisFailedUnexpectedly;
       });
     } finally {
       if (mounted) {
@@ -240,12 +267,16 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Analyze My ${widget.technique.nameEn}',
+          l10n.analyzeTechnique(
+            widget.technique
+                .resolveContent(Localizations.localeOf(context).languageCode)
+                .name,
+          ),
           style: JudoTypography.headingSmall.copyWith(color: JudoColors.gold),
         ),
         const SizedBox(height: JudoSpacing.sm),
         Text(
-          'Upload a training or competition video for an experimental 2D pose visibility check. Identity, phases and biomechanics are not included in this slice.',
+          l10n.analyzeVideoDescription,
           style: JudoTypography.bodyMedium.copyWith(
             color: JudoColors.textSecondary,
           ),
@@ -307,12 +338,37 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
             const SizedBox(height: JudoSpacing.xl),
             SingleCameraPoseSummaryCard(summary: _analysisResult!),
           ],
+          if (_supportsReviewedV2A && _selectedVideoId != null) ...[
+            const SizedBox(height: JudoSpacing.xl),
+            GuidedSingleAttemptReviewPanel(
+              key: ValueKey(
+                'guided-v2a-${_selectedVideoId!}-${_cameraView.apiValue}',
+              ),
+              videoPath: _selectedVideo!.path,
+              videoId: _selectedVideoId!,
+              cameraView: _cameraView.apiValue,
+              videoDuration: videoController.value.duration,
+              onPreviewMoment: (moment) {
+                videoController.pause();
+                videoController.seekTo(moment);
+              },
+              technique: widget.technique,
+              service:
+                  widget.guidedSingleAttemptV2AService ??
+                  sl<GuidedSingleAttemptV2AService>(),
+              groundedSenseiService: widget.groundedSenseiService,
+            ),
+          ],
         ],
       ],
     );
   }
 
+  bool get _supportsReviewedV2A =>
+      widget.technique.supportsReviewedSingleAttemptV2A;
+
   Widget _buildVideoSelection() {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(JudoSpacing.xl),
@@ -338,14 +394,14 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
           ),
           const SizedBox(height: JudoSpacing.lg),
           Text(
-            'Add Technique Video',
+            l10n.addTechniqueVideo,
             style: JudoTypography.titleLarge.copyWith(
               color: JudoColors.textPrimary,
             ),
           ),
           const SizedBox(height: JudoSpacing.sm),
           Text(
-            'Use a clear video where both judoka remain visible.',
+            l10n.videoVisibilityGuidance,
             textAlign: TextAlign.center,
             style: JudoTypography.bodySmall.copyWith(
               color: JudoColors.textSecondary,
@@ -361,7 +417,7 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
                       _pickVideo(ImageSource.gallery);
                     },
               icon: const Icon(Icons.video_library_outlined),
-              label: const Text('Choose from Gallery'),
+              label: Text(l10n.chooseFromGallery),
             ),
           ),
           const SizedBox(height: JudoSpacing.sm),
@@ -374,7 +430,7 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
                       _pickVideo(ImageSource.camera);
                     },
               icon: const Icon(Icons.videocam_outlined),
-              label: const Text('Record Video'),
+              label: Text(l10n.recordVideo),
             ),
           ),
           if (_isSelectingVideo) ...[
@@ -387,6 +443,7 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
   }
 
   Widget _buildVideoPreview(VideoPlayerController controller) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         color: JudoColors.surface,
@@ -436,7 +493,7 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        _selectedVideo?.name ?? 'Selected video',
+                        _selectedVideo?.name ?? l10n.selectedVideo,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: JudoTypography.titleSmall,
@@ -469,6 +526,7 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
   }
 
   Widget _buildCaptureGuidance() {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(JudoSpacing.lg),
       decoration: BoxDecoration(
@@ -476,37 +534,34 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
         borderRadius: BorderRadius.circular(JudoRadius.md),
         border: Border.all(color: JudoColors.border),
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _GuidanceItem(text: 'Keep the full bodies of Tori and Uke visible.'),
-          _GuidanceItem(text: 'Use stable recording with sufficient light.'),
-          _GuidanceItem(text: 'Avoid people crossing in front of the camera.'),
-          _GuidanceItem(
-            text: 'Side or 45-degree views provide better joint visibility.',
-          ),
-          _GuidanceItem(
-            text: 'Maximum video duration in this phase is 3 minutes.',
-          ),
+          _GuidanceItem(text: l10n.captureFullBodiesGuidance),
+          _GuidanceItem(text: l10n.captureStableLightGuidance),
+          _GuidanceItem(text: l10n.captureNoCrossingGuidance),
+          _GuidanceItem(text: l10n.captureViewGuidance),
+          _GuidanceItem(text: l10n.captureDurationGuidance),
         ],
       ),
     );
   }
 
   Widget _buildCameraAngleSelector() {
-    const angles = {
-      AnalysisCameraView.side: 'Side view',
-      AnalysisCameraView.front: 'Front view',
-      AnalysisCameraView.rear: 'Rear view',
-      AnalysisCameraView.fortyFiveDegrees: '45-degree view',
-      AnalysisCameraView.unknown: 'Unknown',
+    final l10n = AppLocalizations.of(context)!;
+    final angles = {
+      AnalysisCameraView.side: l10n.cameraSideView,
+      AnalysisCameraView.front: l10n.cameraFrontView,
+      AnalysisCameraView.rear: l10n.cameraRearView,
+      AnalysisCameraView.fortyFiveDegrees: l10n.cameraFortyFiveView,
+      AnalysisCameraView.unknown: l10n.unknownLabel,
     };
 
     return DropdownButtonFormField<AnalysisCameraView>(
       initialValue: _cameraView,
       dropdownColor: JudoColors.surfaceVariant,
       decoration: InputDecoration(
-        labelText: 'Camera angle',
+        labelText: l10n.cameraAngleLabel,
         prefixIcon: const Icon(Icons.camera_outlined),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(JudoRadius.md),
@@ -533,6 +588,7 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
   }
 
   Widget _buildAnalysisNotice() {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(JudoSpacing.md),
       decoration: BoxDecoration(
@@ -550,11 +606,11 @@ class _AnalyzeSectionState extends State<AnalyzeSection> {
           });
         },
         title: Text(
-          'I understand this is video-based analysis.',
+          l10n.analysisNoticeTitle,
           style: JudoTypography.titleSmall.copyWith(color: JudoColors.warning),
         ),
         subtitle: Text(
-          'This step reports experimental 2D pose visibility only. It does not identify Tori/Uke, detect phases, reconstruct 3D, or measure force and torque.',
+          l10n.analysisNoticeDescription,
           style: JudoTypography.bodySmall.copyWith(
             color: JudoColors.textSecondary,
           ),

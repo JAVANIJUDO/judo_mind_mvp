@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/design_system/icons/judo_icons.dart';
 import '../../../core/theme/judo_design_tokens.dart';
 import '../../../core/theme/judo_typography.dart';
+import '../../../l10n/app_localizations.dart';
 
 import 'technique_dashboard_item.dart';
 
@@ -28,6 +29,7 @@ enum TechniqueDashboardSection {
   training,
   shadowTraining,
   conditioning,
+  resistanceBandTraining,
   tactical,
   competition,
   champions,
@@ -38,142 +40,176 @@ enum TechniqueDashboardSection {
   quiz,
   sources,
   aiAnalysis,
+  analysisHistory,
+  coachConnection,
 }
 
 class TechniqueDashboardGrid extends StatelessWidget {
   final ValueChanged<TechniqueDashboardSection> onSectionTap;
+  final bool Function(TechniqueDashboardSection section)? isSectionAvailable;
+  final int quizQuestionCount;
 
-  const TechniqueDashboardGrid({super.key, required this.onSectionTap});
+  const TechniqueDashboardGrid({
+    super.key,
+    required this.onSectionTap,
+    required this.quizQuestionCount,
+    this.isSectionAvailable,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final groups = _buildGroups();
+    final l10n = AppLocalizations.of(context)!;
+    final groups = _buildGroups(l10n);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Learning Dashboard', style: JudoTypography.headingMedium),
+        Text(l10n.learningDashboardTitle, style: JudoTypography.headingMedium),
         const SizedBox(height: JudoSpacing.xs),
         Text(
-          'Watch, understand, practise, analyze and master the technique.',
+          l10n.learningDashboardDescription,
           style: JudoTypography.bodySmall,
         ),
         const SizedBox(height: JudoSpacing.xl),
         ...groups.map(
           (group) => Padding(
             padding: const EdgeInsets.only(bottom: JudoSpacing.xl),
-            child: _DashboardGroup(group: group, onSectionTap: onSectionTap),
+            child: _DashboardGroup(
+              group: group,
+              onSectionTap: onSectionTap,
+              isSectionAvailable: isSectionAvailable,
+            ),
           ),
         ),
       ],
     );
   }
 
-  List<_TechniqueDashboardGroupData> _buildGroups() {
-    return const [
+  List<_TechniqueDashboardGroupData> _buildGroups(AppLocalizations l10n) {
+    return [
       _TechniqueDashboardGroupData(
-        title: 'Learn',
-        subtitle: 'Watch, understand and visually explore the technique',
+        id: 'learn',
+        title: l10n.journeyLearnTitle,
+        subtitle: l10n.journeyLearnDescription,
         color: JudoColors.primary,
         items: [
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.overview,
-            title: 'Overview',
+            title: l10n.overview,
             icon: JudoIcons.overview,
           ),
           _TechniqueDashboardItemData(
-            section: TechniqueDashboardSection.videos,
-            title: 'Media Library',
-            icon: JudoIcons.mediaLibrary,
-          ),
-          _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.technicalAnalysis,
-            title: 'Technical Analysis',
+            title: l10n.technicalAnalysis,
             icon: JudoIcons.technicalAnalysis,
           ),
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.biomechanics,
-            title: 'Biomechanics',
+            title: l10n.biomechanics,
             icon: JudoIcons.biomechanics,
-            badgeText: 'Learn',
-          ),
-          _TechniqueDashboardItemData(
-            section: TechniqueDashboardSection.training,
-            title: 'Training',
-            icon: JudoIcons.training,
-          ),
-          _TechniqueDashboardItemData(
-            section: TechniqueDashboardSection.shadowTraining,
-            title: 'Shadow Training',
-            icon: JudoIcons.shadowTraining,
-            badgeText: 'Visual',
-          ),
-        ],
-      ),
-      _TechniqueDashboardGroupData(
-        title: 'Performance',
-        subtitle: 'Build physical ability and apply the technique',
-        color: JudoColors.success,
-        items: [
-          _TechniqueDashboardItemData(
-            section: TechniqueDashboardSection.conditioning,
-            title: 'Conditioning',
-            icon: JudoIcons.conditioning,
-          ),
-          _TechniqueDashboardItemData(
-            section: TechniqueDashboardSection.tactical,
-            title: 'Tactical',
-            icon: JudoIcons.direction,
-          ),
-          _TechniqueDashboardItemData(
-            section: TechniqueDashboardSection.competition,
-            title: 'Competition',
-            icon: JudoIcons.ippon,
-          ),
-          _TechniqueDashboardItemData(
-            section: TechniqueDashboardSection.combinations,
-            title: 'Combinations',
-            icon: JudoIcons.combination,
+            badgeText: l10n.learnLabel,
           ),
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.mistakesAndSafety,
-            title: 'Mistakes & Safety',
+            title: l10n.mistakesAndSafety,
             icon: JudoIcons.mistakesAndSafety,
             colorOverride: JudoColors.danger,
           ),
           _TechniqueDashboardItemData(
-            section: TechniqueDashboardSection.mastery,
-            title: 'Mastery',
-            icon: JudoIcons.mastery,
+            section: TechniqueDashboardSection.combinations,
+            title: l10n.combinations,
+            icon: JudoIcons.combination,
           ),
         ],
       ),
       _TechniqueDashboardGroupData(
-        title: 'Professional',
-        subtitle: 'Advanced knowledge and intelligent tools',
-        color: JudoColors.gold,
+        id: 'progress',
+        title: l10n.journeyTrackProgressTitle,
+        subtitle: l10n.journeyTrackProgressDescription,
+        color: JudoColors.success,
         items: [
           _TechniqueDashboardItemData(
+            section: TechniqueDashboardSection.analysisHistory,
+            title: l10n.localAnalysisHistoryTitle,
+            icon: JudoIcons.timing,
+          ),
+        ],
+      ),
+      _TechniqueDashboardGroupData(
+        id: 'coming-later',
+        title: l10n.moduleUnavailableDeferredTitle,
+        subtitle: l10n.moduleNoApprovedDestination,
+        color: JudoColors.textHint,
+        items: [
+          _TechniqueDashboardItemData(
+            section: TechniqueDashboardSection.training,
+            title: l10n.journeyTrainTitle,
+            icon: JudoIcons.training,
+          ),
+          _TechniqueDashboardItemData(
+            section: TechniqueDashboardSection.coachConnection,
+            title: l10n.journeyConnectCoachTitle,
+            icon: JudoIcons.coach,
+          ),
+        ],
+      ),
+      _TechniqueDashboardGroupData(
+        id: 'more',
+        title: l10n.moreTechniqueSections,
+        subtitle: l10n.learningDashboardDescription,
+        color: JudoColors.textSecondary,
+        items: [
+          _TechniqueDashboardItemData(
+            section: TechniqueDashboardSection.videos,
+            title: l10n.videoLibrary,
+            icon: JudoIcons.mediaLibrary,
+          ),
+          _TechniqueDashboardItemData(
+            section: TechniqueDashboardSection.shadowTraining,
+            title: l10n.shadowTrainingTitle,
+            icon: JudoIcons.shadowTraining,
+            badgeText: l10n.visualLabel,
+          ),
+          _TechniqueDashboardItemData(
+            section: TechniqueDashboardSection.conditioning,
+            title: l10n.strengthConditioningTitle,
+            icon: JudoIcons.conditioning,
+          ),
+          _TechniqueDashboardItemData(
+            section: TechniqueDashboardSection.resistanceBandTraining,
+            title: l10n.resistanceBandTrainingTitle,
+            icon: JudoIcons.training,
+          ),
+          _TechniqueDashboardItemData(
+            section: TechniqueDashboardSection.tactical,
+            title: l10n.tacticalIntelligence,
+            icon: JudoIcons.direction,
+          ),
+          _TechniqueDashboardItemData(
+            section: TechniqueDashboardSection.competition,
+            title: l10n.competitionAnalysis,
+            icon: JudoIcons.ippon,
+          ),
+          _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.champions,
-            title: 'Champions',
+            title: l10n.champions,
             icon: JudoIcons.champions,
           ),
           _TechniqueDashboardItemData(
-            section: TechniqueDashboardSection.sensiBot,
-            title: 'Sensi Bot',
-            icon: JudoIcons.aiCoach,
-            badgeText: 'AI',
-          ),
-          _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.quiz,
-            title: 'Quiz',
+            title: l10n.techniqueQuiz,
             icon: JudoIcons.quiz,
-            badgeText: '10',
+            badgeText: '$quizQuestionCount',
           ),
           _TechniqueDashboardItemData(
             section: TechniqueDashboardSection.sources,
-            title: 'Sources',
+            title: l10n.officialSources,
             icon: JudoIcons.sources,
+          ),
+          _TechniqueDashboardItemData(
+            section: TechniqueDashboardSection.mastery,
+            title: l10n.techniqueMastery,
+            icon: JudoIcons.mastery,
           ),
         ],
       ),
@@ -185,56 +221,93 @@ class _DashboardGroup extends StatelessWidget {
   final _TechniqueDashboardGroupData group;
 
   final ValueChanged<TechniqueDashboardSection> onSectionTap;
+  final bool Function(TechniqueDashboardSection section)? isSectionAvailable;
 
-  const _DashboardGroup({required this.group, required this.onSectionTap});
+  const _DashboardGroup({
+    required this.group,
+    required this.onSectionTap,
+    required this.isSectionAvailable,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _GroupHeader(
+    return Material(
+      color: JudoColors.surface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(JudoRadius.md),
+        side: BorderSide(color: group.color.withValues(alpha: 0.24)),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: ExpansionTile(
+        key: ValueKey<String>('journey-group-${group.id}'),
+        tilePadding: const EdgeInsets.symmetric(
+          horizontal: JudoSpacing.md,
+          vertical: JudoSpacing.xs,
+        ),
+        childrenPadding: const EdgeInsets.fromLTRB(
+          JudoSpacing.md,
+          0,
+          JudoSpacing.md,
+          JudoSpacing.md,
+        ),
+        title: _GroupHeader(
           title: group.title,
           subtitle: group.subtitle,
           color: group.color,
         ),
-        const SizedBox(height: JudoSpacing.md),
-        LayoutBuilder(
-          builder: (context, constraints) {
-            final crossAxisCount = _crossAxisCount(constraints.maxWidth);
+        children: [
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final crossAxisCount = _crossAxisCount(constraints.maxWidth);
 
-            return GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: group.items.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: crossAxisCount,
-                crossAxisSpacing: JudoSpacing.sm,
-                mainAxisSpacing: JudoSpacing.sm,
-                childAspectRatio: _childAspectRatio(
-                  constraints.maxWidth,
-                  crossAxisCount,
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: group.items.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: JudoSpacing.sm,
+                  mainAxisSpacing: JudoSpacing.sm,
+                  childAspectRatio: _childAspectRatio(
+                    constraints.maxWidth,
+                    crossAxisCount,
+                  ),
                 ),
-              ),
-              itemBuilder: (context, index) {
-                final item = group.items[index];
+                itemBuilder: (context, index) {
+                  final item = group.items[index];
+                  final isAvailable =
+                      isSectionAvailable?.call(item.section) ?? true;
+                  final l10n = AppLocalizations.of(context)!;
 
-                return TechniqueDashboardItem(
-                  title: item.title,
-                  subtitle: '',
-                  icon: item.icon,
-                  accentColor: item.colorOverride ?? group.color,
-                  badgeText: item.badgeText,
-                  isEnabled: item.isEnabled,
-                  onTap: () {
-                    onSectionTap(item.section);
-                  },
-                );
-              },
-            );
-          },
-        ),
-      ],
+                  return TechniqueDashboardItem(
+                    key: ValueKey<String>(
+                      'dashboard-section-${item.section.name}',
+                    ),
+                    title: item.title,
+                    subtitle: '',
+                    icon: item.icon,
+                    accentColor: item.colorOverride ?? group.color,
+                    badgeText: isAvailable
+                        ? item.badgeText
+                        : l10n.unavailableLabel,
+                    isEnabled: isAvailable,
+                    onTap: isAvailable
+                        ? () {
+                            onSectionTap(item.section);
+                          }
+                        : null,
+                    onUnavailableTap: isAvailable
+                        ? null
+                        : () {
+                            onSectionTap(item.section);
+                          },
+                  );
+                },
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -312,6 +385,7 @@ class _GroupHeader extends StatelessWidget {
 }
 
 class _TechniqueDashboardGroupData {
+  final String id;
   final String title;
   final String subtitle;
   final Color color;
@@ -319,6 +393,7 @@ class _TechniqueDashboardGroupData {
   final List<_TechniqueDashboardItemData> items;
 
   const _TechniqueDashboardGroupData({
+    required this.id,
     required this.title,
     required this.subtitle,
     required this.color,
@@ -333,7 +408,6 @@ class _TechniqueDashboardItemData {
   final IconData icon;
   final String? badgeText;
   final Color? colorOverride;
-  final bool isEnabled;
 
   const _TechniqueDashboardItemData({
     required this.section,
@@ -341,6 +415,5 @@ class _TechniqueDashboardItemData {
     required this.icon,
     this.badgeText,
     this.colorOverride,
-    this.isEnabled = true,
   });
 }

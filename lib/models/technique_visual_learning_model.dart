@@ -36,6 +36,11 @@ enum TechniqueVisualMediaType {
   threeDimensional,
 }
 
+/// Explicit renderer registry for repository-native visual sequences.
+/// A custom-painter sequence must opt into a concrete renderer instead of
+/// inheriting Uchi Mata geometry implicitly.
+enum TechniqueVisualRendererType { uchiMataThreeLayer }
+
 class TechniqueVisualLayer {
   final String id;
   final String title;
@@ -85,6 +90,8 @@ class TechniqueVisualSequence {
 
   final TechniqueVisualLearningType learningType;
 
+  final TechniqueVisualRendererType? rendererType;
+
   final String? backgroundAsset;
   final String? thumbnailAsset;
 
@@ -101,6 +108,7 @@ class TechniqueVisualSequence {
     required this.description,
     required this.learningType,
     required this.layers,
+    this.rendererType,
     this.backgroundAsset,
     this.thumbnailAsset,
     this.durationMilliseconds = 5000,
@@ -119,9 +127,14 @@ class TechniqueVisualSequence {
   }
 
   bool get isReady {
+    final usesCustomPainter = layers.any(
+      (layer) => layer.mediaType == TechniqueVisualMediaType.customPainter,
+    );
+
     return title.trim().isNotEmpty &&
         layers.isNotEmpty &&
-        layers.every((layer) => layer.hasMedia);
+        layers.every((layer) => layer.hasMedia) &&
+        (!usesCustomPainter || rendererType != null);
   }
 
   TechniqueVisualLayer? layerByType(TechniqueVisualLayerType type) {

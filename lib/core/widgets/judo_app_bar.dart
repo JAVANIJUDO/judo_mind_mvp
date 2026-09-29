@@ -143,9 +143,7 @@ class JudoAppBar extends StatelessWidget
           ),
 
 
-        if (actions != null)
-
-          ...actions!,
+        ...?actions,
       ],
 
     );

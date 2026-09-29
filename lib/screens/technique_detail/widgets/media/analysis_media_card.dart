@@ -6,7 +6,7 @@ import '../../../../models/technique_media_item.dart';
 
 class AnalysisMediaCard extends StatelessWidget {
   final TechniqueMediaItem item;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   const AnalysisMediaCard({super.key, required this.item, required this.onTap});
 
@@ -66,45 +66,40 @@ class AnalysisMediaCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
 
                       children: [
-                      Text(
-  item.title
-      .replaceAll(' — 360° Analysis Template', '')
-      .replaceAll(' — AI Comparison', '')
-      .replaceAll(' — Biomechanics Analysis', ''),
+                        Text(
+                          item.title
+                              .replaceAll(' — 360° Analysis Template', '')
+                              .replaceAll(' — AI Comparison', '')
+                              .replaceAll(' — Biomechanics Analysis', ''),
 
-  maxLines: 1,
+                          maxLines: 1,
 
-  overflow: TextOverflow.ellipsis,
+                          overflow: TextOverflow.ellipsis,
 
-  style: JudoTypography.titleSmall,
-),
+                          style: JudoTypography.titleSmall,
+                        ),
 
-const SizedBox(
-  height: JudoSpacing.xs,
-),
+                        const SizedBox(height: JudoSpacing.xs),
 
-Row(
-  children: [
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.psychology_alt_rounded,
+                              size: 15,
+                              color: JudoColors.gold,
+                            ),
 
-    const Icon(
-      Icons.psychology_alt_rounded,
-      size: 15,
-      color: JudoColors.gold,
-    ),
+                            const SizedBox(width: 5),
 
-    const SizedBox(
-      width: 5,
-    ),
+                            Text(
+                              MediaLabelResolver.category(item),
 
-    Text(
-  MediaLabelResolver.category(item),
-
-  style: JudoTypography.bodySmall.copyWith(
-    color: JudoColors.gold,
-  ),
-),
-  ],
-),
+                              style: JudoTypography.bodySmall.copyWith(
+                                color: JudoColors.gold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -137,31 +132,32 @@ Row(
                 value: analysis?.attackTiming ?? 'Not analyzed',
               ),
 
-              const SizedBox(height: JudoSpacing.md),
+              if (onTap != null) ...[
+                const SizedBox(height: JudoSpacing.md),
+                Container(
+                  width: double.infinity,
 
-              Container(
-                width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: JudoSpacing.sm),
 
-                padding: const EdgeInsets.symmetric(vertical: JudoSpacing.sm),
+                  alignment: Alignment.center,
 
-                alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: JudoColors.gold.withValues(alpha: 0.12),
 
-                decoration: BoxDecoration(
-                  color: JudoColors.gold.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(JudoRadius.md),
+                  ),
 
-                  borderRadius: BorderRadius.circular(JudoRadius.md),
-                ),
+                  child: const Text(
+                    'Open Analysis',
 
-                child: const Text(
-                  'Open Analysis',
+                    style: TextStyle(
+                      color: JudoColors.gold,
 
-                  style: TextStyle(
-                    color: JudoColors.gold,
-
-                    fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
-              ),
+              ],
             ],
           ),
         ),

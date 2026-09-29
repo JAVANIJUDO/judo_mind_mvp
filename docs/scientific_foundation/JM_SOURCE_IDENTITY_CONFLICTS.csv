@@ -1,0 +1,2 @@
+conflict_record_id,conflict_type,source_ids,conflicting_field,observed_values,exact_or_candidate,resolution_status,human_review_required,notes
+JM-MIC-0001,DUPLICATE_NORMALIZED_TITLE,JM-SRC-0009;JM-SRC-0010,NORMALIZED_TITLE,http 10 0 2 2 8000,EXACT_SHARED_VALUE_REQUIRES_IDENTITY_REVIEW,UNRESOLVED,YES,Shared metadata does not automatically prove duplicate identity or justify deletion/merge.

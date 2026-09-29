@@ -1,0 +1,10 @@
+coverage_record_id,jm_candidate_domain,required_domain_label,available_hps_candidates,selected_for_bounded_queue,selection_cap,coverage_status,all_pending_jm_review,notes
+JM-HDC-0001,JUDO_TECHNIQUE,Direct Judo,1,1,1,COVERED_METADATA_ONLY,YES,"Coverage is queue coverage, not evidence sufficiency or approval."
+JM-HDC-0002,STRENGTH_AND_POWER,Strength/Power,42,5,5,COVERED_METADATA_ONLY,YES,"Coverage is queue coverage, not evidence sufficiency or approval."
+JM-HDC-0003,CONDITIONING_AND_ENERGY_SYSTEMS,Conditioning,12,5,5,COVERED_METADATA_ONLY,YES,"Coverage is queue coverage, not evidence sufficiency or approval."
+JM-HDC-0004,TRAINING_LOAD_AND_MONITORING,Load/Monitoring,13,5,5,COVERED_METADATA_ONLY,YES,"Coverage is queue coverage, not evidence sufficiency or approval."
+JM-HDC-0005,PERIODIZATION_AND_TAPER,Periodization,28,5,5,COVERED_METADATA_ONLY,YES,"Coverage is queue coverage, not evidence sufficiency or approval."
+JM-HDC-0006,RECOVERY_AND_SLEEP,Recovery/Sleep,10,5,5,COVERED_METADATA_ONLY,YES,"Coverage is queue coverage, not evidence sufficiency or approval."
+JM-HDC-0007,INJURY_SAFETY_AND_RETURN_TO_PLAY,Injury/Safety,19,5,5,COVERED_METADATA_ONLY,YES,"Coverage is queue coverage, not evidence sufficiency or approval."
+JM-HDC-0008,PSYCHOLOGY_AND_DECISION_SUPPORT,Psychology,6,5,5,COVERED_METADATA_ONLY,YES,"Coverage is queue coverage, not evidence sufficiency or approval."
+JM-HDC-0009,MEASUREMENT_AND_VALIDATION,Measurement/Validation,36,4,4,COVERED_METADATA_ONLY,YES,"Coverage is queue coverage, not evidence sufficiency or approval."

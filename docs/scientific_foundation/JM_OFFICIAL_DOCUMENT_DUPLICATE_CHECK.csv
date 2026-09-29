@@ -1,0 +1,2 @@
+duplicate_record_id,intake_record_id,candidate_document_id,sha256,jm_hash_match_count,jm_hash_matches,hps_hash_match_count,hps_hash_matches,duplicate_status,human_review_required,automatic_deletion,notes
+JM-ODD-0001,JM-ODI-0010,JM-ODC-0010,7addd37d526323413c7421f7bb1a2b70b3641c889a8e7e204ca1b0476f90721f,0,,0,,NO_HASH_MATCH_FOUND,YES,NO,Exact SHA-256 searched in existing JM registries and HPS helper inventories; identity/version review remains pending.

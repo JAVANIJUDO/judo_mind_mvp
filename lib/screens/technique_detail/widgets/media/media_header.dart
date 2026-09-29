@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/judo_design_tokens.dart';
-
-
 class MediaHeader extends StatelessWidget {
 
   final String techniqueName;

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../icons/judo_icons.dart';
-
 /// =============================================================
 /// Judo Mind Design System
 /// Standard Icon Widget

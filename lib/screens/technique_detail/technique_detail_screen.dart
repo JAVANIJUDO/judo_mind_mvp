@@ -3,12 +3,16 @@ import 'package:provider/provider.dart';
 
 import '../../core/language/language_provider.dart';
 import '../../core/providers/favorite_provider.dart';
+import '../../core/scientific_transparency/uchi_mata_scientific_transparency.dart';
 import '../../core/theme/judo_design_tokens.dart';
 import '../../core/widgets/judo_app_bar.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/technique_model.dart';
 
 import 'widgets/actions/technique_primary_actions.dart';
+import 'widgets/content/technique_content_widgets.dart';
 import 'widgets/hero/hero_section.dart';
+import 'widgets/scientific_transparency/scientific_transparency_panel.dart';
 import 'widgets/sections/technique_section_router.dart';
 import 'widgets/technique_dashboard_grid.dart';
 
@@ -53,6 +57,23 @@ class TechniqueDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!UchiMataScientificTransparency.isGovernedTechniqueId(technique.id)) {
+      final l10n = AppLocalizations.of(context)!;
+      return Scaffold(
+        key: const ValueKey<String>('specialized-technique-route-locked'),
+        backgroundColor: JudoColors.background,
+        appBar: const JudoAppBar(),
+        body: Padding(
+          padding: const EdgeInsets.all(JudoSpacing.lg),
+          child: TechniqueContentNotice(
+            message: l10n.techniqueSectionUnavailable,
+            icon: Icons.lock_outline_rounded,
+            accentColor: JudoColors.textSecondary,
+          ),
+        ),
+      );
+    }
+
     final languageProvider = context.watch<LanguageProvider>();
 
     final favoriteProvider = context.watch<FavoriteProvider>();
@@ -62,6 +83,12 @@ class TechniqueDetailScreen extends StatelessWidget {
     final techniqueTitle = translation?.name ?? technique.nameEn;
 
     final isFavorite = favoriteProvider.isFavorite(technique.id);
+
+    final showsScientificTransparency =
+        UchiMataScientificTransparency.isGovernedTechniqueId(technique.id);
+    final scientificSnapshot = UchiMataScientificTransparency.forTechnique(
+      technique.id,
+    );
 
     return Scaffold(
       backgroundColor: JudoColors.background,
@@ -90,13 +117,10 @@ class TechniqueDetailScreen extends StatelessWidget {
 
                 const SizedBox(height: JudoSpacing.xxl),
 
-                TechniqueDashboardGrid(
-                  onSectionTap: (section) {
-                    _openTechniqueSection(context, section);
-                  },
-                ),
-
-                const SizedBox(height: JudoSpacing.xl),
+                if (showsScientificTransparency) ...[
+                  ScientificStatusCard(snapshot: scientificSnapshot),
+                  const SizedBox(height: JudoSpacing.xl),
+                ],
 
                 TechniquePrimaryActions(
                   technique: technique,
@@ -106,17 +130,21 @@ class TechniqueDetailScreen extends StatelessWidget {
                       TechniqueDashboardSection.aiAnalysis,
                     );
                   },
-                  onStartTraining: () {
-                    _openTechniqueSection(
-                      context,
-                      TechniqueDashboardSection.training,
+                ),
+
+                const SizedBox(height: JudoSpacing.xl),
+
+                TechniqueDashboardGrid(
+                  quizQuestionCount: technique.quiz.length,
+                  isSectionAvailable: (section) {
+                    return TechniqueSectionRouter.isAvailable(
+                      section: section,
+                      technique: technique,
+                      languageCode: languageProvider.languageCode,
                     );
                   },
-                  onTrackProgress: () {
-                    _openTechniqueSection(
-                      context,
-                      TechniqueDashboardSection.mastery,
-                    );
+                  onSectionTap: (section) {
+                    _openTechniqueSection(context, section);
                   },
                 ),
 

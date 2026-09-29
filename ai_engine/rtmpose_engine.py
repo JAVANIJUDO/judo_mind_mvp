@@ -4,12 +4,17 @@ import argparse
 import json
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 import cv2
 import numpy as np
 
 from rtmlib import Body
+
+from ai_engine.video_sampling import (
+    VideoSamplingPlan,
+    build_video_sampling_plan,
+)
 
 
 class JudoRTMOEngine:
@@ -39,6 +44,10 @@ class JudoRTMOEngine:
         target_fps: float = 10.0,
         keypoint_threshold: float = 0.30,
         show_progress: bool = False,
+        *,
+        sampling_plan: VideoSamplingPlan | None = None,
+        before_sample: Callable[[], None] | None = None,
+        after_sample: Callable[[int, int, int], None] | None = None,
     ) -> dict[str, Any]:
         path = Path(video_path)
 
@@ -85,22 +94,29 @@ class JudoRTMOEngine:
             else 0.0
         )
 
-        sample_stride = max(
-            1,
-            round(
-                source_fps
-                / max(target_fps, 1.0)
-            ),
+        if sampling_plan is None:
+            sampling_plan = build_video_sampling_plan(
+                source_fps=source_fps,
+                target_fps=target_fps,
+                frame_count=frame_count,
+            )
+        elif (
+            sampling_plan.frame_count != frame_count
+            or abs(sampling_plan.source_fps - source_fps) > 1e-6
+        ):
+            raise ValueError(
+                "Sampling plan metadata does not match the opened video."
+            )
+        sampled_frame_indices = set(
+            sampling_plan.frame_indices
         )
-
+        source_timestamp_by_frame = dict(zip(
+            sampling_plan.frame_indices,
+            sampling_plan.timestamps_ms,
+        ))
         estimated_frames = max(
             1,
-            (
-                frame_count
-                + sample_stride
-                - 1
-            )
-            // sample_stride,
+            sampling_plan.planned_frame_count,
         )
 
         analyzed_frames = 0
@@ -110,30 +126,40 @@ class JudoRTMOEngine:
 
         frames_with_pose = 0
         frames_with_two_poses = 0
+        frame_observations: list[dict[str, Any]] = []
+        confidence_values: list[float] = []
 
         frame_index = 0
+        decode_seconds = 0.0
+        preprocessing_seconds = 0.0
+        inference_seconds = 0.0
+        postprocessing_seconds = 0.0
 
         started_at = time.perf_counter()
 
         try:
             while True:
+                decode_started = time.perf_counter()
                 success, frame = capture.read()
+                decode_seconds += time.perf_counter() - decode_started
 
                 if not success:
                     break
 
-                if (
-                    frame_index
-                    % sample_stride
-                    != 0
-                ):
+                if frame_index not in sampled_frame_indices:
                     frame_index += 1
                     continue
 
+                if before_sample is not None:
+                    before_sample()
+
+                inference_started = time.perf_counter()
                 keypoints, scores = (
                     self._model(frame)
                 )
+                inference_seconds += time.perf_counter() - inference_started
 
+                preprocessing_started = time.perf_counter()
                 keypoints_array = np.asarray(
                     keypoints
                 )
@@ -142,12 +168,46 @@ class JudoRTMOEngine:
                     scores
                 )
 
-                valid_pose_count = (
-                    self._count_valid_poses(
-                        keypoints_array,
-                        scores_array,
-                        keypoint_threshold,
+                valid_pose_indices = self._valid_pose_indices(
+                    keypoints_array,
+                    scores_array,
+                    keypoint_threshold,
+                )
+                valid_pose_count = len(valid_pose_indices)
+                preprocessing_seconds += (
+                    time.perf_counter() - preprocessing_started
+                )
+
+                postprocessing_started = time.perf_counter()
+                normalized_scores = scores_array
+
+                if normalized_scores.ndim == 1:
+                    normalized_scores = np.expand_dims(
+                        normalized_scores,
+                        axis=0,
                     )
+
+                frame_confidence_values = [
+                    float(value)
+                    for pose_index in valid_pose_indices
+                    for value in normalized_scores[pose_index]
+                ]
+                confidence_values.extend(frame_confidence_values)
+                frame_observations.append(
+                    {
+                        "frame_index": frame_index,
+                        "timestamp_ms": source_timestamp_by_frame[frame_index],
+                        "pose_count": valid_pose_count,
+                        "mean_keypoint_confidence": (
+                            sum(frame_confidence_values)
+                            / len(frame_confidence_values)
+                            if frame_confidence_values
+                            else None
+                        ),
+                    }
+                )
+                postprocessing_seconds += (
+                    time.perf_counter() - postprocessing_started
                 )
 
                 analyzed_frames += 1
@@ -166,6 +226,13 @@ class JudoRTMOEngine:
 
                 if valid_pose_count >= 2:
                     frames_with_two_poses += 1
+
+                if after_sample is not None:
+                    after_sample(
+                        frame_index,
+                        source_timestamp_by_frame[frame_index],
+                        valid_pose_count,
+                    )
 
                 if (
                     show_progress
@@ -228,6 +295,12 @@ class JudoRTMOEngine:
             else 0.0
         )
 
+        effective_analyzed_fps = (
+            analyzed_frames / duration_seconds
+            if duration_seconds > 0
+            else 0.0
+        )
+
         return {
             "engine": "rtmo",
             "architecture": (
@@ -248,12 +321,20 @@ class JudoRTMOEngine:
             },
             "analysis": {
                 "target_fps": target_fps,
-                "sample_stride": sample_stride,
+                "sampling_strategy": (
+                    sampling_plan.strategy
+                ),
+                "nominal_sample_interval_frames": (
+                    sampling_plan.nominal_interval_frames
+                ),
                 "keypoint_threshold": (
                     keypoint_threshold
                 ),
                 "analyzed_frame_count": (
                     analyzed_frames
+                ),
+                "effective_analyzed_fps": (
+                    effective_analyzed_fps
                 ),
                 "zero_pose_frames": (
                     zero_pose_frames
@@ -285,20 +366,34 @@ class JudoRTMOEngine:
                 "realtime_factor": (
                     realtime_factor
                 ),
+                "keypoint_confidence_available": True,
+                "keypoint_confidence_count": len(confidence_values),
+                "mean_keypoint_confidence": (
+                    sum(confidence_values) / len(confidence_values)
+                    if confidence_values
+                    else None
+                ),
+                "stage_timings_seconds": {
+                    "decode": decode_seconds,
+                    "preprocessing": preprocessing_seconds,
+                    "inference": inference_seconds,
+                    "postprocessing": postprocessing_seconds,
+                },
             },
+            "frames": frame_observations,
         }
 
-    def _count_valid_poses(
+    def _valid_pose_indices(
         self,
         keypoints: np.ndarray,
         scores: np.ndarray,
         threshold: float,
-    ) -> int:
+    ) -> list[int]:
         if (
             keypoints.size == 0
             or scores.size == 0
         ):
-            return 0
+            return []
 
         if scores.ndim == 1:
             scores = np.expand_dims(
@@ -306,9 +401,9 @@ class JudoRTMOEngine:
                 axis=0,
             )
 
-        valid_count = 0
+        valid_indices: list[int] = []
 
-        for person_scores in scores:
+        for pose_index, person_scores in enumerate(scores):
             visible_keypoints = int(
                 np.sum(
                     person_scores >= threshold
@@ -316,9 +411,9 @@ class JudoRTMOEngine:
             )
 
             if visible_keypoints >= 8:
-                valid_count += 1
+                valid_indices.append(pose_index)
 
-        return valid_count
+        return valid_indices
 
 
 def main() -> None:

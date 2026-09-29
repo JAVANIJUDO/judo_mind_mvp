@@ -220,6 +220,32 @@ Why these first:
 - they can be validated frame-by-frame against expert annotations;
 - their Level 1 limits are easy to state without implying 3D or kinetics.
 
+## 14. V2A Implementation Record
+
+JM-DEC-022 implements the first software layer for `UM-TIM-001`, `UM-ANG-001`
+and `UM-ANG-002` under schema `2.0.0` / variant `single_attempt_v2a`.
+
+Versioned methods:
+
+- `reviewed-event-elapsed-time-1.0.0`: reviewed source timestamp difference in
+  seconds;
+- `projected-trunk-inclination-1.0.0`: shoulder/hip midpoint vector with
+  normalized landmarks converted to source-image pixel coordinates, then
+  `degrees(atan2(abs(dx), -dy))` relative to image vertical-up;
+- `projected-knee-angle-1.0.0`: support-side image-plane internal
+  hip-knee-ankle angle in source-image pixel coordinates using bounded dot
+  product and arccos.
+
+The implementation requires human-selected attempt boundaries,
+human-confirmed Tori and support leg, a human-selected angle frame/event and
+human-reviewed view suitability/low roll. Automatic Tori/Uke and
+Kuzushi/Tsukuri/Kake remain unavailable. Model landmark visibility may be
+preserved but is not scientific confidence or pose accuracy.
+
+Current tests are synthetic software/math validation only. No real
+scientifically validated metric result or normative coaching threshold has
+been established.
+
 Acceptance for a future implementation requires, at minimum:
 
 - stable Tori identity across the reported window;
@@ -242,3 +268,46 @@ Acceptance for a future implementation requires, at minimum:
 8. Collaborate with universities, federations and elite training centers before making federation/laboratory-grade claims.
 
 The target is scientific comparability and transparent error characterization, not cosmetic imitation of laboratory systems.
+
+
+## UM-ANG-003 Implementation Record
+
+`UM-ANG-003 ? Projected attacking-leg knee angle` is now implemented in
+Single Attempt V2A.
+
+Implementation constraints:
+
+- attacking leg: human-confirmed;
+- Tori identity: human-confirmed;
+- input landmarks: attacking-side hip, knee and ankle;
+- method: `projected-knee-angle-1.0.0`;
+- unit: degrees;
+- provenance: `model-estimated`;
+- Level 1 image-plane interpretation only;
+- boundary-normalized required landmarks cannot automatically produce a
+  reportable result;
+- missing attacking-leg confirmation causes the metric to be withheld.
+
+Run 01 reference result:
+
+- attacking leg: left;
+- projected attacking-leg knee angle: `157.99 deg`;
+- status: `reportable`.
+
+
+
+## UM-ANG-004 Method Definition Gate
+
+`UM-ANG-004` remains an approved planned Level 1 metric, but implementation is
+deferred.
+
+Before implementation, the project must explicitly declare and version:
+
+1. the trunk or pelvis proxy used as the proximal reference;
+2. the reference axis or segment against which the attacking thigh is measured;
+3. the exact 2D angle convention and valid range;
+4. required landmarks;
+5. view and occlusion requirements;
+6. boundary-normalization behavior.
+
+Until that method is approved, no numeric `UM-ANG-004` result may be produced.

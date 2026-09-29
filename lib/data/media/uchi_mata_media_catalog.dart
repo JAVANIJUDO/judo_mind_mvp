@@ -118,7 +118,7 @@ abstract final class UchiMataMediaCatalog {
 
       isPremium: true,
 
-      analysis: const MediaAnalysisMetadata(
+      analysis: MediaAnalysisMetadata(
         opponentGuard: 'To be analyzed',
 
         opponentStance: 'To be analyzed',

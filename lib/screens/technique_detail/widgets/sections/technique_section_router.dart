@@ -1,13 +1,18 @@
 import '../analyze/analyze_section.dart';
+import '../../../../core/routes/app_routes.dart';
 import 'conditioning_section.dart';
+import 'resistance_band_training_section.dart';
 import 'shadow_training_section.dart';
+import 'training_section.dart';
 import 'package:flutter/material.dart';
 import 'biomechanics_section.dart';
 import '../../../../core/theme/judo_design_tokens.dart';
 import '../../../../core/theme/judo_typography.dart';
-import '../../../../core/widgets/judo_badge.dart';
 import '../../../../core/widgets/judo_card.dart';
+import '../../../../data/media/technique_media_registry.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../models/technique_model.dart';
+import '../../../../models/technique_training_content.dart';
 
 import '../competition/competition_section.dart';
 import '../media/media_section.dart';
@@ -17,6 +22,9 @@ import '../technique_bottom_sheet.dart';
 import '../technique_dashboard_grid.dart';
 
 import 'overview_section.dart';
+import 'combination_counter_flow.dart';
+import 'mistakes_safety_section.dart';
+import 'sources_section.dart';
 import 'technical_analysis_section.dart';
 import 'technique_section_placeholder.dart';
 
@@ -34,16 +42,67 @@ import 'technique_section_placeholder.dart';
 abstract final class TechniqueSectionRouter {
   const TechniqueSectionRouter._();
 
+  static bool isAvailable({
+    required TechniqueDashboardSection section,
+    required TechniqueModel technique,
+    String languageCode = 'en',
+  }) {
+    return switch (section) {
+      TechniqueDashboardSection.videos =>
+        languageCode == 'en' &&
+            (technique.hasProfessionalMedia ||
+                TechniqueMediaRegistry.getMedia(
+                  technique.id,
+                ).any((item) => item.hasValidMedia)),
+      TechniqueDashboardSection.training => false,
+      TechniqueDashboardSection.aiAnalysis =>
+        technique.supportsReviewedSingleAttemptV2A,
+      TechniqueDashboardSection.shadowTraining =>
+        technique.trainingContent.hasAvailableDrillsFor(
+          TechniqueTrainingDrillKind.shadowTraining,
+          languageCode,
+        ),
+      TechniqueDashboardSection.conditioning =>
+        technique.trainingContent.hasAvailableDrillsFor(
+          TechniqueTrainingDrillKind.strengthConditioning,
+          languageCode,
+        ),
+      TechniqueDashboardSection.resistanceBandTraining =>
+        technique.trainingContent.hasAvailableDrillsFor(
+          TechniqueTrainingDrillKind.resistanceBand,
+          languageCode,
+        ),
+      TechniqueDashboardSection.mastery ||
+      TechniqueDashboardSection.sensiBot ||
+      TechniqueDashboardSection.coachConnection => false,
+      TechniqueDashboardSection.champions => technique.famousUsers.any(
+        (champion) => champion.trim().isNotEmpty,
+      ),
+      _ => true,
+    };
+  }
+
   static Future<void> open({
     required BuildContext context,
     required TechniqueDashboardSection section,
     required TechniqueModel technique,
   }) async {
+    final l10n = AppLocalizations.of(context)!;
+
+    if (!isAvailable(
+      section: section,
+      technique: technique,
+      languageCode: Localizations.localeOf(context).languageCode,
+    )) {
+      _showUnavailable(context, section);
+      return;
+    }
+
     switch (section) {
       case TechniqueDashboardSection.overview:
         return TechniqueBottomSheet.show<void>(
           context: context,
-          title: 'Overview',
+          title: l10n.overview,
           icon: Icons.dashboard_customize_outlined,
           accentColor: JudoColors.primary,
           child: OverviewSection(technique: technique),
@@ -52,7 +111,7 @@ abstract final class TechniqueSectionRouter {
       case TechniqueDashboardSection.videos:
         return TechniqueBottomSheet.show<void>(
           context: context,
-          title: 'Media Library',
+          title: l10n.videoLibrary,
           icon: Icons.video_library_outlined,
           accentColor: JudoColors.primary,
           initialChildSize: 0.92,
@@ -62,7 +121,7 @@ abstract final class TechniqueSectionRouter {
       case TechniqueDashboardSection.technicalAnalysis:
         return TechniqueBottomSheet.show<void>(
           context: context,
-          title: 'Technical Analysis',
+          title: l10n.technicalAnalysis,
           icon: Icons.analytics_outlined,
           accentColor: JudoColors.primary,
           initialChildSize: 0.88,
@@ -71,7 +130,7 @@ abstract final class TechniqueSectionRouter {
       case TechniqueDashboardSection.biomechanics:
         return TechniqueBottomSheet.show<void>(
           context: context,
-          title: 'Biomechanics',
+          title: l10n.biomechanics,
           icon: Icons.hub_outlined,
           accentColor: JudoColors.success,
           initialChildSize: 0.92,
@@ -81,30 +140,16 @@ abstract final class TechniqueSectionRouter {
       case TechniqueDashboardSection.training:
         return TechniqueBottomSheet.show<void>(
           context: context,
-          title: 'Training',
+          title: l10n.educationalPracticeTitle,
           icon: Icons.fitness_center_rounded,
           accentColor: JudoColors.primary,
-          child: const TechniqueSectionPlaceholder(
-            title: 'Technique Training',
-            description:
-                'A progressive training pathway for learning and applying the technique safely.',
-            icon: Icons.fitness_center_rounded,
-            accentColor: JudoColors.primary,
-            plannedFeatures: [
-              'Shadow movement and solo-entry drills',
-              'Uchikomi repetition programmes',
-              'Nagekomi progression',
-              'Partner timing drills',
-              'Resistance and reaction drills',
-              'Technique-specific strength exercises',
-              'Mobility and injury-prevention guidance',
-            ],
-          ),
+          initialChildSize: 0.92,
+          child: TrainingSection(technique: technique),
         );
       case TechniqueDashboardSection.shadowTraining:
         return TechniqueBottomSheet.show<void>(
           context: context,
-          title: 'Shadow Training',
+          title: l10n.shadowTrainingTitle,
           icon: Icons.directions_run_outlined,
           accentColor: JudoColors.primary,
           initialChildSize: 0.92,
@@ -114,16 +159,25 @@ abstract final class TechniqueSectionRouter {
       case TechniqueDashboardSection.conditioning:
         return TechniqueBottomSheet.show<void>(
           context: context,
-          title: 'Strength & Conditioning',
+          title: l10n.strengthConditioningTitle,
           icon: Icons.sports_gymnastics_outlined,
           accentColor: JudoColors.success,
           initialChildSize: 0.92,
           child: ConditioningSection(technique: technique),
         );
+      case TechniqueDashboardSection.resistanceBandTraining:
+        return TechniqueBottomSheet.show<void>(
+          context: context,
+          title: l10n.resistanceBandTrainingTitle,
+          icon: Icons.linear_scale_rounded,
+          accentColor: JudoColors.gold,
+          initialChildSize: 0.92,
+          child: ResistanceBandTrainingSection(technique: technique),
+        );
       case TechniqueDashboardSection.tactical:
         return TechniqueBottomSheet.show<void>(
           context: context,
-          title: 'Tactical Intelligence',
+          title: l10n.tacticalIntelligence,
           icon: Icons.psychology_alt_outlined,
           accentColor: JudoColors.success,
           initialChildSize: 0.86,
@@ -133,7 +187,7 @@ abstract final class TechniqueSectionRouter {
       case TechniqueDashboardSection.competition:
         return TechniqueBottomSheet.show<void>(
           context: context,
-          title: 'Competition Analysis',
+          title: l10n.competitionAnalysis,
           icon: Icons.emoji_events_outlined,
           accentColor: JudoColors.success,
           initialChildSize: 0.86,
@@ -143,45 +197,21 @@ abstract final class TechniqueSectionRouter {
       case TechniqueDashboardSection.combinations:
         return TechniqueBottomSheet.show<void>(
           context: context,
-          title: 'Combinations',
+          title: l10n.combinations,
           icon: Icons.account_tree_outlined,
           accentColor: JudoColors.success,
-          child: _TechniqueListContent(
-            title: 'Approved Combinations',
-            emptyMessage:
-                'Combination data has not been added for this technique yet.',
-            icon: Icons.account_tree_outlined,
-            accentColor: JudoColors.success,
-            items: technique.combinations,
-          ),
+          initialChildSize: 0.88,
+          child: TechniqueCombinationCounterFlow(technique: technique),
         );
 
       case TechniqueDashboardSection.mistakesAndSafety:
         return TechniqueBottomSheet.show<void>(
           context: context,
-          title: 'Mistakes & Safety',
+          title: l10n.mistakesAndSafety,
           icon: Icons.health_and_safety_outlined,
           accentColor: JudoColors.danger,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _TechniqueListContent(
-                title: 'Common Mistakes',
-                emptyMessage: 'No common mistakes have been recorded yet.',
-                icon: Icons.warning_amber_rounded,
-                accentColor: JudoColors.danger,
-                items: technique.commonMistakes,
-              ),
-              const SizedBox(height: JudoSpacing.xl),
-              _TechniqueListContent(
-                title: 'Safety Guidance',
-                emptyMessage: 'Safety guidance has not been added yet.',
-                icon: Icons.health_and_safety_outlined,
-                accentColor: JudoColors.warning,
-                items: technique.safetyTips,
-              ),
-            ],
-          ),
+          initialChildSize: 0.88,
+          child: TechniqueMistakesSafetySection(technique: technique),
         );
 
       case TechniqueDashboardSection.mastery:
@@ -245,7 +275,7 @@ abstract final class TechniqueSectionRouter {
       case TechniqueDashboardSection.quiz:
         return TechniqueBottomSheet.show<void>(
           context: context,
-          title: 'Technique Quiz',
+          title: l10n.techniqueQuiz,
           icon: Icons.quiz_outlined,
           accentColor: JudoColors.gold,
           initialChildSize: 0.92,
@@ -255,75 +285,70 @@ abstract final class TechniqueSectionRouter {
       case TechniqueDashboardSection.sources:
         return TechniqueBottomSheet.show<void>(
           context: context,
-          title: 'Official Sources',
+          title: l10n.officialSources,
           icon: Icons.verified_outlined,
           accentColor: JudoColors.gold,
-          child: _SourcesContent(sources: technique.sources),
+          child: TechniqueSourcesSection(sources: technique.sources),
         );
       case TechniqueDashboardSection.aiAnalysis:
         return TechniqueBottomSheet.show<void>(
           context: context,
-          title: 'AI Fight Intelligence 360',
+          title: l10n.singleAttemptAnalysisTitle,
           icon: Icons.auto_graph_rounded,
           accentColor: JudoColors.gold,
           initialChildSize: 0.94,
           child: AnalyzeSection(technique: technique),
         );
+      case TechniqueDashboardSection.analysisHistory:
+        await Navigator.of(context).pushNamed(AppRoutes.localAnalysisHistory);
+        return;
+      case TechniqueDashboardSection.coachConnection:
+        return TechniqueBottomSheet.show<void>(
+          context: context,
+          title: l10n.coachConnectionTitle,
+          icon: Icons.person_outline_rounded,
+          accentColor: JudoColors.gold,
+          child: TechniqueSectionPlaceholder(
+            title: l10n.coachConnectionTitle,
+            description: l10n.coachConnectionUnavailable,
+            icon: Icons.person_outline_rounded,
+            accentColor: JudoColors.gold,
+          ),
+        );
     }
   }
-}
 
-class _TechniqueListContent extends StatelessWidget {
-  final String title;
-  final String emptyMessage;
-  final IconData icon;
-  final Color accentColor;
-  final List<String> items;
+  static void _showUnavailable(
+    BuildContext context,
+    TechniqueDashboardSection section,
+  ) {
+    final l10n = AppLocalizations.of(context)!;
+    final message = switch (section) {
+      TechniqueDashboardSection.training => l10n.techniqueTrainingUnavailable,
+      TechniqueDashboardSection.shadowTraining ||
+      TechniqueDashboardSection.conditioning ||
+      TechniqueDashboardSection.resistanceBandTraining =>
+        l10n.trainingExperienceUnavailableDescription,
+      TechniqueDashboardSection.mastery => l10n.techniqueMasteryUnavailable,
+      TechniqueDashboardSection.champions => l10n.techniqueChampionsUnavailable,
+      TechniqueDashboardSection.sensiBot => l10n.techniqueSensiBotUnavailable,
+      TechniqueDashboardSection.coachConnection =>
+        l10n.coachConnectionUnavailable,
+      _ => l10n.techniqueSectionUnavailable,
+    };
 
-  const _TechniqueListContent({
-    required this.title,
-    required this.emptyMessage,
-    required this.icon,
-    required this.accentColor,
-    required this.items,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final visibleItems = items.where((item) => item.trim().isNotEmpty).toList();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _ContentHeader(title: title, icon: icon, accentColor: accentColor),
-        const SizedBox(height: JudoSpacing.lg),
-        if (visibleItems.isEmpty)
-          _EmptyContent(message: emptyMessage, icon: icon)
-        else
-          ...visibleItems.map(
-            (item) => Padding(
-              padding: const EdgeInsets.only(bottom: JudoSpacing.sm),
-              child: JudoCard(
-                padding: const EdgeInsets.all(JudoSpacing.md),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.check_circle_outline_rounded,
-                      color: accentColor,
-                      size: JudoIconSize.sm,
-                    ),
-                    const SizedBox(width: JudoSpacing.sm),
-                    Expanded(
-                      child: Text(item, style: JudoTypography.bodyMedium),
-                    ),
-                  ],
-                ),
-              ),
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            message,
+            key: ValueKey<String>(
+              'technique-section-unavailable-${section.name}',
             ),
           ),
-      ],
-    );
+        ),
+      );
   }
 }
 
@@ -390,73 +415,6 @@ class _ChampionsContent extends StatelessWidget {
   }
 }
 
-class _SourcesContent extends StatelessWidget {
-  final List<TechniqueSource> sources;
-
-  const _SourcesContent({required this.sources});
-
-  @override
-  Widget build(BuildContext context) {
-    if (sources.isEmpty) {
-      return const _EmptyContent(
-        message: 'No official references have been added for this technique.',
-        icon: Icons.verified_outlined,
-      );
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Wrap(
-          spacing: JudoSpacing.sm,
-          runSpacing: JudoSpacing.sm,
-          children: [
-            JudoBadge(text: 'Official', type: JudoBadgeType.official),
-            JudoBadge(text: 'Verified', type: JudoBadgeType.verified),
-          ],
-        ),
-        const SizedBox(height: JudoSpacing.lg),
-        ...sources.map(
-          (source) => Padding(
-            padding: const EdgeInsets.only(bottom: JudoSpacing.sm),
-            child: JudoCard(
-              padding: const EdgeInsets.all(JudoSpacing.md),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(
-                    Icons.verified_outlined,
-                    color: JudoColors.gold,
-                    size: JudoIconSize.sm,
-                  ),
-                  const SizedBox(width: JudoSpacing.sm),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(source.title, style: JudoTypography.titleSmall),
-                        if (source.url.trim().isNotEmpty) ...[
-                          const SizedBox(height: JudoSpacing.xs),
-                          Text(
-                            source.url,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: JudoTypography.bodySmall,
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class _ContentHeader extends StatelessWidget {
   final String title;
   final IconData icon;
@@ -489,30 +447,6 @@ class _ContentHeader extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _EmptyContent extends StatelessWidget {
-  final String message;
-  final IconData icon;
-
-  const _EmptyContent({required this.message, required this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    return JudoCard(
-      child: Column(
-        children: [
-          Icon(icon, color: JudoColors.textHint, size: JudoIconSize.lg),
-          const SizedBox(height: JudoSpacing.sm),
-          Text(
-            message,
-            textAlign: TextAlign.center,
-            style: JudoTypography.bodyMedium,
-          ),
-        ],
-      ),
     );
   }
 }

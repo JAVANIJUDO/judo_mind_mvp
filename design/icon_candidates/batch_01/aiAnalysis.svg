@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img">
+  <title>AI analysis candidate — review required</title>
+  <path d="M8 4H4v4m12-4h4v4M8 20H4v-4m12 4h4v-4"/>
+  <circle cx="10" cy="8" r="1.5"/>
+  <circle cx="13" cy="13" r="1.5"/>
+  <circle cx="16" cy="17" r="1.5"/>
+  <path d="m11 9 1.2 2.5m1.8 2.8 1 1.4M7 15h3l1-2 2 4 1-2h3"/>
+</svg>

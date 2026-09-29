@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/theme/judo_design_tokens.dart';
 import '../../../../core/theme/judo_typography.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../models/technique_media_item.dart';
 import '../../../../models/technique_model.dart';
 import 'technique_media_resolver.dart';
@@ -50,9 +51,7 @@ class _MediaSectionState extends State<MediaSection> {
   }
 
   @override
-  void didUpdateWidget(
-    covariant MediaSection oldWidget,
-  ) {
+  void didUpdateWidget(covariant MediaSection oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.technique.id != widget.technique.id) {
@@ -62,9 +61,7 @@ class _MediaSectionState extends State<MediaSection> {
   }
 
   Future<List<TechniqueMediaItem>> _loadMedia() {
-    return TechniqueMediaResolver.resolveFromRepository(
-      widget.technique,
-    );
+    return TechniqueMediaResolver.resolveFromRepository(widget.technique);
   }
 
   void _retryLoading() {
@@ -73,9 +70,7 @@ class _MediaSectionState extends State<MediaSection> {
     });
   }
 
-  List<TechniqueMediaItem> _applyFilter(
-    List<TechniqueMediaItem> items,
-  ) {
+  List<TechniqueMediaItem> _applyFilter(List<TechniqueMediaItem> items) {
     switch (selectedFilter) {
       case MediaFilterType.all:
         return items;
@@ -85,52 +80,37 @@ class _MediaSectionState extends State<MediaSection> {
             .where(
               (item) =>
                   item.type == TechniqueMediaType.officialImage ||
-                  item.type ==
-                      TechniqueMediaType.officialDemonstration,
+                  item.type == TechniqueMediaType.officialDemonstration,
             )
             .toList(growable: false);
 
       case MediaFilterType.training:
         return items
-            .where(
-              (item) =>
-                  item.type ==
-                  TechniqueMediaType.trainingVideo,
-            )
+            .where((item) => item.type == TechniqueMediaType.trainingVideo)
             .toList(growable: false);
 
       case MediaFilterType.competition:
         return items
             .where(
               (item) =>
-                  item.type ==
-                      TechniqueMediaType.competitionVideo ||
-                  item.type ==
-                      TechniqueMediaType.championExample,
+                  item.type == TechniqueMediaType.competitionVideo ||
+                  item.type == TechniqueMediaType.championExample,
             )
             .toList(growable: false);
 
       case MediaFilterType.topExecution:
         return items
-            .where(
-              (item) =>
-                  item.type ==
-                  TechniqueMediaType.topExecution,
-            )
+            .where((item) => item.type == TechniqueMediaType.topExecution)
             .toList(growable: false);
 
       case MediaFilterType.aiLab:
         return items
             .where(
               (item) =>
-                  item.type ==
-                      TechniqueMediaType.aiComparison ||
-                  item.type ==
-                      TechniqueMediaType.biomechanics ||
-                  item.type ==
-                      TechniqueMediaType.slowMotion ||
-                  item.type ==
-                      TechniqueMediaType.animation,
+                  item.type == TechniqueMediaType.aiComparison ||
+                  item.type == TechniqueMediaType.biomechanics ||
+                  item.type == TechniqueMediaType.slowMotion ||
+                  item.type == TechniqueMediaType.animation,
             )
             .toList(growable: false);
     }
@@ -141,75 +121,53 @@ class _MediaSectionState extends State<MediaSection> {
     return FutureBuilder<List<TechniqueMediaItem>>(
       future: _mediaFuture,
       builder: (context, snapshot) {
-        if (snapshot.connectionState ==
-            ConnectionState.waiting) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return _MediaLoadingState(
-            techniqueName:
-                widget.technique.englishName,
+            techniqueName: widget.technique.englishName,
           );
         }
 
         if (snapshot.hasError) {
           return _MediaErrorState(
-            techniqueName:
-                widget.technique.englishName,
+            techniqueName: widget.technique.englishName,
             onRetry: _retryLoading,
           );
         }
 
-        final allItems =
-            snapshot.data ??
-            const <TechniqueMediaItem>[];
+        final allItems = snapshot.data ?? const <TechniqueMediaItem>[];
 
         if (allItems.isEmpty) {
           return _EmptyMediaLibrary(
-            techniqueName:
-                widget.technique.englishName,
+            techniqueName: widget.technique.englishName,
           );
         }
 
-        final filteredItems =
-            _applyFilter(allItems);
+        final filteredItems = _applyFilter(allItems);
 
-        final officialItems = _itemsByTypes(
-          filteredItems,
-          const {
-            TechniqueMediaType.officialImage,
-            TechniqueMediaType.officialDemonstration,
-          },
-        );
+        final officialItems = _itemsByTypes(filteredItems, const {
+          TechniqueMediaType.officialImage,
+          TechniqueMediaType.officialDemonstration,
+        });
 
-        final trainingItems = _itemsByTypes(
-          filteredItems,
-          const {
-            TechniqueMediaType.trainingVideo,
-          },
-        );
+        final trainingItems = _itemsByTypes(filteredItems, const {
+          TechniqueMediaType.trainingVideo,
+        });
 
-        final competitionItems = _itemsByTypes(
-          filteredItems,
-          const {
-            TechniqueMediaType.competitionVideo,
-            TechniqueMediaType.championExample,
-          },
-        );
+        final competitionItems = _itemsByTypes(filteredItems, const {
+          TechniqueMediaType.competitionVideo,
+          TechniqueMediaType.championExample,
+        });
 
-        final topExecutionItems = _itemsByTypes(
-          filteredItems,
-          const {
-            TechniqueMediaType.topExecution,
-          },
-        );
+        final topExecutionItems = _itemsByTypes(filteredItems, const {
+          TechniqueMediaType.topExecution,
+        });
 
-        final analysisItems = _itemsByTypes(
-          filteredItems,
-          const {
-            TechniqueMediaType.slowMotion,
-            TechniqueMediaType.animation,
-            TechniqueMediaType.biomechanics,
-            TechniqueMediaType.aiComparison,
-          },
-        );
+        final analysisItems = _itemsByTypes(filteredItems, const {
+          TechniqueMediaType.slowMotion,
+          TechniqueMediaType.animation,
+          TechniqueMediaType.biomechanics,
+          TechniqueMediaType.aiComparison,
+        });
 
         final hasFilteredResults =
             officialItems.isNotEmpty ||
@@ -219,17 +177,11 @@ class _MediaSectionState extends State<MediaSection> {
             analysisItems.isNotEmpty;
 
         return Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MediaHeader(
-              techniqueName:
-                  widget.technique.englishName,
-            ),
+            MediaHeader(techniqueName: widget.technique.englishName),
 
-            const SizedBox(
-              height: JudoSpacing.md,
-            ),
+            const SizedBox(height: JudoSpacing.md),
 
             MediaFilterBar(
               selected: selectedFilter,
@@ -241,20 +193,15 @@ class _MediaSectionState extends State<MediaSection> {
             ),
 
             if (!hasFilteredResults) ...[
-              const SizedBox(
-                height: JudoSpacing.xl,
-              ),
+              const SizedBox(height: JudoSpacing.xl),
               const _NoFilteredMediaState(),
             ],
 
             if (officialItems.isNotEmpty) ...[
-              const SizedBox(
-                height: JudoSpacing.xl,
-              ),
+              const SizedBox(height: JudoSpacing.xl),
               _MediaGroup(
                 title: 'Official Media',
-                subtitle:
-                    'Approved visual and technical references.',
+                subtitle: 'Approved visual and technical references.',
                 icon: Icons.verified_outlined,
                 accentColor: JudoColors.primary,
                 items: officialItems,
@@ -265,15 +212,11 @@ class _MediaSectionState extends State<MediaSection> {
             ],
 
             if (trainingItems.isNotEmpty) ...[
-              const SizedBox(
-                height: JudoSpacing.xxl,
-              ),
+              const SizedBox(height: JudoSpacing.xxl),
               _MediaGroup(
                 title: 'Training',
-                subtitle:
-                    'Selected demonstrations and practice material.',
-                icon:
-                    Icons.sports_martial_arts_outlined,
+                subtitle: 'Selected demonstrations and practice material.',
+                icon: Icons.sports_martial_arts_outlined,
                 accentColor: JudoColors.success,
                 items: trainingItems,
                 onItemTap: (item) {
@@ -283,13 +226,10 @@ class _MediaSectionState extends State<MediaSection> {
             ],
 
             if (competitionItems.isNotEmpty) ...[
-              const SizedBox(
-                height: JudoSpacing.xxl,
-              ),
+              const SizedBox(height: JudoSpacing.xxl),
               _MediaGroup(
                 title: 'Competition',
-                subtitle:
-                    'Verified executions from competitive situations.',
+                subtitle: 'Verified executions from competitive situations.',
                 icon: Icons.emoji_events_outlined,
                 accentColor: JudoColors.danger,
                 items: competitionItems,
@@ -300,15 +240,11 @@ class _MediaSectionState extends State<MediaSection> {
             ],
 
             if (topExecutionItems.isNotEmpty) ...[
-              const SizedBox(
-                height: JudoSpacing.xxl,
-              ),
+              const SizedBox(height: JudoSpacing.xxl),
               _MediaGroup(
                 title: 'Top Executions',
-                subtitle:
-                    'Elite examples selected for technical study.',
-                icon:
-                    Icons.workspace_premium_outlined,
+                subtitle: 'Elite examples selected for technical study.',
+                icon: Icons.workspace_premium_outlined,
                 accentColor: JudoColors.gold,
                 items: topExecutionItems,
                 showRanking: true,
@@ -319,9 +255,7 @@ class _MediaSectionState extends State<MediaSection> {
             ],
 
             if (analysisItems.isNotEmpty) ...[
-              const SizedBox(
-                height: JudoSpacing.xxl,
-              ),
+              const SizedBox(height: JudoSpacing.xxl),
               _MediaGroup(
                 title: 'Visual Analysis',
                 subtitle:
@@ -345,35 +279,31 @@ class _MediaSectionState extends State<MediaSection> {
     Set<TechniqueMediaType> acceptedTypes,
   ) {
     final result = items
-        .where(
-          (item) =>
-              acceptedTypes.contains(item.type),
-        )
+        .where((item) => acceptedTypes.contains(item.type))
         .toList(growable: false);
 
-    result.sort(
-      (first, second) =>
-          first.sortOrder.compareTo(
-            second.sortOrder,
-          ),
-    );
+    result.sort((first, second) => first.sortOrder.compareTo(second.sortOrder));
 
-    return List<TechniqueMediaItem>.unmodifiable(
-      result,
-    );
+    return List<TechniqueMediaItem>.unmodifiable(result);
   }
 
-  Future<void> _openMedia(
-    BuildContext context,
-    TechniqueMediaItem item,
-  ) async {
+  Future<void> _openMedia(BuildContext context, TechniqueMediaItem item) async {
+    final l10n = AppLocalizations.of(context)!;
+
+    if (!item.hasValidMedia) {
+      _showMessage(
+        context,
+        l10n.techniqueMediaItemUnavailable,
+        key: const ValueKey<String>('technique-media-unavailable'),
+      );
+      return;
+    }
+
     if (item.isImage) {
       await showDialog<void>(
         context: context,
         builder: (dialogContext) {
-          return _TechniqueImageDialog(
-            item: item,
-          );
+          return _TechniqueImageDialog(item: item);
         },
       );
 
@@ -387,11 +317,7 @@ class _MediaSectionState extends State<MediaSection> {
 
       await Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (_) => VideoDetailScreen(
-            item: item,
-          ),
-        ),
+        MaterialPageRoute(builder: (_) => VideoDetailScreen(item: item)),
       );
 
       return;
@@ -404,83 +330,60 @@ class _MediaSectionState extends State<MediaSection> {
       if (context.mounted) {
         _showMessage(
           context,
-          'This media item does not have a valid link.',
+          l10n.techniqueMediaItemUnavailable,
+          key: const ValueKey<String>('technique-media-unavailable'),
         );
       }
 
       return;
     }
 
-    final opened = await launchUrl(
-      uri!,
-      mode: LaunchMode.externalApplication,
-    );
+    final opened = await launchUrl(uri!, mode: LaunchMode.externalApplication);
 
     if (!opened && context.mounted) {
       _showMessage(
         context,
-        'The selected media could not be opened.',
+        l10n.techniqueMediaOpenFailed,
+        key: const ValueKey<String>('technique-media-open-failed'),
       );
     }
   }
 
-  bool _isValidHttpUri(
-    Uri? uri,
-  ) {
+  bool _isValidHttpUri(Uri? uri) {
     if (uri == null || !uri.hasScheme) {
       return false;
     }
 
-    return uri.scheme == 'https' ||
-        uri.scheme == 'http';
+    return uri.scheme == 'https' || uri.scheme == 'http';
   }
 
-  void _showMessage(
-    BuildContext context,
-    String message,
-  ) {
+  void _showMessage(BuildContext context, String message, {Key? key}) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(message),
-        ),
-      );
+      ..showSnackBar(SnackBar(content: Text(message, key: key)));
   }
 }
 
 class _MediaLoadingState extends StatelessWidget {
   final String techniqueName;
 
-  const _MediaLoadingState({
-    required this.techniqueName,
-  });
+  const _MediaLoadingState({required this.techniqueName});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(
-        JudoSpacing.xl,
-      ),
+      padding: const EdgeInsets.all(JudoSpacing.xl),
       decoration: BoxDecoration(
         color: JudoColors.surface,
-        borderRadius: BorderRadius.circular(
-          JudoRadius.lg,
-        ),
-        border: Border.all(
-          color: JudoColors.primary.withValues(
-            alpha: 0.18,
-          ),
-        ),
+        borderRadius: BorderRadius.circular(JudoRadius.lg),
+        border: Border.all(color: JudoColors.primary.withValues(alpha: 0.18)),
       ),
       child: Column(
         children: [
           const CircularProgressIndicator(),
 
-          const SizedBox(
-            height: JudoSpacing.md,
-          ),
+          const SizedBox(height: JudoSpacing.md),
 
           Text(
             'Loading $techniqueName media...',
@@ -497,28 +400,17 @@ class _MediaErrorState extends StatelessWidget {
   final String techniqueName;
   final VoidCallback onRetry;
 
-  const _MediaErrorState({
-    required this.techniqueName,
-    required this.onRetry,
-  });
+  const _MediaErrorState({required this.techniqueName, required this.onRetry});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(
-        JudoSpacing.xl,
-      ),
+      padding: const EdgeInsets.all(JudoSpacing.xl),
       decoration: BoxDecoration(
         color: JudoColors.surface,
-        borderRadius: BorderRadius.circular(
-          JudoRadius.lg,
-        ),
-        border: Border.all(
-          color: JudoColors.danger.withValues(
-            alpha: 0.35,
-          ),
-        ),
+        borderRadius: BorderRadius.circular(JudoRadius.lg),
+        border: Border.all(color: JudoColors.danger.withValues(alpha: 0.35)),
       ),
       child: Column(
         children: [
@@ -528,9 +420,7 @@ class _MediaErrorState extends StatelessWidget {
             size: 46,
           ),
 
-          const SizedBox(
-            height: JudoSpacing.md,
-          ),
+          const SizedBox(height: JudoSpacing.md),
 
           Text(
             '$techniqueName media could not be loaded.',
@@ -538,9 +428,7 @@ class _MediaErrorState extends StatelessWidget {
             style: JudoTypography.titleMedium,
           ),
 
-          const SizedBox(
-            height: JudoSpacing.sm,
-          ),
+          const SizedBox(height: JudoSpacing.sm),
 
           Text(
             'Check the data source or connection and try again.',
@@ -548,18 +436,12 @@ class _MediaErrorState extends StatelessWidget {
             style: JudoTypography.bodySmall,
           ),
 
-          const SizedBox(
-            height: JudoSpacing.lg,
-          ),
+          const SizedBox(height: JudoSpacing.lg),
 
           FilledButton.icon(
             onPressed: onRetry,
-            icon: const Icon(
-              Icons.refresh_rounded,
-            ),
-            label: const Text(
-              'Retry',
-            ),
+            icon: const Icon(Icons.refresh_rounded),
+            label: const Text('Retry'),
           ),
         ],
       ),
@@ -567,27 +449,18 @@ class _MediaErrorState extends StatelessWidget {
   }
 }
 
-class _NoFilteredMediaState
-    extends StatelessWidget {
+class _NoFilteredMediaState extends StatelessWidget {
   const _NoFilteredMediaState();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(
-        JudoSpacing.lg,
-      ),
+      padding: const EdgeInsets.all(JudoSpacing.lg),
       decoration: BoxDecoration(
         color: JudoColors.surface,
-        borderRadius: BorderRadius.circular(
-          JudoRadius.lg,
-        ),
-        border: Border.all(
-          color: Colors.white.withValues(
-            alpha: 0.08,
-          ),
-        ),
+        borderRadius: BorderRadius.circular(JudoRadius.lg),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
       child: Column(
         children: [
@@ -597,9 +470,7 @@ class _NoFilteredMediaState
             size: 38,
           ),
 
-          const SizedBox(
-            height: JudoSpacing.sm,
-          ),
+          const SizedBox(height: JudoSpacing.sm),
 
           Text(
             'No media is available for this filter.',
@@ -611,6 +482,7 @@ class _NoFilteredMediaState
     );
   }
 }
+
 class _MediaLibraryIntro extends StatelessWidget {
   final String techniqueName;
 
@@ -673,6 +545,8 @@ class _MediaGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -694,6 +568,7 @@ class _MediaGroup extends StatelessWidget {
             ),
             child: MediaCardFactory.build(
               item: item,
+              unavailableLabel: l10n.unavailableLabel,
               onTap: () {
                 onItemTap(item);
               },

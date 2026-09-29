@@ -55,7 +55,7 @@ class MediaFilterBar extends StatelessWidget {
 
   itemCount: filters.length,
 
-        separatorBuilder: (_, __) => const SizedBox(width: 10),
+        separatorBuilder: (_, _) => const SizedBox(width: 10),
 
         itemBuilder: (context, index) {
           final item = filters[index];

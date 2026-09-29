@@ -156,8 +156,7 @@ class JudoSection extends StatelessWidget {
               ),
 
 
-              if (trailing != null)
-                trailing!,
+              ?trailing,
             ],
           ),
 

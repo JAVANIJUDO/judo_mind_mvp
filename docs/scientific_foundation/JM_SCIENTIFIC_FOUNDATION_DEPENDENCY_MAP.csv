@@ -1,0 +1,8 @@
+dependency_id,stage_or_artifact,depends_on,dependency_type,current_state,safe_when_blocked,next_permitted_stage,approval_created,notes
+JM-DEP-001,JM-S0.4-C official intake,JM-S0.4-B acquisition queue,STRUCTURAL,PASS_WITH_ONE_ACQUIRED_ONE_ACCESS_BLOCKED,Yes; preserve blocked acquisition rows,Human identity/version review of acquired official document,NO,No automatic production transition.
+JM-DEP-002,JM-S0.5-A metadata readiness,JM_SOURCE_INVENTORY.csv,DATA,PASS,Yes; missing metadata remains explicit,Additive primary-source metadata verification,NO,No automatic production transition.
+JM-DEP-003,JM-S0.5-B citation readiness,JM_CLAIM_INVENTORY.csv + JM_CLAIM_SOURCE_LINKS.csv,DATA,PASS,Yes; all claims remain gated,Exact claim-level citation mapping,NO,No automatic production transition.
+JM-DEP-004,JM-S0.5-C HPS reuse readiness,HPS registries read-only,BOUNDARY,PASS,Yes; no approval transfer,JM-specific human evidence review,NO,No automatic production transition.
+JM-DEP-005,Scientific approval,Exact evidence + domain human sign-off,HUMAN,BLOCKED_HUMAN_REVIEW,Yes; production remains disabled,Obtain real human decisions,NO,No automatic production transition.
+JM-DEP-006,JM-SRC-0028/0029,Permitted full text,CONTENT,BLOCKED_FULL_TEXT,Yes; defer records,Separate full-text review authorization,NO,No automatic production transition.
+JM-DEP-007,UM-ANG-004,Validated biomechanical method,METHOD,BLOCKED_METHOD,Yes; withhold output,Method review and validation,NO,No automatic production transition.

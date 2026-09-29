@@ -45,6 +45,7 @@ dependencies:
   shared_preferences: ^2.5.5
   video_player: ^2.13.0
   image_picker: ^1.2.3
+  file_picker: ^10.3.10
   http: ^1.6.0
 dev_dependencies:
   flutter_test:
@@ -68,7 +69,7 @@ flutter:
   # the material Icons class.
   generate: true
 
-  
+
   uses-material-design: true
 
 

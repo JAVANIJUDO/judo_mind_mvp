@@ -2,6 +2,8 @@ import 'quiz_model.dart';
 import 'technique_media_item.dart';
 import 'technique_translation.dart';
 import 'technique_visual_learning_model.dart';
+import 'technique_training_content.dart';
+import 'technique_explanation_content.dart';
 
 class TechniqueModel {
   final String id;
@@ -53,6 +55,28 @@ class TechniqueModel {
 
   final TechniqueVisualLearningPlan? visualLearningPlan;
 
+  /// Structured future training content. Empty by default; a visual-learning
+  /// prototype or generic technique data must not activate a drill.
+  final TechniqueTrainingContent trainingContent;
+
+  /// Optional gap-only data for the structured technique-explanation
+  /// standard. Empty by default and independent of route/capability gates.
+  final TechniqueExplanationExtension explanationExtension;
+
+  // -----------------------------------------------------------
+  // Analysis capability gates
+  // -----------------------------------------------------------
+
+  /// Enables the human-reviewed Single-Attempt V2A workflow for this
+  /// technique. The default is intentionally fail-closed so a future
+  /// technique cannot inherit Uchi Mata's reviewed scientific contract.
+  final bool supportsReviewedSingleAttemptV2A;
+
+  /// Enables the bounded educational Practice destination for this technique.
+  /// The default is fail-closed so structured fields alone cannot silently
+  /// activate a training pathway for another production technique.
+  final bool supportsEducationalPracticeGuidance;
+
   // -----------------------------------------------------------
   // Technical learning data
   // -----------------------------------------------------------
@@ -89,6 +113,10 @@ class TechniqueModel {
     required this.competitionVideo,
     this.mediaItems = const [],
     this.visualLearningPlan,
+    this.trainingContent = const TechniqueTrainingContent.empty(),
+    this.explanationExtension = const TechniqueExplanationExtension.empty(),
+    this.supportsReviewedSingleAttemptV2A = false,
+    this.supportsEducationalPracticeGuidance = false,
     required this.executionSteps,
     required this.keyPoints,
     required this.commonMistakes,
@@ -159,13 +187,10 @@ class TechniqueModel {
 
   List<String> get famousUsers => const [];
 
-  List<String> get competitionInsights {
-    if (competitionVideo.isEmpty) {
-      return const [];
-    }
-
-    return [competitionVideo];
-  }
+  /// Dedicated competition insight content is not present in the current
+  /// model. A media URL or general counter list must not be reclassified as
+  /// competition analysis.
+  List<String> get competitionInsights => const [];
 
   String get aiTrainingAdvice => technicalAnalysis;
 
@@ -253,6 +278,14 @@ class TechniqueModel {
     return visualLearningPlan?.totalSequences ?? 0;
   }
 
+  bool get hasApprovedEducationalPracticeGuidance {
+    return supportsEducationalPracticeGuidance &&
+        executionSteps.any((item) => item.trim().isNotEmpty) &&
+        keyPoints.any((item) => item.trim().isNotEmpty) &&
+        commonMistakes.any((item) => item.trim().isNotEmpty) &&
+        safetyTips.any((item) => item.trim().isNotEmpty);
+  }
+
   // -----------------------------------------------------------
   // Localization
   // -----------------------------------------------------------
@@ -266,6 +299,86 @@ class TechniqueModel {
       return null;
     }
   }
+
+  ResolvedTechniqueContent resolveContent(String languageCode) {
+    final normalizedLanguage = languageCode.trim().toLowerCase();
+    final translation = normalizedLanguage == 'en'
+        ? null
+        : getTranslation(normalizedLanguage);
+
+    return ResolvedTechniqueContent(
+      name: _resolvedText(translation?.name, englishName),
+      description: _resolvedText(translation?.description, description),
+      technicalAnalysis: _resolvedText(
+        translation?.technicalAnalysis,
+        technicalAnalysis,
+      ),
+      executionSteps: _resolvedItems(
+        translation?.executionSteps,
+        executionSteps,
+      ),
+      keyPoints: _resolvedItems(translation?.keyPoints, keyPoints),
+      commonMistakes: _resolvedItems(
+        translation?.commonMistakes,
+        commonMistakes,
+      ),
+      safetyTips: _resolvedItems(translation?.safetyTips, safetyTips),
+      combinations: _resolvedItems(translation?.combinations, combinations),
+      counters: _resolvedItems(translation?.counters, counters),
+    );
+  }
+
+  static String _resolvedText(String? localized, String fallback) {
+    final localizedValue = localized?.trim() ?? '';
+    return localizedValue.isNotEmpty ? localizedValue : fallback.trim();
+  }
+
+  static List<String> _resolvedItems(
+    List<String>? localized,
+    List<String> fallback,
+  ) {
+    final localizedItems =
+        localized
+            ?.where((item) => item.trim().isNotEmpty)
+            .toList(growable: false) ??
+        const <String>[];
+    final selected = localizedItems.isNotEmpty
+        ? localizedItems
+        : fallback
+              .where((item) => item.trim().isNotEmpty)
+              .toList(growable: false);
+    return List<String>.unmodifiable(selected);
+  }
+}
+
+class ResolvedTechniqueContent {
+  final String name;
+  final String description;
+  final String technicalAnalysis;
+  final List<String> executionSteps;
+  final List<String> keyPoints;
+  final List<String> commonMistakes;
+  final List<String> safetyTips;
+  final List<String> combinations;
+  final List<String> counters;
+
+  const ResolvedTechniqueContent({
+    required this.name,
+    required this.description,
+    required this.technicalAnalysis,
+    required this.executionSteps,
+    required this.keyPoints,
+    required this.commonMistakes,
+    required this.safetyTips,
+    required this.combinations,
+    required this.counters,
+  });
+
+  String get kuzushi => executionSteps.isNotEmpty ? executionSteps[0] : '';
+
+  String get tsukuri => executionSteps.length > 1 ? executionSteps[1] : '';
+
+  String get kake => executionSteps.length > 2 ? executionSteps[2] : '';
 }
 
 class TechniqueSource {

@@ -4,6 +4,7 @@ class SingleCameraPoseSummary {
   const SingleCameraPoseSummary({
     required this.schemaVersion,
     required this.analysisId,
+    required this.status,
     required this.analysisMode,
     required this.techniqueId,
     required this.cameraView,
@@ -16,6 +17,7 @@ class SingleCameraPoseSummary {
 
   final String schemaVersion;
   final String analysisId;
+  final String status;
   final String analysisMode;
   final String techniqueId;
   final String cameraView;
@@ -25,12 +27,43 @@ class SingleCameraPoseSummary {
   final SingleCameraCapabilities capabilities;
   final List<SingleCameraAnalysisLimitation> limitations;
 
+  static const Set<String> _requiredLimitationCodes = {
+    'pose_identity_not_available',
+    'phase_detection_not_available',
+    'single_camera_2d_only',
+    'force_torque_not_available',
+    'experimental_pose_baseline',
+  };
+
   bool get hasExpectedScientificBoundary {
-    return analysisMode == 'single_camera_2d' &&
+    final interpretationLimitationCodes = limitations
+        .where((limitation) => limitation.affectsInterpretation)
+        .map((limitation) => limitation.code)
+        .toSet();
+
+    return schemaVersion == '1.0.0' &&
+        status == 'completed' &&
+        analysisMode == 'single_camera_2d' &&
+        engine.maturity == 'experimental' &&
+        video.provenance == AnalysisProvenance.measured &&
+        poseCoverage.provenance == AnalysisProvenance.modelEstimated &&
+        !poseCoverage.confidenceAvailable &&
+        poseCoverage.analyzedFrameCount >= 0 &&
+        poseCoverage.framesWithAtLeastOnePose >= 0 &&
+        poseCoverage.framesWithTwoPoses >= 0 &&
+        poseCoverage.framesWithAtLeastOnePose <=
+            poseCoverage.analyzedFrameCount &&
+        poseCoverage.framesWithTwoPoses <=
+            poseCoverage.framesWithAtLeastOnePose &&
+        poseCoverage.atLeastOnePoseRate >= 0 &&
+        poseCoverage.atLeastOnePoseRate <= 1 &&
+        poseCoverage.twoPoseRate >= 0 &&
+        poseCoverage.twoPoseRate <= 1 &&
         !capabilities.athleteIdentity &&
         !capabilities.phaseDetection &&
         !capabilities.threeDimensionalReconstruction &&
-        !capabilities.forceOrTorque;
+        !capabilities.forceOrTorque &&
+        interpretationLimitationCodes.containsAll(_requiredLimitationCodes);
   }
 
   factory SingleCameraPoseSummary.fromJson(Map<String, dynamic> json) {
@@ -44,6 +77,7 @@ class SingleCameraPoseSummary {
     return SingleCameraPoseSummary(
       schemaVersion: _string(json, 'schema_version'),
       analysisId: _string(json, 'analysis_id'),
+      status: _string(json, 'status'),
       analysisMode: _string(json, 'analysis_mode'),
       techniqueId: _string(technique, 'id'),
       cameraView: _string(json, 'camera_view'),

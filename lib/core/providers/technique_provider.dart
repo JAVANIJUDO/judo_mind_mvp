@@ -1,4 +1,3 @@
-import '../dependency_injection/injection_container.dart';
 import 'package:flutter/material.dart';
 import '../../core/dependency_injection/injection_container.dart';
 import '../../data/repositories/local_technique_repository.dart';

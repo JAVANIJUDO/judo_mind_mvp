@@ -1,156 +1,74 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/judo_design_tokens.dart';
-import '../../../../core/theme/judo_typography.dart';
+import '../../../../core/localization/technique_term_localizer.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../models/technique_model.dart';
+import '../content/technique_content_widgets.dart';
 
 class OverviewSection extends StatelessWidget {
   final TechniqueModel technique;
 
-  const OverviewSection({
-    super.key,
-    required this.technique,
-  });
+  const OverviewSection({super.key, required this.technique});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final content = technique.resolveContent(
+      Localizations.localeOf(context).languageCode,
+    );
+    final beltLevel = technique.beltLevel.trim();
+    final difficulty = technique.difficulty.trim();
+    final showBeltLevel =
+        beltLevel.isNotEmpty &&
+        beltLevel.toLowerCase() != difficulty.toLowerCase();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _OverviewBlock(
-          title: 'Description',
+        Wrap(
+          spacing: JudoSpacing.sm,
+          runSpacing: JudoSpacing.sm,
+          children: [
+            TechniqueMetadataItem(
+              label: l10n.japaneseName,
+              value: technique.japaneseName,
+              unavailableLabel: l10n.unavailableLabel,
+            ),
+            TechniqueMetadataItem(
+              label: l10n.classification,
+              value: TechniqueTermLocalizer.taxonomy(l10n, technique.category),
+              unavailableLabel: l10n.unavailableLabel,
+            ),
+            TechniqueMetadataItem(
+              label: l10n.techniqueType,
+              value: TechniqueTermLocalizer.taxonomy(l10n, technique.type),
+              unavailableLabel: l10n.unavailableLabel,
+            ),
+            if (showBeltLevel)
+              TechniqueMetadataItem(
+                label: l10n.beltLevel,
+                value: beltLevel,
+                unavailableLabel: l10n.unavailableLabel,
+              ),
+            if (difficulty.isNotEmpty)
+              TechniqueMetadataItem(
+                label: l10n.difficulty,
+                value: TechniqueTermLocalizer.difficulty(l10n, difficulty),
+                unavailableLabel: l10n.unavailableLabel,
+              ),
+          ],
+        ),
+        const SizedBox(height: JudoSpacing.lg),
+        TechniqueTextContent(
+          title: l10n.description,
+          text: content.description,
+          emptyMessage: l10n.approvedContentUnavailable,
           icon: Icons.info_outline_rounded,
-          text: technique.description,
-        ),
-
-        const SizedBox(
-          height: JudoSpacing.lg,
-        ),
-
-        const _OverviewBlock(
-          title: 'Purpose of Technique',
-          icon: Icons.flag_outlined,
-          text:
-              'Understanding the main objective, tactical purpose and execution philosophy of this technique.',
-        ),
-
-        const SizedBox(
-          height: JudoSpacing.lg,
-        ),
-
-        const _OverviewBlock(
-          title: 'When To Use',
-          icon: Icons.sports_martial_arts_outlined,
-          text:
-              'Analyze suitable combat situations, opponent reactions and opportunities to apply the technique effectively.',
-        ),
-
-        const SizedBox(
-          height: JudoSpacing.lg,
-        ),
-
-        const _OverviewBlock(
-          title: 'Key Learning Points',
-          icon: Icons.school_outlined,
-          text:
-              'Focus on kuzushi, tsukuri, kake, body position, timing and balance control.',
-        ),
-
-        const SizedBox(
-          height: JudoSpacing.lg,
-        ),
-
-        const _OverviewBlock(
-          title: 'Common Application',
-          icon: Icons.psychology_outlined,
-          text:
-              'Technical combinations, competition situations and practical application scenarios will be added in the advanced analysis module.',
+          accentColor: JudoColors.primary,
+          contentKey: const ValueKey<String>('overview-description'),
         ),
       ],
-    );
-  }
-}
-
-class _OverviewBlock extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final String text;
-
-  const _OverviewBlock({
-    required this.title,
-    required this.icon,
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(
-        JudoSpacing.lg,
-      ),
-      decoration: BoxDecoration(
-        color: JudoColors.surface,
-        borderRadius: BorderRadius.circular(
-          JudoRadius.lg,
-        ),
-        border: Border.all(
-          color: JudoColors.primary.withValues(
-            alpha: 0.18,
-          ),
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 38,
-            height: 38,
-            decoration: BoxDecoration(
-              color: JudoColors.primary.withValues(
-                alpha: 0.12,
-              ),
-              borderRadius:
-                  BorderRadius.circular(
-                JudoRadius.sm,
-              ),
-            ),
-            child: Icon(
-              icon,
-              color: JudoColors.primary,
-              size: 21,
-            ),
-          ),
-
-          const SizedBox(
-            width: JudoSpacing.md,
-          ),
-
-          Expanded(
-            child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style:
-                      JudoTypography.titleMedium,
-                ),
-
-                const SizedBox(
-                  height: JudoSpacing.sm,
-                ),
-
-                Text(
-                  text,
-                  style:
-                      JudoTypography.bodyMedium,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -10,6 +10,8 @@ import numpy as np
 
 from rtmlib import Body
 
+from ai_engine.video_sampling import build_video_sampling_plan
+
 
 # COCO 17-keypoint skeleton connections.
 SKELETON = (
@@ -126,11 +128,13 @@ class JudoPoseDiagnostic:
             )
         )
 
-        sample_stride = max(
-            1,
-            round(
-                source_fps / target_fps
-            ),
+        sampling_plan = build_video_sampling_plan(
+            source_fps=source_fps,
+            target_fps=target_fps,
+            frame_count=total_frames,
+        )
+        sampled_frame_indices = set(
+            sampling_plan.frame_indices
         )
 
         output_video = (
@@ -173,11 +177,7 @@ class JudoPoseDiagnostic:
                 if not success:
                     break
 
-                if (
-                    frame_index
-                    % sample_stride
-                    != 0
-                ):
+                if frame_index not in sampled_frame_indices:
                     frame_index += 1
                     continue
 
@@ -303,12 +303,7 @@ class JudoPoseDiagnostic:
                 ):
                     estimated_total = max(
                         1,
-                        (
-                            total_frames
-                            + sample_stride
-                            - 1
-                        )
-                        // sample_stride,
+                        sampling_plan.planned_frame_count,
                     )
 
                     progress = min(
@@ -344,6 +339,18 @@ class JudoPoseDiagnostic:
                 "rtmpose_m_diagnostic"
             ),
             "target_fps": target_fps,
+            "sampling_strategy": (
+                sampling_plan.strategy
+            ),
+            "nominal_sample_interval_frames": (
+                sampling_plan.nominal_interval_frames
+            ),
+            "effective_analyzed_fps": (
+                analyzed
+                / (total_frames / source_fps)
+                if total_frames > 0
+                else 0.0
+            ),
             "threshold": threshold,
             "analyzed_frames": analyzed,
             "zero_pose_frames": zero_pose,

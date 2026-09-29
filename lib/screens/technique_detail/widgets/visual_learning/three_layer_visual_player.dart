@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/judo_design_tokens.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../models/technique_visual_learning_model.dart';
 import 'uchi_mata_three_layer_painter.dart';
 
@@ -132,18 +133,28 @@ class _ThreeLayerVisualPlayerState extends State<ThreeLayerVisualPlayer>
     }
   }
 
-  String _layerLabel(TechniqueVisualLayerType type) {
+  String _layerLabel(AppLocalizations l10n, TechniqueVisualLayerType type) {
     switch (type) {
       case TechniqueVisualLayerType.movement:
-        return 'Movement';
+        return l10n.visualLayerMovement;
 
       case TechniqueVisualLayerType.control:
-        return 'Control';
+        return l10n.visualLayerControl;
 
       case TechniqueVisualLayerType.biomechanics:
-        return 'Force';
+        return l10n.visualLayerIllustrativeDirection;
     }
   }
+
+  String _sequenceTitle(AppLocalizations l10n) =>
+      widget.sequence.id == 'uchi_mata_biomechanics'
+      ? l10n.uchiMataBiomechanicsVisualizationTitle
+      : widget.sequence.title;
+
+  String _sequenceDescription(AppLocalizations l10n) =>
+      widget.sequence.id == 'uchi_mata_biomechanics'
+      ? l10n.uchiMataBiomechanicsVisualizationDescription
+      : widget.sequence.description;
 
   bool _isLayerVisible(TechniqueVisualLayerType type) {
     switch (type) {
@@ -176,8 +187,22 @@ class _ThreeLayerVisualPlayerState extends State<ThreeLayerVisualPlayer>
     });
   }
 
+  CustomPainter? _visualPainter(double progress) {
+    return switch (widget.sequence.rendererType) {
+      TechniqueVisualRendererType.uchiMataThreeLayer =>
+        UchiMataThreeLayerPainter(
+          progress: progress,
+          showMovement: _movementVisible,
+          showControl: _controlVisible,
+          showBiomechanics: _biomechanicsVisible,
+        ),
+      null => null,
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         color: JudoColors.surface,
@@ -193,7 +218,7 @@ class _ThreeLayerVisualPlayerState extends State<ThreeLayerVisualPlayer>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.sequence.title,
+                  _sequenceTitle(l10n),
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: JudoColors.textPrimary,
                     fontWeight: FontWeight.w700,
@@ -201,7 +226,7 @@ class _ThreeLayerVisualPlayerState extends State<ThreeLayerVisualPlayer>
                 ),
                 const SizedBox(height: JudoSpacing.sm),
                 Text(
-                  widget.sequence.description,
+                  _sequenceDescription(l10n),
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: JudoColors.textSecondary,
                   ),
@@ -218,7 +243,7 @@ class _ThreeLayerVisualPlayerState extends State<ThreeLayerVisualPlayer>
                     return FilterChip(
                       selected: selected,
                       showCheckmark: false,
-                      label: Text(_layerLabel(type)),
+                      label: Text(_layerLabel(l10n, type)),
                       avatar: Container(
                         width: 10,
                         height: 10,
@@ -254,14 +279,17 @@ class _ThreeLayerVisualPlayerState extends State<ThreeLayerVisualPlayer>
               child: AnimatedBuilder(
                 animation: _controller,
                 builder: (context, child) {
-                  return CustomPaint(
-                    painter: UchiMataThreeLayerPainter(
-                      progress: _controller.value,
-                      showMovement: _movementVisible,
-                      showControl: _controlVisible,
-                      showBiomechanics: _biomechanicsVisible,
-                    ),
-                  );
+                  final painter = _visualPainter(_controller.value);
+                  if (painter == null) {
+                    return const Center(
+                      child: Icon(
+                        Icons.visibility_off_outlined,
+                        color: JudoColors.textSecondary,
+                      ),
+                    );
+                  }
+
+                  return CustomPaint(painter: painter);
                 },
               ),
             ),

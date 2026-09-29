@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/judo_design_tokens.dart';
+import '../../../../core/localization/technique_term_localizer.dart';
 import '../../../../core/theme/judo_typography.dart';
 import '../../../../core/widgets/judo_badge.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../models/technique_model.dart';
 
 /// ----------------------------------------------------------------
@@ -24,26 +26,21 @@ class HeroSection extends StatelessWidget {
   final TechniqueModel technique;
   final String title;
 
-  const HeroSection({
-    super.key,
-    required this.technique,
-    required this.title,
-  });
+  const HeroSection({super.key, required this.technique, required this.title});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return LayoutBuilder(
       builder: (context, constraints) {
-        final titleStyle =
-            JudoTypography.responsiveTechniqueTitle(
+        final titleStyle = JudoTypography.responsiveTechniqueTitle(
           constraints.maxWidth,
         );
 
         return Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(
-            vertical: JudoSpacing.sm,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: JudoSpacing.sm),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -73,31 +70,38 @@ class HeroSection extends StatelessWidget {
                 spacing: JudoSpacing.sm,
                 runSpacing: JudoSpacing.sm,
                 children: [
-                  const JudoBadge(
-                    text: 'Official',
+                  JudoBadge(
+                    text: l10n.officialLabel,
                     type: JudoBadgeType.official,
                   ),
 
                   if (technique.category.trim().isNotEmpty)
                     JudoBadge(
-                      text: technique.category,
+                      text: TechniqueTermLocalizer.taxonomy(
+                        l10n,
+                        technique.category,
+                      ),
                       type: JudoBadgeType.verified,
                       icon: Icons.category_outlined,
                     ),
 
                   if (technique.type.trim().isNotEmpty)
                     JudoBadge(
-                      text: technique.type,
+                      text: TechniqueTermLocalizer.taxonomy(
+                        l10n,
+                        technique.type,
+                      ),
                       type: JudoBadgeType.success,
                       icon: Icons.sports_martial_arts_outlined,
                     ),
 
                   if (technique.difficulty.trim().isNotEmpty)
                     JudoBadge(
-                      text: technique.difficulty,
-                      type: _difficultyBadgeType(
+                      text: TechniqueTermLocalizer.difficulty(
+                        l10n,
                         technique.difficulty,
                       ),
+                      type: _difficultyBadgeType(technique.difficulty),
                     ),
                 ],
               ),
@@ -108,20 +112,14 @@ class HeroSection extends StatelessWidget {
     );
   }
 
-  JudoBadgeType _difficultyBadgeType(
-    String difficulty,
-  ) {
-    final normalized = difficulty
-        .trim()
-        .toLowerCase();
+  JudoBadgeType _difficultyBadgeType(String difficulty) {
+    final normalized = difficulty.trim().toLowerCase();
 
-    if (normalized.contains('beginner') ||
-        normalized.contains('basic')) {
+    if (normalized.contains('beginner') || normalized.contains('basic')) {
       return JudoBadgeType.beginner;
     }
 
-    if (normalized.contains('advanced') ||
-        normalized.contains('expert')) {
+    if (normalized.contains('advanced') || normalized.contains('expert')) {
       return JudoBadgeType.advanced;
     }
 

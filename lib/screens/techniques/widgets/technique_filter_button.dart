@@ -1,115 +1,25 @@
 import 'package:flutter/material.dart';
 
+import '../../../l10n/app_localizations.dart';
 
 class TechniqueFilterButton extends StatelessWidget {
-
+  const TechniqueFilterButton({super.key, required this.onTap});
 
   final VoidCallback onTap;
 
-
-  const TechniqueFilterButton({
-
-    super.key,
-
-    required this.onTap,
-
-  });
-
-
-
   @override
   Widget build(BuildContext context) {
-
-
-    return GestureDetector(
-
-      onTap: onTap,
-
-
-      child: Container(
-
-
-        height:45,
-
-
-        decoration: BoxDecoration(
-
-
-          color: const Color(0xFF111111),
-
-
-          borderRadius:
-              BorderRadius.circular(15),
-
-
-          border: Border.all(
-
-            color:
-                const Color(0xFF0066FF),
-
-          ),
-
-
-        ),
-
-
-
-        child: Row(
-
-
-          mainAxisAlignment:
-              MainAxisAlignment.center,
-
-
-          children: [
-
-
-            const Icon(
-
-              Icons.filter_alt,
-
-              color:
-                  Color(0xFFD4AF37),
-
-            ),
-
-
-
-            const SizedBox(width:10),
-
-
-
-            const Text(
-
-              "Filters",
-
-              style: TextStyle(
-
-                color: Colors.white,
-
-                fontSize:16,
-
-                fontWeight:
-                    FontWeight.bold,
-
-              ),
-
-            ),
-
-
-          ],
-
-
-        ),
-
-
+    final l10n = AppLocalizations.of(context)!;
+    return OutlinedButton.icon(
+      onPressed: onTap,
+      icon: const Icon(Icons.filter_alt, color: Color(0xFFD4AF37)),
+      label: Text(l10n.filtersTitle),
+      style: OutlinedButton.styleFrom(
+        minimumSize: const Size.fromHeight(45),
+        foregroundColor: Colors.white,
+        side: const BorderSide(color: Color(0xFF0066FF)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       ),
-
-
     );
-
-
   }
-
-
 }

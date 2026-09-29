@@ -68,12 +68,17 @@ class HttpSingleCameraAnalysisService implements SingleCameraAnalysisService {
       );
     } catch (error) {
       throw SingleCameraAnalysisException(
-        'The AI Engine could not be reached: $error',
+        'The AI Engine could not be reached at $_endpoint: $error',
       );
     }
   }
 
   String _errorMessage(http.Response response) {
+    if (response.statusCode == 404) {
+      return 'The single-camera endpoint was not found (HTTP 404). '
+          'Check the AI Engine version and JUDO_MIND_AI_BASE_URL.';
+    }
+
     try {
       final decoded = jsonDecode(response.body);
       if (decoded is Map<String, dynamic>) {

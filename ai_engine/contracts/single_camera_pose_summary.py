@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 from enum import Enum
+import math
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 class AnalysisProvenance(str, Enum):
@@ -48,6 +49,43 @@ class PoseCoverageSummary(BaseModel):
         AnalysisProvenance.MODEL_ESTIMATED
     )
     confidence_available: Literal[False] = False
+
+    @model_validator(mode="after")
+    def validate_coverage_consistency(self) -> "PoseCoverageSummary":
+        if self.frames_with_at_least_one_pose > self.analyzed_frame_count:
+            raise ValueError("Pose frames cannot exceed analyzed frames.")
+
+        if self.frames_with_two_poses > self.frames_with_at_least_one_pose:
+            raise ValueError("Two-pose frames cannot exceed one-pose frames.")
+
+        expected_one_rate = (
+            self.frames_with_at_least_one_pose / self.analyzed_frame_count
+            if self.analyzed_frame_count
+            else 0.0
+        )
+        expected_two_rate = (
+            self.frames_with_two_poses / self.analyzed_frame_count
+            if self.analyzed_frame_count
+            else 0.0
+        )
+
+        if not math.isclose(
+            self.at_least_one_pose_rate,
+            expected_one_rate,
+            rel_tol=1e-9,
+            abs_tol=1e-9,
+        ):
+            raise ValueError("At-least-one pose rate does not match counts.")
+
+        if not math.isclose(
+            self.two_pose_rate,
+            expected_two_rate,
+            rel_tol=1e-9,
+            abs_tol=1e-9,
+        ):
+            raise ValueError("Two-pose rate does not match counts.")
+
+        return self
 
 
 class SingleCameraCapabilities(BaseModel):

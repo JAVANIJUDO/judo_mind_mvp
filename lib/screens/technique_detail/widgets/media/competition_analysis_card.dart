@@ -5,62 +5,70 @@ import '../../../../models/technique_media_item.dart';
 
 class CompetitionAnalysisCard extends StatelessWidget {
   final TechniqueMediaItem item;
+  final VoidCallback? onTap;
 
-  const CompetitionAnalysisCard({super.key, required this.item});
+  const CompetitionAnalysisCard({
+    super.key,
+    required this.item,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: JudoSpacing.md),
-
-      padding: const EdgeInsets.all(JudoSpacing.md),
-
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.04),
-
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
         borderRadius: BorderRadius.circular(20),
+        child: Ink(
+          padding: const EdgeInsets.all(JudoSpacing.md),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.04),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.blue.withValues(alpha: 0.35)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
 
-        border: Border.all(color: Colors.blue.withValues(alpha: 0.35)),
-      ),
-
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-
-        children: [
-          Row(
             children: [
-              const Icon(Icons.emoji_events_outlined, color: Colors.blue),
+              Row(
+                children: [
+                  const Icon(Icons.emoji_events_outlined, color: Colors.blue),
 
-              const SizedBox(width: 10),
+                  const SizedBox(width: 10),
 
-              Expanded(
-                child: Text(
-                  item.title,
+                  Expanded(
+                    child: Text(
+                      item.title,
 
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
+
+              const SizedBox(height: 12),
+
+              if (item.hasValidMedia) ...[
+                if (item.athleteName != null)
+                  _InfoRow(title: 'Athlete', value: item.athleteName!),
+                if (item.competitionName != null)
+                  _InfoRow(title: 'Competition', value: item.competitionName!),
+                if (item.competitionYear != null)
+                  _InfoRow(
+                    title: 'Year',
+                    value: item.competitionYear.toString(),
+                  ),
+                if (item.scoreResult != null)
+                  _InfoRow(title: 'Result', value: item.scoreResult!),
+              ],
             ],
           ),
-
-          const SizedBox(height: 12),
-
-          if (item.athleteName != null)
-            _InfoRow(title: 'Athlete', value: item.athleteName!),
-
-          if (item.competitionName != null)
-            _InfoRow(title: 'Competition', value: item.competitionName!),
-
-          if (item.competitionYear != null)
-            _InfoRow(title: 'Year', value: item.competitionYear.toString()),
-
-          if (item.scoreResult != null)
-            _InfoRow(title: 'Result', value: item.scoreResult!),
-        ],
+        ),
       ),
     );
   }

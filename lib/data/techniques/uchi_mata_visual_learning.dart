@@ -30,6 +30,7 @@ uchiMataVisualLearningPlan = TechniqueVisualLearningPlan(
       description:
           'Understand the complete throw by viewing footwork, grip control and biomechanical force as synchronized visual layers.',
       learningType: TechniqueVisualLearningType.technicalExecution,
+      rendererType: TechniqueVisualRendererType.uchiMataThreeLayer,
       durationMilliseconds: 6000,
       layers: [
         TechniqueVisualLayer(
@@ -85,10 +86,11 @@ uchiMataVisualLearningPlan = TechniqueVisualLearningPlan(
     // -----------------------------------------------------------
     TechniqueVisualSequence(
       id: 'uchi_mata_biomechanics',
-      title: 'Uchi Mata Biomechanics',
+      title: 'Uchi Mata movement visualization',
       description:
-          'Explore posture, force direction and center-of-gravity movement throughout the throw.',
+          'Explore posture, illustrative direction, balance and body-position concepts throughout the throw.',
       learningType: TechniqueVisualLearningType.biomechanics,
+      rendererType: TechniqueVisualRendererType.uchiMataThreeLayer,
       durationMilliseconds: 6500,
       layers: [
         TechniqueVisualLayer(
@@ -123,21 +125,21 @@ uchiMataVisualLearningPlan = TechniqueVisualLearningPlan(
         ),
         TechniqueVisualLayer(
           id: 'uchi_mata_biomechanics_force',
-          title: 'Force & Center of Gravity',
+          title: 'Illustrative Direction & Balance',
           shortInstruction:
-              'Observe the upward lifting force, forward kuzushi and circular finishing force.',
+              'Observe the illustrated upward, forward and circular movement directions.',
           type: TechniqueVisualLayerType.biomechanics,
           color: TechniqueVisualLayerColor.green,
           mediaType: TechniqueVisualMediaType.customPainter,
           coachingCues: [
             'Move the opponent outside the support base',
-            'Direct force upward before rotation',
+            'Follow the illustrated upward direction before rotation',
             'Maintain balance over the supporting leg',
           ],
           highlightedBodyParts: [
-            'Center of gravity',
+            'Body-position concept',
             'Support base',
-            'Force direction',
+            'Illustrative direction',
           ],
         ),
       ],
@@ -152,6 +154,7 @@ uchiMataVisualLearningPlan = TechniqueVisualLearningPlan(
       description:
           'Practice the complete movement pattern without a partner by following the three synchronized layers.',
       learningType: TechniqueVisualLearningType.shadowTraining,
+      rendererType: TechniqueVisualRendererType.uchiMataThreeLayer,
       durationMilliseconds: 5000,
       layers: [
         TechniqueVisualLayer(
@@ -211,6 +214,7 @@ uchiMataVisualLearningPlan = TechniqueVisualLearningPlan(
       description:
           'Understand the movement, muscular control and force requirements of technique-specific conditioning.',
       learningType: TechniqueVisualLearningType.strengthConditioning,
+      rendererType: TechniqueVisualRendererType.uchiMataThreeLayer,
       durationMilliseconds: 5500,
       layers: [
         TechniqueVisualLayer(

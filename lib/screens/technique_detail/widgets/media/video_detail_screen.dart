@@ -1,6 +1,5 @@
 import 'video_player_widget.dart';
 import 'package:flutter/material.dart';
-import 'video_player_placeholder.dart';
 import '../../../../core/media/media_label_resolver.dart';
 import '../../../../core/theme/judo_design_tokens.dart';
 import '../../../../core/theme/judo_typography.dart';
@@ -16,10 +15,7 @@ import '../../../../models/technique_media_item.dart';
 class VideoDetailScreen extends StatelessWidget {
   final TechniqueMediaItem item;
 
-  const VideoDetailScreen({
-    super.key,
-    required this.item,
-  });
+  const VideoDetailScreen({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +29,7 @@ class VideoDetailScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: JudoColors.background,
         foregroundColor: Colors.white,
-        title: Text(
-          'Video Detail',
-          style: JudoTypography.titleLarge,
-        ),
+        title: Text('Video Detail', style: JudoTypography.titleLarge),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -49,15 +42,10 @@ class VideoDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-VideoPlayerWidget(
-  item: item,
-),
+              VideoPlayerWidget(item: item),
               const SizedBox(height: JudoSpacing.lg),
 
-              Text(
-                displayTitle,
-                style: JudoTypography.titleLarge,
-              ),
+              Text(displayTitle, style: JudoTypography.titleLarge),
 
               const SizedBox(height: JudoSpacing.sm),
 
@@ -171,12 +159,8 @@ VideoPlayerWidget(
                   onPressed: () {
                     _showPlayerMessage(context);
                   },
-                  icon: const Icon(
-                    Icons.play_arrow_rounded,
-                  ),
-                  label: const Text(
-                    'Play Video',
-                  ),
+                  icon: const Icon(Icons.play_arrow_rounded),
+                  label: const Text('Play Video'),
                   style: FilledButton.styleFrom(
                     backgroundColor: JudoColors.primary,
                     foregroundColor: Colors.white,
@@ -184,42 +168,7 @@ VideoPlayerWidget(
                       vertical: JudoSpacing.md,
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        JudoRadius.md,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: JudoSpacing.md),
-
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  onPressed: () {
-                    _showAnalysisMessage(context);
-                  },
-                  icon: const Icon(
-                    Icons.psychology_alt_rounded,
-                  ),
-                  label: const Text(
-                    'Analyze with Sensi Bot',
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: JudoColors.gold,
-                    side: BorderSide(
-                      color: JudoColors.gold.withValues(
-                        alpha: 0.55,
-                      ),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: JudoSpacing.md,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        JudoRadius.md,
-                      ),
+                      borderRadius: BorderRadius.circular(JudoRadius.md),
                     ),
                   ),
                 ),
@@ -231,9 +180,7 @@ VideoPlayerWidget(
     );
   }
 
-  bool _hasCompetitionInformation(
-    TechniqueMediaItem mediaItem,
-  ) {
+  bool _hasCompetitionInformation(TechniqueMediaItem mediaItem) {
     return (mediaItem.athleteName?.trim().isNotEmpty ?? false) ||
         (mediaItem.opponentName?.trim().isNotEmpty ?? false) ||
         (mediaItem.competitionName?.trim().isNotEmpty ?? false) ||
@@ -256,136 +203,6 @@ VideoPlayerWidget(
         ),
       );
   }
-
-  void _showAnalysisMessage(BuildContext context) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Sensi Bot video analysis will be connected in a later stage.',
-          ),
-        ),
-      );
-  }
-}
-
-class _VideoPreview extends StatelessWidget {
-  final TechniqueMediaItem item;
-
-  const _VideoPreview({
-    required this.item,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final thumbnail = item.thumbnailUrl.trim();
-
-    return AspectRatio(
-      aspectRatio: 16 / 9,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(
-          JudoRadius.lg,
-        ),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            _buildThumbnail(thumbnail),
-
-            Container(
-              color: Colors.black.withValues(
-                alpha: 0.28,
-              ),
-            ),
-
-            Center(
-              child: Container(
-                width: 72,
-                height: 72,
-                decoration: BoxDecoration(
-                  color: JudoColors.primary.withValues(
-                    alpha: 0.92,
-                  ),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.play_arrow_rounded,
-                  size: 46,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-
-            if (item.formattedDuration.isNotEmpty)
-              Positioned(
-                right: JudoSpacing.sm,
-                bottom: JudoSpacing.sm,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: JudoSpacing.sm,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(
-                      alpha: 0.75,
-                    ),
-                    borderRadius: BorderRadius.circular(
-                      JudoRadius.sm,
-                    ),
-                  ),
-                  child: Text(
-                    item.formattedDuration,
-                    style: JudoTypography.labelSmall.copyWith(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildThumbnail(String thumbnail) {
-    if (thumbnail.isEmpty) {
-      return _fallback();
-    }
-
-    final uri = Uri.tryParse(thumbnail);
-    final isRemote =
-        uri != null && (uri.scheme == 'https' || uri.scheme == 'http');
-
-    if (isRemote) {
-      return Image.network(
-        thumbnail,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
-          return _fallback();
-        },
-      );
-    }
-
-    return Image.asset(
-      thumbnail,
-      fit: BoxFit.cover,
-      errorBuilder: (context, error, stackTrace) {
-        return _fallback();
-      },
-    );
-  }
-
-  Widget _fallback() {
-    return Container(
-      color: JudoColors.surface,
-      alignment: Alignment.center,
-      child: const Icon(
-        Icons.sports_martial_arts_rounded,
-        color: JudoColors.gold,
-        size: 68,
-      ),
-    );
-  }
 }
 
 class _InfoBadge extends StatelessWidget {
@@ -407,33 +224,16 @@ class _InfoBadge extends StatelessWidget {
         vertical: 7,
       ),
       decoration: BoxDecoration(
-        color: color.withValues(
-          alpha: 0.12,
-        ),
-        borderRadius: BorderRadius.circular(
-          JudoRadius.md,
-        ),
-        border: Border.all(
-          color: color.withValues(
-            alpha: 0.35,
-          ),
-        ),
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(JudoRadius.md),
+        border: Border.all(color: color.withValues(alpha: 0.35)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            size: 16,
-            color: color,
-          ),
+          Icon(icon, size: 16, color: color),
           const SizedBox(width: 6),
-          Text(
-            label,
-            style: JudoTypography.labelSmall.copyWith(
-              color: color,
-            ),
-          ),
+          Text(label, style: JudoTypography.labelSmall.copyWith(color: color)),
         ],
       ),
     );
@@ -455,35 +255,20 @@ class _SectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(
-        JudoSpacing.md,
-      ),
+      padding: const EdgeInsets.all(JudoSpacing.md),
       decoration: BoxDecoration(
         color: JudoColors.surface,
-        borderRadius: BorderRadius.circular(
-          JudoRadius.lg,
-        ),
-        border: Border.all(
-          color: Colors.white.withValues(
-            alpha: 0.08,
-          ),
-        ),
+        borderRadius: BorderRadius.circular(JudoRadius.lg),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(
-                icon,
-                size: 20,
-                color: JudoColors.primary,
-              ),
+              Icon(icon, size: 20, color: JudoColors.primary),
               const SizedBox(width: JudoSpacing.sm),
-              Text(
-                title,
-                style: JudoTypography.titleSmall,
-              ),
+              Text(title, style: JudoTypography.titleSmall),
             ],
           ),
           const SizedBox(height: JudoSpacing.md),
@@ -508,9 +293,7 @@ class _DetailRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: isLast ? 0 : JudoSpacing.sm,
-      ),
+      padding: EdgeInsets.only(bottom: isLast ? 0 : JudoSpacing.sm),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -518,9 +301,7 @@ class _DetailRow extends StatelessWidget {
             width: 100,
             child: Text(
               label,
-              style: JudoTypography.bodySmall.copyWith(
-                color: Colors.white60,
-              ),
+              style: JudoTypography.bodySmall.copyWith(color: Colors.white60),
             ),
           ),
           Expanded(

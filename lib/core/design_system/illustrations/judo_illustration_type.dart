@@ -1,13 +1,13 @@
-/// =============================================================
-/// Judo Mind Design System
-/// Illustration Type Registry
-///
-/// Version: 1.0.0
-///
-/// Every approved Judo Mind illustration must have a semantic type.
-/// Feature widgets must reference this registry instead of directly
-/// referencing asset paths.
-/// =============================================================
+// =============================================================
+// Judo Mind Design System
+// Illustration Type Registry
+//
+// Version: 1.0.0
+//
+// Every approved Judo Mind illustration must have a semantic type.
+// Feature widgets must reference this registry instead of directly
+// referencing asset paths.
+// =============================================================
 
 enum JudoIllustrationType {
   sensiBot,

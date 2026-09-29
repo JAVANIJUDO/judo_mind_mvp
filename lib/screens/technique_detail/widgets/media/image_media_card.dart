@@ -6,7 +6,7 @@ import '../../../../models/technique_media_item.dart';
 
 class ImageMediaCard extends StatelessWidget {
   final TechniqueMediaItem item;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   const ImageMediaCard({super.key, required this.item, required this.onTap});
 
@@ -53,61 +53,51 @@ class ImageMediaCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-  MediaLabelResolver.title(item),
+                      MediaLabelResolver.title(item),
 
-  maxLines: 1,
+                      maxLines: 1,
 
-  overflow: TextOverflow.ellipsis,
+                      overflow: TextOverflow.ellipsis,
 
-  style: JudoTypography.titleSmall,
-),
+                      style: JudoTypography.titleSmall,
+                    ),
 
-const SizedBox(
-  height: JudoSpacing.xs,
-),
+                    const SizedBox(height: JudoSpacing.xs),
 
-Text(
-  MediaLabelResolver.category(item),
+                    Text(
+                      MediaLabelResolver.category(item),
 
-  style: JudoTypography.bodySmall.copyWith(
-    color: JudoColors.primary,
-  ),
-),
+                      style: JudoTypography.bodySmall.copyWith(
+                        color: JudoColors.primary,
+                      ),
+                    ),
 
-const SizedBox(
-  height: JudoSpacing.xs,
-),
+                    const SizedBox(height: JudoSpacing.xs),
 
-Row(
-  children: [
+                    Row(
+                      children: [
+                        if (item.isVerified)
+                          const Icon(
+                            Icons.verified,
+                            size: 15,
+                            color: JudoColors.gold,
+                          ),
 
-    if (item.isVerified)
-      const Icon(
-        Icons.verified,
-        size: 15,
-        color: JudoColors.gold,
-      ),
+                        if (item.isVerified) const SizedBox(width: 5),
 
-    if (item.isVerified)
-      const SizedBox(
-        width: 5,
-      ),
-
-    Text(
-      item.level,
-      style: JudoTypography.labelSmall,
-    ),
-  ],
-),
+                        Text(item.level, style: JudoTypography.labelSmall),
+                      ],
+                    ),
                   ],
                 ),
               ),
 
-              const Icon(
-                Icons.zoom_in_rounded,
-                color: JudoColors.primary,
-                size: 24,
-              ),
+              if (onTap != null)
+                const Icon(
+                  Icons.zoom_in_rounded,
+                  color: JudoColors.primary,
+                  size: 24,
+                ),
             ],
           ),
         ),

@@ -5,78 +5,79 @@ import '../../../../models/technique_media_item.dart';
 
 class TopExecutionCard extends StatelessWidget {
   final TechniqueMediaItem item;
+  final VoidCallback? onTap;
 
-  const TopExecutionCard({super.key, required this.item});
+  const TopExecutionCard({super.key, required this.item, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: JudoSpacing.md),
-
-      padding: const EdgeInsets.all(JudoSpacing.md),
-
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.04),
-
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
         borderRadius: BorderRadius.circular(20),
-
-        border: Border.all(color: Colors.amber.withValues(alpha: 0.45)),
-      ),
-
-      child: Row(
-        children: [
-          Container(
-            width: 48,
-
-            height: 48,
-
-            decoration: BoxDecoration(
-              color: Colors.amber.withValues(alpha: 0.15),
-
-              borderRadius: BorderRadius.circular(14),
-            ),
-
-            child: const Icon(Icons.emoji_events, color: Colors.amber),
+        child: Ink(
+          padding: const EdgeInsets.all(JudoSpacing.md),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.04),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.amber.withValues(alpha: 0.45)),
           ),
+          child: Row(
+            children: [
+              Container(
+                width: 48,
 
-          const SizedBox(width: 14),
+                height: 48,
 
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+                decoration: BoxDecoration(
+                  color: Colors.amber.withValues(alpha: 0.15),
 
-              children: [
-                Text(
-                  item.title,
-
-                  style: const TextStyle(
-                    color: Colors.white,
-
-                    fontWeight: FontWeight.bold,
-
-                    fontSize: 16,
-                  ),
+                  borderRadius: BorderRadius.circular(14),
                 ),
 
-                const SizedBox(height: 6),
+                child: const Icon(Icons.emoji_events, color: Colors.amber),
+              ),
 
-                if (item.athleteName != null)
-                  Text(
-                    item.athleteName!,
+              const SizedBox(width: 14),
 
-                    style: const TextStyle(color: Colors.white70),
-                  ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
 
-                if (item.competitionName != null)
-                  Text(
-                    item.competitionName!,
+                  children: [
+                    Text(
+                      item.title,
 
-                    style: const TextStyle(color: Colors.amber),
-                  ),
-              ],
-            ),
+                      style: const TextStyle(
+                        color: Colors.white,
+
+                        fontWeight: FontWeight.bold,
+
+                        fontSize: 16,
+                      ),
+                    ),
+
+                    const SizedBox(height: 6),
+
+                    if (item.hasValidMedia) ...[
+                      if (item.athleteName != null)
+                        Text(
+                          item.athleteName!,
+                          style: const TextStyle(color: Colors.white70),
+                        ),
+                      if (item.competitionName != null)
+                        Text(
+                          item.competitionName!,
+                          style: const TextStyle(color: Colors.amber),
+                        ),
+                    ],
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

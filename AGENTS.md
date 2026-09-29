@@ -2,8 +2,10 @@
 
 ## Mandatory Reference Review
 
-Before analyzing, planning, implementing, or modifying any part of the project, read:
+Before analyzing, planning, implementing, or modifying any part of the project,
+read each of these documents completely:
 
+- `docs/JUDO_MIND_PRODUCT_FRAMEWORK.md`
 - `docs/AI_DEVELOPMENT_RULES.md`
 - `docs/PROJECT_STATUS.md`
 - `docs/CHANGELOG.md`
@@ -11,6 +13,16 @@ Before analyzing, planning, implementing, or modifying any part of the project, 
 - `docs/DECISION_LOG.md`
 
 Treat these documents as the approved source for the current project stage, architecture, development rules, and recorded decisions. Do not guess missing structure, create duplicate architecture, or replace approved decisions without review.
+
+The responsibility hierarchy is:
+
+- `docs/JUDO_MIND_PRODUCT_FRAMEWORK.md` governs approved product intent.
+- The canonical code registry governs runtime module identity and availability.
+- `docs/ARCHITECTURE.md` governs technical structure.
+- `docs/AI_DEVELOPMENT_RULES.md` governs implementation and scientific rules.
+- `docs/DECISION_LOG.md` governs accepted decisions.
+- `docs/PROJECT_STATUS.md` governs validated current state.
+- `docs/CHANGELOG.md` records completed changes.
 
 ## Existing Work and Change Safety
 
@@ -35,25 +47,32 @@ A development task is complete only when implementation, validation, and the req
 
 ## Product and Current Development Baseline
 
-Judo Mind is a global digital Judo ecosystem composed of 17 official modules:
+Judo Mind is a global digital Judo ecosystem composed of 18 official modules:
 
 1. Home
-2. Techniques
+2. Techniques — 67 Techniques
 3. Sensi Bot
 4. Sensi Bet
-5. Monitoring
-6. Judo Cast
+5. Monitoring / Progress & Mastery
+6. AudioCast
 7. Athlete Profile
 8. Training Center
 9. Champions Hub
 10. Competitions & Challenges
 11. News
-12. Store & Subscription
-13. Club Management
+12. Store & Subscriptions
+13. Club Administration
 14. Coach Forum
 15. Online Courses
 16. Country Judo History
-17. Administration & System Settings
+17. App Management & Settings
+18. Training Program Validator
+
+The modules are distributed across Athlete App, Coach Workspace,
+Club/Federation Console and Judo Intelligence Core. They are not required to
+appear as 18 equal Home tiles. Technique Analysis (one attempt), Training/Drill
+Analysis (multiple repetitions) and Competition Analysis (full match) are
+shared analysis capabilities, not additional top-level modules.
 
 The current development stage is Uchi Mata Reference Completion plus the Scientific AI Biomechanics Foundation. Uchi Mata is the official reference technique; future official techniques must follow its approved scalable architecture.
 
@@ -78,3 +97,42 @@ Never mix or misrepresent these data classifications:
 Never present an estimated physical quantity as a direct measurement. Where technically relevant, biomechanical results must identify confidence, data source, analysis method, quality classification, and limitations.
 
 Single-video analysis is estimated. Multi-view results require synchronized and calibrated cameras, cross-camera athlete identity, 3D reconstruction, and quality validation before OpenSim-based biomechanical use.
+
+## Localization Completeness
+
+- A completed Persian experience must keep user-facing UI, approved content,
+  errors, safety, Quiz, Sources and analysis presentation in Persian; the same
+  rule applies to English when English is selected.
+- Japanese technique names may remain Japanese beside the selected-language
+  explanation.
+- RTL includes layout, navigation direction, directional icons, charts and
+  interaction order, not text alignment alone.
+- Missing translation must remain explicitly unavailable/incomplete rather
+  than silently appearing as completed localized content.
+
+## ChatGPT/Codex Credit-Aware Execution
+
+- Treat remaining ChatGPT/Codex credit as a planning constraint, never as
+  permission to weaken scientific, safety, validation or Git rules.
+- Prefer one complete bounded vertical slice over several partial starts.
+- Read once, inspect with targeted searches, implement the coherent block and
+  then run one proportionate validation batch. Do not repeat validated work.
+- When credit is low, prioritize the smallest truthful acceptance boundary and
+  an exact recoverable state. Never invent completion because credit is ending.
+- Ask only when a missing decision materially changes outcome, authority,
+  scientific validity or safety; otherwise use repository-supported evidence.
+
+## Evidence-Driven Cross-Platform Engineering
+
+- Flutter/Dart remains the primary shared client technology for Android, iOS
+  and Windows; Python remains appropriate for AI, video analysis and
+  scientific computation.
+- Introduce Kotlin/Java, Swift/Objective-C, C#/WinRT or C++/Rust only for a
+  documented platform or performance requirement with measurable benefit,
+  security implications, Build/test method and maintenance ownership.
+- Audit packages for every target platform and place OS-dependent behavior
+  behind interfaces/adapters. Evidence from one platform does not validate
+  another; iOS requires a real macOS/Xcode Build and QA evidence.
+- More languages do not imply higher quality, and rewriting the Flutter client
+  without technical evidence is prohibited. Report current platform evidence
+  honestly. See JM-DEC-029.

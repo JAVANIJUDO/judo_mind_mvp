@@ -1,10 +1,17 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from threading import Lock
+import time
+from typing import Any, Callable
 
 import cv2
 import mediapipe as mp
+
+from ai_engine.video_sampling import (
+    VideoSamplingPlan,
+    build_video_sampling_plan,
+)
 
 
 class JudoPoseEngine:
@@ -43,10 +50,14 @@ class JudoPoseEngine:
             output_segmentation_masks=False,
         )
 
-        self._landmarker = (
-            mp.tasks.vision.PoseLandmarker.create_from_options(
-                options
-            )
+        self._landmarker_options = options
+        self._landmarker = self._create_landmarker()
+        self._analysis_lock = Lock()
+        self._next_landmarker_timestamp_ms = 0
+
+    def _create_landmarker(self):
+        return mp.tasks.vision.PoseLandmarker.create_from_options(
+            self._landmarker_options
         )
 
     def close(self) -> None:
@@ -56,6 +67,11 @@ class JudoPoseEngine:
         self,
         video_path: str | Path,
         target_fps: float = 10.0,
+        *,
+        sampling_plan: VideoSamplingPlan | None = None,
+        before_sample: Callable[[], None] | None = None,
+        after_sample: Callable[[int, int, int], None] | None = None,
+        isolate_video_context: bool = False,
     ) -> dict[str, Any]:
         path = Path(video_path)
 
@@ -102,12 +118,29 @@ class JudoPoseEngine:
             else 0.0
         )
 
-        sample_stride = max(
-            1,
-            round(
-                source_fps
-                / max(target_fps, 1.0)
-            ),
+        if sampling_plan is None:
+            sampling_plan = build_video_sampling_plan(
+                source_fps=source_fps,
+                target_fps=target_fps,
+                frame_count=frame_count,
+            )
+        elif (
+            sampling_plan.frame_count != frame_count
+            or abs(sampling_plan.source_fps - source_fps) > 1e-6
+        ):
+            raise ValueError(
+                "Sampling plan metadata does not match the opened video."
+            )
+        sampled_frame_indices = set(
+            sampling_plan.frame_indices
+        )
+        source_timestamp_by_frame = dict(zip(
+            sampling_plan.frame_indices,
+            sampling_plan.timestamps_ms,
+        ))
+        last_sampled_frame_index = max(
+            sampling_plan.frame_indices,
+            default=-1,
         )
 
         analyzed_frames: list[
@@ -115,26 +148,60 @@ class JudoPoseEngine:
         ] = []
 
         frame_index = 0
+        decode_seconds = 0.0
+        preprocessing_seconds = 0.0
+        inference_seconds = 0.0
+        postprocessing_seconds = 0.0
+        analysis_lock = getattr(
+            self,
+            "_analysis_lock",
+            None,
+        )
+
+        if analysis_lock is None:
+            analysis_lock = Lock()
+            self._analysis_lock = analysis_lock
+
+        analysis_lock.acquire()
+        active_landmarker = self._landmarker
+        isolated_landmarker = None
+        landmarker_timestamp_offset_ms = 0
+        last_landmarker_timestamp_ms = -1
 
         try:
-            while True:
+            if isolate_video_context:
+                isolated_landmarker = self._create_landmarker()
+                active_landmarker = isolated_landmarker
+            else:
+                landmarker_timestamp_offset_ms = getattr(
+                    self,
+                    "_next_landmarker_timestamp_ms",
+                    0,
+                )
+                last_landmarker_timestamp_ms = (
+                    landmarker_timestamp_offset_ms - 1
+                )
+            while frame_index <= last_sampled_frame_index:
+                decode_started = time.perf_counter()
                 success, frame = capture.read()
+                decode_seconds += time.perf_counter() - decode_started
 
                 if not success:
                     break
 
-                if frame_index % sample_stride != 0:
+                if frame_index not in sampled_frame_indices:
                     frame_index += 1
                     continue
 
-                timestamp_ms = int(
-                    (
-                        frame_index
-                        / source_fps
-                    )
-                    * 1000
+                timestamp_ms = source_timestamp_by_frame[frame_index]
+                landmarker_timestamp_ms = (
+                    landmarker_timestamp_offset_ms + timestamp_ms
                 )
 
+                if before_sample is not None:
+                    before_sample()
+
+                preprocessing_started = time.perf_counter()
                 rgb_frame = cv2.cvtColor(
                     frame,
                     cv2.COLOR_BGR2RGB,
@@ -144,14 +211,21 @@ class JudoPoseEngine:
                     image_format=mp.ImageFormat.SRGB,
                     data=rgb_frame,
                 )
-
-                result = (
-                    self._landmarker.detect_for_video(
-                        mp_image,
-                        timestamp_ms,
-                    )
+                preprocessing_seconds += (
+                    time.perf_counter() - preprocessing_started
                 )
 
+                inference_started = time.perf_counter()
+                result = (
+                    active_landmarker.detect_for_video(
+                        mp_image,
+                        landmarker_timestamp_ms,
+                    )
+                )
+                inference_seconds += time.perf_counter() - inference_started
+                last_landmarker_timestamp_ms = landmarker_timestamp_ms
+
+                postprocessing_started = time.perf_counter()
                 poses = []
 
                 for pose_index, landmarks in enumerate(
@@ -216,10 +290,27 @@ class JudoPoseEngine:
                         "poses": poses,
                     }
                 )
+                postprocessing_seconds += (
+                    time.perf_counter() - postprocessing_started
+                )
+
+                if after_sample is not None:
+                    after_sample(frame_index, timestamp_ms, len(poses))
 
                 frame_index += 1
 
         finally:
+            try:
+                if isolate_video_context:
+                    if isolated_landmarker is not None:
+                        isolated_landmarker.close()
+                else:
+                    self._next_landmarker_timestamp_ms = max(
+                        landmarker_timestamp_offset_ms,
+                        last_landmarker_timestamp_ms + 1,
+                    )
+            finally:
+                analysis_lock.release()
             capture.release()
 
         frames_with_two_poses = sum(
@@ -238,6 +329,12 @@ class JudoPoseEngine:
             analyzed_frames
         )
 
+        effective_analyzed_fps = (
+            analyzed_count / duration_seconds
+            if duration_seconds > 0
+            else 0.0
+        )
+
         return {
             "video": {
                 "path": str(path),
@@ -249,8 +346,16 @@ class JudoPoseEngine:
             },
             "analysis": {
                 "target_fps": target_fps,
-                "sample_stride": sample_stride,
+                "sampling_strategy": (
+                    sampling_plan.strategy
+                ),
+                "nominal_sample_interval_frames": (
+                    sampling_plan.nominal_interval_frames
+                ),
                 "analyzed_frame_count": analyzed_count,
+                "effective_analyzed_fps": (
+                    effective_analyzed_fps
+                ),
                 "frames_with_pose": frames_with_pose,
                 "frames_with_two_poses": (
                     frames_with_two_poses
@@ -265,8 +370,14 @@ class JudoPoseEngine:
                     frames_with_two_poses
                     / analyzed_count
                     if analyzed_count
-                    else 0.0
+                        else 0.0
                 ),
+                "stage_timings_seconds": {
+                    "decode": decode_seconds,
+                    "preprocessing": preprocessing_seconds,
+                    "inference": inference_seconds,
+                    "postprocessing": postprocessing_seconds,
+                },
             },
             "frames": analyzed_frames,
         }

@@ -4,12 +4,12 @@ import '../../screens/home/home_screen.dart';
 import '../../screens/techniques/techniques_screen.dart';
 import '../../screens/splash/splash_screen.dart';
 import '../../screens/settings/settings_screen.dart';
-
-
+import '../../screens/profile/athlete_profile_screen.dart';
+import '../../screens/profile/local_analysis_history_screen.dart';
+import '../../screens/progress/progress_overview_screen.dart';
+import '../../screens/club/club_administration_screen.dart';
 
 class AppRoutes {
-
-
   static const String splash = "/";
 
   static const String home = "/home";
@@ -18,24 +18,29 @@ class AppRoutes {
 
   static const String settings = "/settings";
 
+  static const String profile = "/profile";
 
+  static const String localAnalysisHistory = "/local-analysis-history";
+
+  static const String progressOverview = "/progress-overview";
+
+  static const String clubAdministration = "/club-administration";
 
   static Map<String, WidgetBuilder> routes = {
+    splash: (context) => const SplashScreen(),
 
+    home: (context) => const HomeScreen(),
 
-  splash: (context) => const SplashScreen(),
+    techniques: (context) => const TechniquesScreen(),
 
+    settings: (context) => const SettingsScreen(),
 
-  home: (context) => const HomeScreen(),
+    profile: (context) => const AthleteProfileScreen(),
 
+    localAnalysisHistory: (context) => const LocalAnalysisHistoryScreen(),
 
-  techniques: (context) => const TechniquesScreen(),
+    progressOverview: (context) => const ProgressOverviewScreen(),
 
-
-  settings: (context) => const SettingsScreen(),
-
-
-};
-
-
+    clubAdministration: (context) => const ClubAdministrationScreen(),
+  };
 }

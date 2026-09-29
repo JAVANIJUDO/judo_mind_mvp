@@ -81,32 +81,61 @@ const TechniqueModel uchiMata = TechniqueModel(
           "اجرای صحیح اوچی ماتا نیازمند کازوشی، ورود مناسب، کنترل گیری و زمان‌بندی دقیق است.",
 
       executionSteps: [
-        "برهم زدن تعادل حریف به سمت جلو",
+        "با برهم‌زدن تعادل حریف به جلو، کوزوشی ایجاد کنید",
 
-        "ورود نزدیک با وضعیت صحیح بدن",
+        "با حالت بدنی و فاصله صحیح، نزدیک وارد شوید",
 
-        "بلند کردن حریف با داخل ران",
+        "پای حمله‌کننده را در بخش داخلی ران حریف جای دهید",
 
-        "چرخش و تکمیل پرتاب",
+        "حریف را با حرکتی پیوسته بلند کنید و بچرخانید",
+
+        "پرتاب را با حفظ کنترل کامل کنید",
       ],
 
       keyPoints: [
         "کنترل قوی آستین و یقه",
 
-        "زاویه صحیح ورود",
+        "جای‌گیری صحیح بدن",
 
-        "زمان‌بندی مناسب",
+        "عمل بلندکردن انفجاری",
+
+        "زمان‌بندی دقیق",
+
+        "چرخش پیوسته",
       ],
 
       commonMistakes: [
-        "اجرای فن بدون کازوشی",
+        "تلاش برای پرتاب بدون کوزوشی",
 
-        "فاصله نامناسب",
+        "ورود از فاصله بیش‌ازحد دور",
 
-        "استفاده بیش از حد از قدرت",
+        "استفاده صرف از قدرت پا",
+
+        "کنترل ضعیف بالاتنه",
+
+        "توقف زودهنگام چرخش",
       ],
 
-      safetyTips: ["کنترل فرود حریف", "تمرین مرحله‌ای قبل از اجرای کامل"],
+      safetyTips: [
+        "کنترل فرود حریف",
+        "پرهیز از چرخش کنترل‌نشده",
+        "یادگیری حرکت به‌صورت تدریجی",
+        "تمرین صحیح اوکمی",
+      ],
+
+      combinations: [
+        "کو‌اوچی‌گاری → اوچی‌ماتا",
+        "او‌اوچی‌گاری → اوچی‌ماتا",
+        "ساسائه‌تسوریکومی‌آشی → اوچی‌ماتا",
+        "اوچی‌ماتا → نه‌وازا",
+      ],
+
+      counters: [
+        "اوچی‌ماتا سوکاشی",
+        "اوچی‌ماتا گائشی",
+        "مهار پای حمله‌کننده",
+        "دور کردن لگن از مسیر حمله",
+      ],
     ),
 
     TechniqueTranslation(
@@ -135,6 +164,10 @@ const TechniqueModel uchiMata = TechniqueModel(
       "https://www.youtube.com/results?search_query=Uchi+Mata+competition+analysis",
 
   visualLearningPlan: uchiMataVisualLearningPlan,
+
+  supportsReviewedSingleAttemptV2A: true,
+
+  supportsEducationalPracticeGuidance: true,
 
   executionSteps: [
     "Create kuzushi by breaking the opponent's balance forward.",
@@ -218,6 +251,20 @@ const TechniqueModel uchiMata = TechniqueModel(
       difficulty: "Beginner",
 
       points: 10,
+
+      translations: [
+        QuizTranslation(
+          languageCode: "fa",
+          question: "اوچی‌ماتا در کدام گروه قرار می‌گیرد؟",
+          options: [
+            "ته‌وازا (فنون دست)",
+            "آشی‌وازا (فنون پا)",
+            "سوتمی‌وازا (فنون فداشونده)",
+            "کانستسو‌وازا (فنون قفل مفصل)",
+          ],
+          explanation: "اوچی‌ماتا در گروه آشی‌وازا، یعنی فنون پا، قرار دارد.",
+        ),
+      ],
     ),
 
     QuizModel(
@@ -234,6 +281,15 @@ const TechniqueModel uchiMata = TechniqueModel(
       difficulty: "Beginner",
 
       points: 10,
+
+      translations: [
+        QuizTranslation(
+          languageCode: "fa",
+          question: "نام ژاپنی اوچی‌ماتا کدام است؟",
+          options: ["背負投", "内股", "大外刈", "払腰"],
+          explanation: "نام ژاپنی اوچی‌ماتا 内股 است.",
+        ),
+      ],
     ),
 
     QuizModel(
@@ -252,6 +308,15 @@ const TechniqueModel uchiMata = TechniqueModel(
       difficulty: "Intermediate",
 
       points: 10,
+
+      translations: [
+        QuizTranslation(
+          languageCode: "fa",
+          question: "کدام مرحله پیش از پرتاب، تعادل حریف را برهم می‌زند؟",
+          options: ["کاکه", "کوزوشی", "اوکِمی", "شیمه"],
+          explanation: "کوزوشی مرحله برهم‌زدن تعادل پیش از اجرای پرتاب است.",
+        ),
+      ],
     ),
 
     QuizModel(
@@ -269,6 +334,15 @@ const TechniqueModel uchiMata = TechniqueModel(
       difficulty: "Intermediate",
 
       points: 10,
+
+      translations: [
+        QuizTranslation(
+          languageCode: "fa",
+          question: "در اوچی‌ماتا کدام بخش بدن نقش اصلی را در بلندکردن دارد؟",
+          options: ["شانه", "داخل ران", "دست", "کف پا"],
+          explanation: "داخل ران، حرکت اصلی بلندکردن را انجام می‌دهد.",
+        ),
+      ],
     ),
 
     QuizModel(
@@ -285,6 +359,15 @@ const TechniqueModel uchiMata = TechniqueModel(
       difficulty: "Intermediate",
 
       points: 10,
+
+      translations: [
+        QuizTranslation(
+          languageCode: "fa",
+          question: "کدام تکنیک معمولاً با اوچی‌ماتا ترکیب می‌شود؟",
+          options: ["کوئوچی‌گاری", "جوجی‌گاتامه", "کساگاتامه", "توموئه‌ناگه"],
+          explanation: "کوئوچی‌گاری یکی از ترکیب‌های رایج اوچی‌ماتا است.",
+        ),
+      ],
     ),
 
     QuizModel(
@@ -309,6 +392,15 @@ const TechniqueModel uchiMata = TechniqueModel(
       difficulty: "Advanced",
 
       points: 15,
+
+      translations: [
+        QuizTranslation(
+          languageCode: "fa",
+          question: "کدام عامل برای اجرای موفق اوچی‌ماتا ضروری است؟",
+          options: ["فقط قدرت", "زمان‌بندی و کوزوشی", "حبس نفس", "حرکت آهسته"],
+          explanation: "زمان‌بندی و کوزوشی از پایه‌های اصلی اجرای تکنیک هستند.",
+        ),
+      ],
     ),
 
     QuizModel(
@@ -325,6 +417,15 @@ const TechniqueModel uchiMata = TechniqueModel(
       difficulty: "Beginner",
 
       points: 10,
+
+      translations: [
+        QuizTranslation(
+          languageCode: "fa",
+          question: "اوچی‌ماتا در کدام طبقه‌بندی اصلی کودوکان قرار دارد؟",
+          options: ["ناگه‌وازا", "کاتامه‌وازا", "آتِمی‌وازا", "کاپّو"],
+          explanation: "اوچی‌ماتا یک فن پرتابی در گروه ناگه‌وازا است.",
+        ),
+      ],
     ),
 
     QuizModel(
@@ -349,6 +450,20 @@ const TechniqueModel uchiMata = TechniqueModel(
       difficulty: "Advanced",
 
       points: 15,
+
+      translations: [
+        QuizTranslation(
+          languageCode: "fa",
+          question: "کدام مورد یک خطای رایج در اوچی‌ماتا است؟",
+          options: [
+            "کوزوشی درست",
+            "فاصله ورود درست",
+            "استفاده فقط از نیروی پا",
+            "کنترل درست گرفتن",
+          ],
+          explanation: "تکیه بر قدرت بدون زمان‌بندی، خطایی رایج است.",
+        ),
+      ],
     ),
 
     QuizModel(
@@ -365,6 +480,20 @@ const TechniqueModel uchiMata = TechniqueModel(
       difficulty: "Advanced",
 
       points: 15,
+
+      translations: [
+        QuizTranslation(
+          languageCode: "fa",
+          question: "کدام تکنیک یک ضدحمله شناخته‌شده برای اوچی‌ماتا است؟",
+          options: [
+            "اوچی‌ماتا سوکاشی",
+            "سئوی‌ناگه",
+            "اوسوتوگاری",
+            "تای‌اوتوشی",
+          ],
+          explanation: "اوچی‌ماتا سوکاشی یکی از ضدحمله‌های کلاسیک است.",
+        ),
+      ],
     ),
 
     QuizModel(
@@ -389,6 +518,20 @@ const TechniqueModel uchiMata = TechniqueModel(
       difficulty: "Elite",
 
       points: 20,
+
+      translations: [
+        QuizTranslation(
+          languageCode: "fa",
+          question: "سه مرحله کلاسیک اجرای پرتاب کدام‌اند؟",
+          options: [
+            "گرفتن، نگه‌داشتن، قفل‌کردن",
+            "کوزوشی، تسوکوری، کاکه",
+            "دویدن، پریدن، فرودآمدن",
+            "هل‌دادن، کشیدن، ایستادن",
+          ],
+          explanation: "کوزوشی، تسوکوری و کاکه سه مرحله کلاسیک هستند.",
+        ),
+      ],
     ),
   ],
 

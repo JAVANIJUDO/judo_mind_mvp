@@ -23,19 +23,23 @@ import '../../../../core/theme/judo_design_tokens.dart';
 /// Sleeve, lapel and upper-body control.
 ///
 /// Green:
-/// Kuzushi, center of gravity and force direction.
+/// Illustrative direction and balance concepts.
 class UchiMataThreeLayerPainter extends CustomPainter {
   final double progress;
 
   final bool showMovement;
   final bool showControl;
   final bool showBiomechanics;
+  final String? phaseLabel;
+  final Color? phaseColor;
 
   const UchiMataThreeLayerPainter({
     required this.progress,
     required this.showMovement,
     required this.showControl,
     required this.showBiomechanics,
+    this.phaseLabel,
+    this.phaseColor,
   });
 
   double get _throwProgress {
@@ -64,7 +68,15 @@ class UchiMataThreeLayerPainter extends CustomPainter {
       _drawBiomechanics(canvas, size, groundY);
     }
 
-    _drawPhaseIndicator(canvas, size);
+    final visiblePhaseLabel = phaseLabel?.trim() ?? '';
+    if (visiblePhaseLabel.isNotEmpty) {
+      _drawPhaseIndicator(
+        canvas,
+        size,
+        visiblePhaseLabel,
+        phaseColor ?? JudoColors.primary,
+      );
+    }
   }
 
   void _drawGround(Canvas canvas, Size size, double groundY) {
@@ -332,22 +344,15 @@ class UchiMataThreeLayerPainter extends CustomPainter {
     canvas.drawLine(end, second, paint);
   }
 
-  void _drawPhaseIndicator(Canvas canvas, Size size) {
-    final phase = progress < 0.33
-        ? 'KUZUSHI'
-        : progress < 0.66
-        ? 'TSUKURI'
-        : 'KAKE';
-
-    final color = progress < 0.33
-        ? JudoColors.success
-        : progress < 0.66
-        ? JudoColors.primary
-        : JudoColors.gold;
-
+  void _drawPhaseIndicator(
+    Canvas canvas,
+    Size size,
+    String label,
+    Color color,
+  ) {
     final painter = TextPainter(
       text: TextSpan(
-        text: phase,
+        text: label,
         style: TextStyle(
           color: color,
           fontSize: 12,
@@ -385,6 +390,8 @@ class UchiMataThreeLayerPainter extends CustomPainter {
     return oldDelegate.progress != progress ||
         oldDelegate.showMovement != showMovement ||
         oldDelegate.showControl != showControl ||
-        oldDelegate.showBiomechanics != showBiomechanics;
+        oldDelegate.showBiomechanics != showBiomechanics ||
+        oldDelegate.phaseLabel != phaseLabel ||
+        oldDelegate.phaseColor != phaseColor;
   }
 }

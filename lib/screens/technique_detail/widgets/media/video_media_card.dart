@@ -7,7 +7,7 @@ import '../../../../models/technique_media_item.dart';
 
 class VideoMediaCard extends StatelessWidget {
   final TechniqueMediaItem item;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   const VideoMediaCard({super.key, required this.item, required this.onTap});
 
@@ -36,7 +36,7 @@ class VideoMediaCard extends StatelessWidget {
 
           child: Row(
             children: [
-              _VideoThumbnail(item: item),
+              _VideoThumbnail(item: item, showPlayAffordance: onTap != null),
 
               const SizedBox(width: JudoSpacing.md),
 
@@ -45,87 +45,69 @@ class VideoMediaCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
 
                   children: [
-  Text(
-  MediaLabelResolver.title(item),
+                    Text(
+                      MediaLabelResolver.title(item),
 
-  maxLines: 1,
+                      maxLines: 1,
 
-  overflow: TextOverflow.ellipsis,
+                      overflow: TextOverflow.ellipsis,
 
-  style: JudoTypography.titleSmall,
-),
+                      style: JudoTypography.titleSmall,
+                    ),
 
-const SizedBox(
-  height: JudoSpacing.xs,
-),
+                    const SizedBox(height: JudoSpacing.xs),
 
-Text(
-  MediaLabelResolver.source(item),
+                    Text(
+                      MediaLabelResolver.source(item),
 
-  maxLines: 1,
+                      maxLines: 1,
 
-  overflow: TextOverflow.ellipsis,
+                      overflow: TextOverflow.ellipsis,
 
-  style: JudoTypography.bodySmall.copyWith(
-    color: JudoColors.primary,
-  ),
-),
+                      style: JudoTypography.bodySmall.copyWith(
+                        color: JudoColors.primary,
+                      ),
+                    ),
 
-const SizedBox(
-  height: JudoSpacing.xs,
-),
+                    const SizedBox(height: JudoSpacing.xs),
 
-Row(
-  children: [
+                    Row(
+                      children: [
+                        if (item.isVerified)
+                          const Icon(
+                            Icons.verified,
+                            size: 15,
+                            color: JudoColors.gold,
+                          ),
 
-    if (item.isVerified)
-      const Icon(
-        Icons.verified,
-        size: 15,
-        color: JudoColors.gold,
-      ),
+                        if (item.isVerified) const SizedBox(width: 5),
 
-    if (item.isVerified)
-      const SizedBox(
-        width: 5,
-      ),
+                        if (item.level.trim().isNotEmpty)
+                          Text(item.level, style: JudoTypography.labelSmall),
 
-    if (item.level.trim().isNotEmpty)
-      Text(
-        item.level,
-        style: JudoTypography.labelSmall,
-      ),
+                        if (item.formattedDuration.isNotEmpty) ...[
+                          const SizedBox(width: JudoSpacing.sm),
 
-    if (item.formattedDuration.isNotEmpty) ...[
+                          Text(
+                            item.formattedDuration,
 
-      const SizedBox(
-        width: JudoSpacing.sm,
-      ),
-
-      Text(
-        item.formattedDuration,
-
-        style:
-            JudoTypography.labelSmall.copyWith(
-          color: JudoColors.gold,
-        ),
-      ),
-    ],
-  ],
-),
-
-                    
+                            style: JudoTypography.labelSmall.copyWith(
+                              color: JudoColors.gold,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
                   ],
                 ),
               ),
 
-              const Icon(
-                Icons.play_circle_outline_rounded,
-
-                color: JudoColors.primary,
-
-                size: 30,
-              ),
+              if (onTap != null)
+                const Icon(
+                  Icons.play_circle_outline_rounded,
+                  color: JudoColors.primary,
+                  size: 30,
+                ),
             ],
           ),
         ),
@@ -136,8 +118,9 @@ Row(
 
 class _VideoThumbnail extends StatelessWidget {
   final TechniqueMediaItem item;
+  final bool showPlayAffordance;
 
-  const _VideoThumbnail({required this.item});
+  const _VideoThumbnail({required this.item, required this.showPlayAffordance});
 
   @override
   Widget build(BuildContext context) {
@@ -168,17 +151,16 @@ class _VideoThumbnail extends StatelessWidget {
             else
               _fallback(),
 
-            Container(color: Colors.black.withValues(alpha: 0.25)),
-
-            const Center(
-              child: Icon(
-                Icons.play_arrow_rounded,
-
-                color: Colors.white,
-
-                size: 38,
+            if (showPlayAffordance) ...[
+              Container(color: Colors.black.withValues(alpha: 0.25)),
+              const Center(
+                child: Icon(
+                  Icons.play_arrow_rounded,
+                  color: Colors.white,
+                  size: 38,
+                ),
               ),
-            ),
+            ],
           ],
         ),
       ),

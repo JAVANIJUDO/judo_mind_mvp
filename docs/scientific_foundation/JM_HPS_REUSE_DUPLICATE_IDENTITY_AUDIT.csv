@@ -1,0 +1,41 @@
+audit_record_id,hps_source_id,hps_sha256,hps_doi,normalized_title,jm_exact_sha_match,jm_exact_doi_match,jm_exact_title_candidate,duplicate_identity_status,human_review_required,automatic_merge_or_delete,notes
+JM-HDA-0001,HPS-SRC-0120,d18550158da9e5b22dd4ce20effc9e2bc1a1bbdc7e300fab4fd7c653bf637c1f,,microsoft word judo potsdam landestrainer sek ii englisch docx,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0002,HPS-SRC-0001,,,advanced training techniques for hypertrophy,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0003,HPS-SRC-0002,,,functional training and conditioning تمرین عملکردی و بدنسازی,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0004,HPS-SRC-0003,,,bodyweight strength training anatomy,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0005,HPS-SRC-0015,,,,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0006,HPS-SRC-0016,,,adaptations to anaerobic exercise,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0007,HPS-SRC-0028,,,exercise programming for the general population,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0008,HPS-SRC-0045,60b3f61598cbbf482c46d33f55cc5b2c421a58e0ea7cd884d649f920c137e273,,slide 1,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0009,HPS-SRC-0082,1388dd87704f3af1695c13f9e022e894810209dce8fb6e58c337c11b1a581697,,متغیرهای تمرین,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0010,HPS-SRC-0103,95ddb51e00dce5d49adf133a010ebdd587dfe04ec7317f40fae22fa6e9b4f6bc,,comprehensive or integrated endurance training,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0011,HPS-SRC-0104,e6532006200cd6026f4adb049909a3a5dd2b3bfd73f1c3561aa85f0aaa111e13,,comprehensive or integrated endurance training,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0012,HPS-SRC-0155,b50628b147dc432c2e94b2e6187bbd778a77531ff0b042d6bc7c72c47ae95865,,tapering peaking,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0013,HPS-SRC-0200,77f5019746f03ad5fed3da91240a1ef0e379597088dccc0472ef46a15b83baf6,,حجم تمرین مجتبی مهدوی,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0014,HPS-SRC-0252,,10.1136/bjsports-2016-096581,how much is too much part 1 ioc consensus statement on load in sport and risk of injury,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0015,HPS-SRC-0253,,10.1136/bjsports-2016-096572,how much is too much part 2 ioc consensus statement on load in sport and risk of illness,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0016,HPS-SRC-0254,,10.1249/MSS.0b013e318279a10a,prevention diagnosis and treatment of the overtraining syndrome,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0017,HPS-SRC-0005,,10.4324/9781003204657,advanced personal training science to practice,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0018,HPS-SRC-0009,,,powerpoint presentation,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0019,HPS-SRC-0010,,,,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0020,HPS-SRC-0011,,,microsoft powerpoint pelateau,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0021,HPS-SRC-0020,,,a professional s guide to small group personal training,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0022,HPS-SRC-0031,,,خستگی و ریکاوری در تمرینات مقاومتی,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0023,HPS-SRC-0088,3b82300c7343efc613c12393f7a90eb68a19e8057784267d0a33e8ccdbeebf64,,powerpoint presentation,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0024,HPS-SRC-0097,bc6eaa504724d00b16af3cca44c66e8defe8485db3c7f83b52981c7c07137b78,,aqua,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0025,HPS-SRC-0105,ab1dbfe8f50d0b523164de57500fc10cbb848ed76dd208756b68036b5beb3f79,,slide 1,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0026,HPS-SRC-0163,237eb9a2227043c582cb30c096ee952a9b82750caa175813f08889f503dede4b,,warm up mahdavi,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0027,HPS-SRC-0018,,,,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0028,HPS-SRC-0026,,,nsca s essentials of training special populations,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0029,HPS-SRC-0030,,,slide 1,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0030,HPS-SRC-0032,,,rehab science,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0031,HPS-SRC-0034,,,specific conditioning for injuries prevention,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0032,HPS-SRC-0035,,,,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0033,HPS-SRC-0084,fa0797112e5af6ef48036d79dc2e97a63903cc55a2185f72a4cf4fdb191afbf1,,powerpoint presentation,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0034,HPS-SRC-0152,4e395ccc943030db66f8b71a2cbb51e039cdd6f5e0657f9d0f925592dcd72288,,slide 1,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0035,HPS-SRC-0177,05a38807975425cf28176b0947af6bc9f7a1ce15fa06adf6d7c5d54254e74250,,آناند آمید,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0036,HPS-SRC-0199,a6a92b4b14b1577a1712c7f644c3e9879827a40df94ec797eea815083700d9ff,,جنبه های روانشناختی کوچینگ key,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0037,HPS-SRC-0004,,,acsm s resources for the personal trainer,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0038,HPS-SRC-0006,,,assessments for sport and athletic performance,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0039,HPS-SRC-0007,,,,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.
+JM-HDA-0040,HPS-SRC-0008,,,powerpoint presentation,,,,NO_JM_IDENTITY_MATCH_FOUND,YES,NO,Metadata-only duplicate audit; HPS files were not copied or modified.

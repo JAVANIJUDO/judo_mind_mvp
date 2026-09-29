@@ -27,6 +27,7 @@ class TechniqueDashboardItem extends StatelessWidget {
   final IconData icon;
   final Color accentColor;
   final VoidCallback? onTap;
+  final VoidCallback? onUnavailableTap;
   final String? badgeText;
   final bool isEnabled;
   final JudoIllustrationType? illustrationType;
@@ -38,6 +39,7 @@ class TechniqueDashboardItem extends StatelessWidget {
     required this.icon,
     required this.accentColor,
     required this.onTap,
+    this.onUnavailableTap,
     this.badgeText,
     this.isEnabled = true,
     this.illustrationType,
@@ -57,7 +59,7 @@ class TechniqueDashboardItem extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: canOpen ? onTap : null,
+            onTap: canOpen ? onTap : onUnavailableTap,
             borderRadius: BorderRadius.circular(JudoRadius.lg),
             child: Ink(
               decoration: BoxDecoration(
